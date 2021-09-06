@@ -21,18 +21,19 @@ void ShowStartMessage(){
     cout << endl;
 }
 
-string GetFileName(){
+string getFileName(){
     string fileName;
     cout << "Grid input file name? ";
     cin >> fileName;
     return fileName;
 }
 
-Grid<string> CreateGridFromFile(string fileName){
-    int numRows, numCols, currLine = 0, currGridRow = 0;
+void getGridFromFile(string fileName, Grid<string>& grid){
+    int currLine = 0;
+    int numRows;
+    int numCols;
     string line;
     ifstream file(fileName);
-    Grid<string> grid = Grid<string>();
 
     while (getline(file, line) && !line.empty()){
         if(currLine == 0){                            // First line contains number of rows
@@ -44,17 +45,16 @@ Grid<string> CreateGridFromFile(string fileName){
         }
         else {                                        // Start of grid values
             for (int col = 0; col < numCols; col++){
-                grid[currGridRow][col] = line[col];   // Insert values into grid
+                int row = currLine - 2;               // 2 lines for number of rows and cols
+                grid[row][col] = line[col];           // Insert values into grid
             }
-        currGridRow++;
         }
     currLine++;                                       // Proceed to next line in file
     }
     file.close();
-    return grid;
 }
 
-void PrintGrid(Grid<string> grid){
+void printGrid(Grid<string>& grid){
     for (int row = 0; row < grid.numRows(); row++){
         for (int col = 0; col < grid.numCols(); col++){
             cout << grid.get(row, col);
@@ -63,10 +63,47 @@ void PrintGrid(Grid<string> grid){
     }
 }
 
+void printOptions(){
+    cout << "a)nimate, t)ick, q)uit?";
+}
+
+void tick(Grid<string>& grid){
+    // Allt riktigt arbete här!
+    printGrid(grid);
+}
+
+void animate(Grid<string>& grid){
+    for (int i = 0; i < 15; i++){
+        clearConsole();
+        printGrid(grid);
+        tick(grid);
+        pause(100);
+    }
+}
+
 int main() {
+    Grid<string> grid;
     ShowStartMessage();
-    string fileName = GetFileName();
-    Grid<string> grid = CreateGridFromFile(fileName);
-    PrintGrid(grid);
+    string fileName = getFileName();
+    getGridFromFile(fileName, grid);
+
+    printGrid(grid);
+    printOptions();
+
+    char nextAction;
+    while (cin >> nextAction){
+        if (nextAction == 't'){
+            tick(grid);
+            printOptions();
+        }
+        else if (nextAction == 'a'){
+            animate(grid);
+            printOptions();
+        }
+        else if (nextAction == 'q'){
+            break;
+        }
+    }
     return 0;
+
 }
