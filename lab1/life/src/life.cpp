@@ -54,7 +54,7 @@ void getGridFromFile(string fileName, Grid<string>& grid){
     file.close();
 }
 
-void printGrid(Grid<string>& grid){
+void printGrid(const Grid<string>& grid){
     for (int row = 0; row < grid.numRows(); row++){
         for (int col = 0; col < grid.numCols(); col++){
             cout << grid.get(row, col);
@@ -67,7 +67,7 @@ void printOptions(){
     cout << "a)nimate, t)ick, q)uit?";
 }
 
-int countNeighbors(Grid<string>& grid, int row, int col){
+int countNeighbors(const Grid<string>& grid, int row, int col){
     int total = 0;
     for (int i = -1; i < 2; i++){
         for (int j = -1; j < 2; j++){
@@ -110,7 +110,7 @@ void tick(Grid<string>& grid){
 }
 
 void animate(Grid<string>& grid){
-    for (int i = 0; i < 15; i++){
+    for (int i = 0; i < 50; i++){
         clearConsole();
         //printGrid(grid);
         tick(grid);
