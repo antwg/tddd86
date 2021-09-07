@@ -89,7 +89,23 @@ int countNeighbors(Grid<string>& grid, int row, int col){
 void tick(Grid<string>& grid){
     // Allt riktigt arbete här!
     Grid<string> nextGen = grid;
-    cout << countNeighbors(grid, 0,0);
+    //cout << countNeighbors(grid, 0,0);
+    for (int row = 0; row < grid.numRows(); row++){
+        for (int col = 0; col < grid.numCols(); col++){
+            int neighbors = countNeighbors(grid, row, col);
+
+            if (neighbors < 2){         // Starving
+                nextGen[row][col] = "-";
+            } else if (neighbors == 2){ // Stable
+                // Do nothing
+            } else if (neighbors == 3){ // Growing
+                nextGen[row][col] = "X";
+            } else {                    // Overpopulated
+                nextGen[row][col] = "-";
+            }
+        }
+    }
+    grid = nextGen;
     printGrid(grid);
 }
 
