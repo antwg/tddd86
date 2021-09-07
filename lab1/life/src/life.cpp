@@ -96,7 +96,6 @@ void tick(Grid<string>& grid){
 void animate(Grid<string>& grid){
     for (int i = 0; i < 15; i++){
         clearConsole();
-        //printGrid(grid);
         tick(grid);
         pause(100);
     }
