@@ -131,6 +131,7 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_config.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_post.prf \
+		../life/.qmake.stash \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exclusive_builds.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/toolchain.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_pre.prf \
@@ -170,7 +171,6 @@ Life:  $(OBJECTS)
 	 cp -r "/home/antwe841/TDDD86/tddd86-ht21/lab1/life/res/glider-explosion.txt" "/home/antwe841/TDDD86/tddd86-ht21/lab1/build-Life-Desktop-Debug" 
 	 cp -r "/home/antwe841/TDDD86/tddd86-ht21/lab1/life/res/glider-gun.txt" "/home/antwe841/TDDD86/tddd86-ht21/lab1/build-Life-Desktop-Debug" 
 	 cp -r "/home/antwe841/TDDD86/tddd86-ht21/lab1/life/res/glider.txt" "/home/antwe841/TDDD86/tddd86-ht21/lab1/build-Life-Desktop-Debug" 
-	 cp -r "/home/antwe841/TDDD86/tddd86-ht21/lab1/life/res/grids" "/home/antwe841/TDDD86/tddd86-ht21/lab1/build-Life-Desktop-Debug" 
 	 cp -r "/home/antwe841/TDDD86/tddd86-ht21/lab1/life/res/mycolony.txt" "/home/antwe841/TDDD86/tddd86-ht21/lab1/build-Life-Desktop-Debug" 
 	 cp -r "/home/antwe841/TDDD86/tddd86-ht21/lab1/life/res/quilt-square.txt" "/home/antwe841/TDDD86/tddd86-ht21/lab1/build-Life-Desktop-Debug" 
 	 cp -r "/home/antwe841/TDDD86/tddd86-ht21/lab1/life/res/rpent.txt" "/home/antwe841/TDDD86/tddd86-ht21/lab1/build-Life-Desktop-Debug" 
@@ -257,6 +257,7 @@ Makefile: ../life/Life.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_config.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exclusive_builds.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/toolchain.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_pre.prf \
@@ -352,6 +353,7 @@ Makefile: ../life/Life.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_config.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_post.prf:
+.qmake.stash:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exclusive_builds.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/toolchain.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_pre.prf:
