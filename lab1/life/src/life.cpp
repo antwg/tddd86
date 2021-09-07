@@ -67,15 +67,36 @@ void printOptions(){
     cout << "a)nimate, t)ick, q)uit?";
 }
 
+int countNeighbors(Grid<string>& grid, int row, int col){
+    int total = 0;
+    for (int i = -1; i < 2; i++){
+        for (int j = -1; j < 2; j++){
+            int currRow = row + i;
+            int currCol = col + j;
+            if (grid.inBounds(currRow, currCol)){
+                if (grid.get(currRow, currCol) == "X"){
+                    total++;
+                }
+            }
+        }
+    }
+    if (grid.get(row, col) == "X"){
+        total--;
+    }
+    return total;
+}
+
 void tick(Grid<string>& grid){
     // Allt riktigt arbete här!
+    Grid<string> nextGen = grid;
+    cout << countNeighbors(grid, 0,0);
     printGrid(grid);
 }
 
 void animate(Grid<string>& grid){
     for (int i = 0; i < 15; i++){
         clearConsole();
-        printGrid(grid);
+        //printGrid(grid);
         tick(grid);
         pause(100);
     }
