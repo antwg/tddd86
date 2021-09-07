@@ -1,6 +1,7 @@
-// This is the CPP file you will edit and turn in.
-// Also remove these comments here and add your own.
-// TODO: remove this comment header
+// Plays the game of life
+// Imports a text document and creates a grid from the information given in
+// the document. The user can then play the game by either ticking by 1 generation
+// or 15 in a row.
 
 #include <iostream>
 #include "grid.h"
