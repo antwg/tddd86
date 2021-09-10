@@ -42,7 +42,6 @@ stack<string> wordChain(string w1, string w2){
     firstStack.push(w1);
     ladderQueue.push(firstStack);
 
-    //dictionary.
     while (!ladderQueue.empty()) {        // while the queue is not empty:
         stack<string> currentStack = ladderQueue.front();     // dequeue the partial-chain stack from the front of the queue
         ladderQueue.pop();
