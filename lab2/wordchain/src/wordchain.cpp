@@ -15,6 +15,22 @@ void getDict(set<string>& dict){
     while (getline(file, line)){
         dict.insert(line);
     }
+    file.close();
+}
+
+void splitWords(const string& words, string& word1, string& word2){
+    vector<string> output;
+    string word = "";
+    for (auto x : words) {
+        if (x == ' '){
+            word1 = word;
+            word = "";
+        }
+        else {
+            word = word + x;
+        }
+    }
+    word2 = word;
 }
 
 int main() {
@@ -23,13 +39,21 @@ int main() {
     cout << "first into the second by changing one letter at a time." << endl;
     cout << endl;
 
+    string words;
     cout << "Please type two words: ";
+    getline(cin, words);
+    vector<string> x;
+    string word1;
+    string word2;
+    splitWords(words, word1, word2);
 
-    // TODO: Finish the program!
+
 
     set<string> dict;
     getDict(dict);
-    cout << "Dict size: " << dict.size() << endl;
+    //cout << "Dict size: " << dict.size() << endl;
 
+
+    cout << "Have a nice day." << endl;
     return 0;
 }
