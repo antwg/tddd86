@@ -38,27 +38,27 @@ stack<string> wordChain(string w1, string w2){
     getDict(dictionary);
 
     queue<stack<string>> ladderQueue;     // create an empty queue of stacks
-    stack<string> firstStack;       // create/add a stack containing {w1} to the queue
-    firstStack.push(w1);
-    ladderQueue.push(firstStack);
+    stack<string> firstChain;             // create/add a stack containing {w1} to the queue
+    firstChain.push(w1);
+    ladderQueue.push(firstChain);
 
     while (!ladderQueue.empty()) {        // while the queue is not empty:
-        stack<string> currentStack = ladderQueue.front();     // dequeue the partial-chain stack from the front of the queue
+        stack<string> currentChain = ladderQueue.front();     // dequeue the partial-chain stack from the front of the queue
         ladderQueue.pop();
 
-        if (currentStack.top() == w2){      // if the word at the top of the stack is the destinaction word:
-            return currentStack;            // hooray! output the elements of the stack as the solution
+        if (currentChain.top() == w2){    // if the word at the top of the stack is the destinaction word:
+            return currentChain;          // hooray! output the elements of the stack as the solution
         } else {
             // for each valid English word that is a neighbour (differs by 1 letter) of the word at the top of the stack:
-            for (int i = 0; i < currentStack.top().length(); i++) {
+            for (int i = 0; i < currentChain.top().length(); i++) {
                 for (auto c : ALPHABET){
-                    string neighbourWord = currentStack.top();
+                    string neighbourWord = currentChain.top();
                     neighbourWord[i] = c;
                     if (dictionary.count(neighbourWord) != 0) {
                         dictionary.erase(neighbourWord);
-                        stack<string> stackCopy = currentStack;     // create a copy of the current chain stack
-                        stackCopy.push(neighbourWord);              // put the neighbour word at the top of the copy stack
-                        ladderQueue.push(stackCopy);                      // add the copy stack to the end of the queue
+                        stack<string> chainCopy = currentChain;     // create a copy of the current chain stack
+                        chainCopy.push(neighbourWord);              // put the neighbour word at the top of the copy stack
+                        ladderQueue.push(chainCopy);                // add the copy stack to the end of the queue
                     }
                 }
             }
@@ -68,27 +68,38 @@ stack<string> wordChain(string w1, string w2){
     return stack<string>();
 }
 
-int main() {
+void showStartMessage(){
     cout << "Welcome to TDDD86 Word Chain." << endl;
     cout << "If you give me two English words, I will transform the" << endl;
     cout << "first into the second by changing one letter at a time." << endl;
     cout << endl;
+}
 
-    set<string> dict;
-    getDict(dict);
-
-    string words;
+void getWords(string& word1, string& word2){
     cout << "Please type two words: ";
+    string words;
     getline(cin, words);
-    vector<string> x;
+    splitWords(words, word1, word2);
+}
+
+void getResult(const string& word1, const string& word2){
+    cout << "Chain from " << word2 << " back to " << word1 << ":" << endl;
+
+    auto ladder = wordChain(word1, word2);
+    while (!ladder.empty()){
+        cout << ladder.top() << " ";
+        ladder.pop();
+    }
+}
+
+int main() {
+    showStartMessage();
     string word1;
     string word2;
-    splitWords(words, word1, word2);
+    getWords(word1, word2);
+    getResult(word1, word2);
 
-
-    cout << wordChain("code", "data").top() << endl;
-
-
+    cout << endl;
     cout << "Have a nice day." << endl;
     return 0;
 }
