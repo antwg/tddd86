@@ -21,15 +21,14 @@ stack<string> wordChain(string w1, string w2){
     set<string> dictionary;
     getDict(dictionary);
 
-    queue<stack<string>> queue;     // create an empty queue of stacks
+    queue<stack<string>> ladderQueue;     // create an empty queue of stacks
     stack<string> firstStack;       // create/add a stack containing {w1} to the queue
     firstStack.push(w1);
-    queue.push(firstStack);
+    ladderQueue.push(firstStack);
 
-    dictionary.
-    while (!queue.empty()) {        // while the queue is not empty:
-        stack<string> currentStack = queue.front();     // dequeue the partial-chain stack from the front of the queue
-        queue.pop();
+    while (!ladderQueue.empty()) {        // while the queue is not empty:
+        stack<string> currentStack = ladderQueue.front();     // dequeue the partial-chain stack from the front of the queue
+        ladderQueue.pop();
 
         if (currentStack.top() == w2){      // if the word at the top of the stack is the destinaction word:
             return currentStack;            // hooray! output the elements of the stack as the solution
@@ -43,7 +42,7 @@ stack<string> wordChain(string w1, string w2){
                         dictionary.erase(neighbourWord);
                         stack<string> stackCopy = currentStack;     // create a copy of the current chain stack
                         stackCopy.push(neighbourWord);              // put the neighbour word at the top of the copy stack
-                        queue.push(stackCopy);                      // add the copy stack to the end of the queue
+                        ladderQueue.push(stackCopy);                      // add the copy stack to the end of the queue
                     }
                 }
             }
@@ -62,8 +61,15 @@ int main() {
     cout << "Please type two words: ";
 
     // TODO: Finish the program!
-
-    cout << wordChain("code", "data").top() << endl;
+    auto ladder = wordChain("code", "data");
+    cout << ladder.top() << endl;
+    ladder.pop();
+    cout << ladder.top() << endl;
+    ladder.pop();
+    cout << ladder.top() << endl;
+    ladder.pop();
+    cout << ladder.top() << endl;
+    ladder.pop();
 
     return 0;
 }
