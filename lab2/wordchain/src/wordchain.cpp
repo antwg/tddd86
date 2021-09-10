@@ -3,9 +3,19 @@
 #include <string>
 #include <queue>
 #include <stack>
+#include <set>
 using namespace std;
 
 const string ALPHABET  = "abcdefghijklmnopqrstuvwxyz";
+
+
+void getDict(set<string>& dict){
+    ifstream file("dictionary.txt");
+    string line;
+    while (getline(file, line)){
+        dict.insert(line);
+    }
+}
 
 int main() {
     cout << "Welcome to TDDD86 Word Chain." << endl;
@@ -16,6 +26,10 @@ int main() {
     cout << "Please type two words: ";
 
     // TODO: Finish the program!
+
+    set<string> dict;
+    getDict(dict);
+    cout << "Dict size: " << dict.size() << endl;
 
     return 0;
 }
