@@ -3,12 +3,15 @@
 #include <string>
 #include <queue>
 #include <stack>
-#include <set>
+#include <unordered_set>
 using namespace std;
 
 const string ALPHABET  = "abcdefghijklmnopqrstuvwxyz";
 
-void getDict(set<string>& dict){
+/*
+ * Opens the dictionary.txt file and loads all words into an unordered set.
+ */
+void getDict(unordered_set<string>& dict){
     ifstream file("dictionary.txt");
     string line;
     while (getline(file, line)){
@@ -17,6 +20,9 @@ void getDict(set<string>& dict){
     file.close();
 }
 
+/*
+ * Splits the given string into two separate words.
+ */
 void splitWords(const string& words, string& word1, string& word2){
     vector<string> output;
     string word = "";
@@ -32,9 +38,12 @@ void splitWords(const string& words, string& word1, string& word2){
     word2 = word;
 }
 
+/*
+ * Finds the shortest chain of neighboring words between w1 and w2.
+ */
 
 stack<string> wordChain(string w1, string w2){
-    set<string> dictionary;
+    unordered_set<string> dictionary;
     getDict(dictionary);
 
     queue<stack<string>> ladderQueue;     // create an empty queue of stacks
@@ -68,6 +77,9 @@ stack<string> wordChain(string w1, string w2){
     return stack<string>();
 }
 
+/*
+ * Shows a start message.
+ */
 void showStartMessage(){
     cout << "Welcome to TDDD86 Word Chain." << endl;
     cout << "If you give me two English words, I will transform the" << endl;
@@ -75,6 +87,9 @@ void showStartMessage(){
     cout << endl;
 }
 
+/*
+ * Asks for, and saves, two words given by user into word1 and word2.
+ */
 void getWords(string& word1, string& word2){
     cout << "Please type two words: ";
     string words;
@@ -82,6 +97,9 @@ void getWords(string& word1, string& word2){
     splitWords(words, word1, word2);
 }
 
+/*
+ * Calls wordChain and prints the stack returned by wordChain.
+ */
 void getResult(const string& word1, const string& word2){
     cout << "Chain from " << word2 << " back to " << word1 << ":" << endl;
 
@@ -92,6 +110,9 @@ void getResult(const string& word1, const string& word2){
     }
 }
 
+/*
+ * A program that finds the shortest chain of neighbor words between two given words.
+ */
 int main() {
     showStartMessage();
     string word1;
