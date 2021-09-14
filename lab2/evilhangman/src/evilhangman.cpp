@@ -18,6 +18,26 @@ void getDict(unordered_set<string>& dict){
     file.close();
 }
 
+unordered_set<string> getWordsOfLength(const unsigned length, const unordered_set<string>& dict, unordered_set<string>& possibleWords){
+    for (const auto& word: dict){
+        if (word.length() == length){
+            possibleWords.insert(word);
+        }
+    }
+    return possibleWords;
+}
+
+int getWordLength(const unordered_set<string>& dict, unordered_set<string>& possibleWords){
+    unsigned length;
+    cout << "Please enter a word length!" << endl;
+    cin >> length;
+    unordered_set<string>words = getWordsOfLength(length, dict, possibleWords);
+    if (words.empty()){
+        length = getWordLength(dict, possibleWords);
+    }
+    return length;
+}
+
 int getNumberOfGuesses(){
     int numberOfGuesses;
     cout << "Enter number of guesses:" << endl;
@@ -42,23 +62,32 @@ bool getShowRemainingWords(){
     }
 }
 
+
 int main() {
     int remainingGuesses;
     //int remainingWords;
     bool showRemainingWords;
     string wordProgress;
     string guessedLetters = "";
+    unordered_set<string> dict;
+    getDict(dict);
     unordered_set<string> possibleWords = {};
+
+
 
     cout << "Welcome to Hangman." << endl;
 
 
     // TODO: Finish the program!
     // 1. read file
-    unordered_set<string> dict;
-    getDict(dict);
+
+
+
+    // TODO: Finish the program!
+
 
     // 2. prompt word length
+    getWordLength(dict, possibleWords);
 
     // 3. prompt number of guesses
     remainingGuesses = getNumberOfGuesses();
