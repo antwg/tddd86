@@ -59,7 +59,7 @@ stack<string> wordChain(string w1, string w2){
             return currentChain;          // hooray! output the elements of the stack as the solution
         } else {
             // for each valid English word that is a neighbour (differs by 1 letter) of the word at the top of the stack:
-            for (int i = 0; i < currentChain.top().length(); i++) {
+            for (unsigned i = 0; i < currentChain.top().length(); i++) {
                 for (auto c : ALPHABET){
                     string neighbourWord = currentChain.top();
                     neighbourWord[i] = c;

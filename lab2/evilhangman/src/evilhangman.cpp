@@ -19,15 +19,27 @@ void getDict(unordered_set<string>& dict){
 }
 
 int getNumberOfGuesses(){
+    int numberOfGuesses;
     cout << "Enter number of guesses:" << endl;
-
-    // add functionality
+    cin >> numberOfGuesses;
+    if (numberOfGuesses < 1) {
+        numberOfGuesses = getNumberOfGuesses();
+    }
+    return numberOfGuesses;
 }
 
 bool getShowRemainingWords(){
     cout << "Do you want to see the number of remaining words?" << endl;
-
-   // add functionality
+    string answer;
+    cin >> answer;
+    if (answer == "yes"){
+        return true;
+    } else if (answer == "no"){
+        return false;
+    } else {
+        cout << "Invalid answer. Defaulting to no..." << endl;
+        return false;
+    }
 }
 
 int main() {
@@ -62,7 +74,7 @@ int main() {
     // b. print remaining guesses + guessed letters (+ remaining words)
     cout << "You have " << remainingGuesses << " guesses left." << endl;
     cout << "Guessed letters: " << guessedLetters << endl;
-    cout << wordProgress << endl;
+    cout << "Word progress: " << wordProgress << endl;
     if (showRemainingWords) {
         cout << "Remaining words: " << possibleWords.size() << endl;
     }
