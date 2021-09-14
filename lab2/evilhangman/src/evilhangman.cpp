@@ -50,6 +50,15 @@ bool getShowRemainingWords(){
    // add functionality
 }
 
+string askForGuess(const string& guessedLetters){
+    cout << "Please enter a letter! " << endl;
+    string letter;
+    cin >> letter;
+    if (letter.length() != 1 || ALPHABET.find(letter) == string::npos){
+        letter = askForGuess(guessedLetters);
+    }
+    return letter;
+}
 
 int main() {
     int remainingGuesses;
@@ -97,6 +106,7 @@ int main() {
     }
 
     // c. prompt guess
+    string guess = askForGuess(guessedLetters);
 
     // d. partition words based on family
 
