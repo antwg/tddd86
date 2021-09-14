@@ -18,10 +18,13 @@ void getDict(unordered_set<string>& dict){
     file.close();
 }
 
+
+
 int main() {
     cout << "Welcome to Hangman." << endl;
     unordered_set<string> dict;
     getDict(dict);
+
     // TODO: Finish the program!
 
     return 0;
