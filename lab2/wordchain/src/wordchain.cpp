@@ -93,6 +93,7 @@ void showStartMessage(){
 void getWords(string& word1, string& word2){
     cout << "Please type two words: ";
     string words;
+    ifstream input;
     getline(cin, words);
     splitWords(words, word1, word2);
 }
