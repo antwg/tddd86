@@ -79,21 +79,14 @@ int main() {
     string wordProgress;
     string guessedLetters = "";
     unordered_set<string> dict;
-    getDict(dict);
     unordered_set<string> possibleWords = {};
 
 
 
     cout << "Welcome to Hangman." << endl;
 
-
-    // TODO: Finish the program!
     // 1. read file
-
-
-
-    // TODO: Finish the program!
-
+    getDict(dict);
 
     // 2. prompt word length
     getWordLength(dict, possibleWords);

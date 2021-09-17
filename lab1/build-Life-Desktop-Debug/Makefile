@@ -37,7 +37,7 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = Life1.0.0
-DISTDIR = /home/antwe841/TDDD86/tddd86-ht21/lab1/build-Life-Desktop-Debug/.tmp/Life1.0.0
+DISTDIR = /home/bensu844/TDDD86/tddd86-ht21/lab1/build-Life-Desktop-Debug/.tmp/Life1.0.0
 LINK          = g++
 LFLAGS        = 
 LIBS          = $(SUBLIBS) /usr/lib/x86_64-linux-gnu/libQt5Gui.so /usr/lib/x86_64-linux-gnu/libQt5Core.so /usr/lib/x86_64-linux-gnu/libGL.so -lpthread   
@@ -164,22 +164,22 @@ first: all
 
 Life:  $(OBJECTS)  
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
-	cp -r "/home/antwe841/TDDD86/tddd86-ht21/lab1/life/res/diehard.txt" "/home/antwe841/TDDD86/tddd86-ht21/lab1/build-Life-Desktop-Debug" 
-	 cp -r "/home/antwe841/TDDD86/tddd86-ht21/lab1/life/res/dinner-table.txt" "/home/antwe841/TDDD86/tddd86-ht21/lab1/build-Life-Desktop-Debug" 
-	 cp -r "/home/antwe841/TDDD86/tddd86-ht21/lab1/life/res/fish.txt" "/home/antwe841/TDDD86/tddd86-ht21/lab1/build-Life-Desktop-Debug" 
-	 cp -r "/home/antwe841/TDDD86/tddd86-ht21/lab1/life/res/flower.txt" "/home/antwe841/TDDD86/tddd86-ht21/lab1/build-Life-Desktop-Debug" 
-	 cp -r "/home/antwe841/TDDD86/tddd86-ht21/lab1/life/res/glider-explosion.txt" "/home/antwe841/TDDD86/tddd86-ht21/lab1/build-Life-Desktop-Debug" 
-	 cp -r "/home/antwe841/TDDD86/tddd86-ht21/lab1/life/res/glider-gun.txt" "/home/antwe841/TDDD86/tddd86-ht21/lab1/build-Life-Desktop-Debug" 
-	 cp -r "/home/antwe841/TDDD86/tddd86-ht21/lab1/life/res/glider.txt" "/home/antwe841/TDDD86/tddd86-ht21/lab1/build-Life-Desktop-Debug" 
-	 cp -r "/home/antwe841/TDDD86/tddd86-ht21/lab1/life/res/mycolony.txt" "/home/antwe841/TDDD86/tddd86-ht21/lab1/build-Life-Desktop-Debug" 
-	 cp -r "/home/antwe841/TDDD86/tddd86-ht21/lab1/life/res/quilt-square.txt" "/home/antwe841/TDDD86/tddd86-ht21/lab1/build-Life-Desktop-Debug" 
-	 cp -r "/home/antwe841/TDDD86/tddd86-ht21/lab1/life/res/rpent.txt" "/home/antwe841/TDDD86/tddd86-ht21/lab1/build-Life-Desktop-Debug" 
-	 cp -r "/home/antwe841/TDDD86/tddd86-ht21/lab1/life/res/seeds.txt" "/home/antwe841/TDDD86/tddd86-ht21/lab1/build-Life-Desktop-Debug" 
-	 cp -r "/home/antwe841/TDDD86/tddd86-ht21/lab1/life/res/simple.txt" "/home/antwe841/TDDD86/tddd86-ht21/lab1/build-Life-Desktop-Debug" 
-	 cp -r "/home/antwe841/TDDD86/tddd86-ht21/lab1/life/res/snowflake.txt" "/home/antwe841/TDDD86/tddd86-ht21/lab1/build-Life-Desktop-Debug" 
-	 cp -r "/home/antwe841/TDDD86/tddd86-ht21/lab1/life/res/spiral.txt" "/home/antwe841/TDDD86/tddd86-ht21/lab1/build-Life-Desktop-Debug" 
-	 cp -r "/home/antwe841/TDDD86/tddd86-ht21/lab1/life/res/stableplateau.txt" "/home/antwe841/TDDD86/tddd86-ht21/lab1/build-Life-Desktop-Debug" 
-	 cp -r "/home/antwe841/TDDD86/tddd86-ht21/lab1/life/res/tictactoe.txt" "/home/antwe841/TDDD86/tddd86-ht21/lab1/build-Life-Desktop-Debug" 
+	cp -r "/home/bensu844/TDDD86/tddd86-ht21/lab1/life/res/diehard.txt" "/home/bensu844/TDDD86/tddd86-ht21/lab1/build-Life-Desktop-Debug" 
+	 cp -r "/home/bensu844/TDDD86/tddd86-ht21/lab1/life/res/dinner-table.txt" "/home/bensu844/TDDD86/tddd86-ht21/lab1/build-Life-Desktop-Debug" 
+	 cp -r "/home/bensu844/TDDD86/tddd86-ht21/lab1/life/res/fish.txt" "/home/bensu844/TDDD86/tddd86-ht21/lab1/build-Life-Desktop-Debug" 
+	 cp -r "/home/bensu844/TDDD86/tddd86-ht21/lab1/life/res/flower.txt" "/home/bensu844/TDDD86/tddd86-ht21/lab1/build-Life-Desktop-Debug" 
+	 cp -r "/home/bensu844/TDDD86/tddd86-ht21/lab1/life/res/glider-explosion.txt" "/home/bensu844/TDDD86/tddd86-ht21/lab1/build-Life-Desktop-Debug" 
+	 cp -r "/home/bensu844/TDDD86/tddd86-ht21/lab1/life/res/glider-gun.txt" "/home/bensu844/TDDD86/tddd86-ht21/lab1/build-Life-Desktop-Debug" 
+	 cp -r "/home/bensu844/TDDD86/tddd86-ht21/lab1/life/res/glider.txt" "/home/bensu844/TDDD86/tddd86-ht21/lab1/build-Life-Desktop-Debug" 
+	 cp -r "/home/bensu844/TDDD86/tddd86-ht21/lab1/life/res/mycolony.txt" "/home/bensu844/TDDD86/tddd86-ht21/lab1/build-Life-Desktop-Debug" 
+	 cp -r "/home/bensu844/TDDD86/tddd86-ht21/lab1/life/res/quilt-square.txt" "/home/bensu844/TDDD86/tddd86-ht21/lab1/build-Life-Desktop-Debug" 
+	 cp -r "/home/bensu844/TDDD86/tddd86-ht21/lab1/life/res/rpent.txt" "/home/bensu844/TDDD86/tddd86-ht21/lab1/build-Life-Desktop-Debug" 
+	 cp -r "/home/bensu844/TDDD86/tddd86-ht21/lab1/life/res/seeds.txt" "/home/bensu844/TDDD86/tddd86-ht21/lab1/build-Life-Desktop-Debug" 
+	 cp -r "/home/bensu844/TDDD86/tddd86-ht21/lab1/life/res/simple.txt" "/home/bensu844/TDDD86/tddd86-ht21/lab1/build-Life-Desktop-Debug" 
+	 cp -r "/home/bensu844/TDDD86/tddd86-ht21/lab1/life/res/snowflake.txt" "/home/bensu844/TDDD86/tddd86-ht21/lab1/build-Life-Desktop-Debug" 
+	 cp -r "/home/bensu844/TDDD86/tddd86-ht21/lab1/life/res/spiral.txt" "/home/bensu844/TDDD86/tddd86-ht21/lab1/build-Life-Desktop-Debug" 
+	 cp -r "/home/bensu844/TDDD86/tddd86-ht21/lab1/life/res/stableplateau.txt" "/home/bensu844/TDDD86/tddd86-ht21/lab1/build-Life-Desktop-Debug" 
+	 cp -r "/home/bensu844/TDDD86/tddd86-ht21/lab1/life/res/tictactoe.txt" "/home/bensu844/TDDD86/tddd86-ht21/lab1/build-Life-Desktop-Debug" 
 	
 
 Makefile: ../life/Life.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \

@@ -22,14 +22,12 @@ void ShowStartMessage(){
     cout << endl;
 }
 
-string getFileName(){
-    string fileName;
+void getFileName(string& fileName){
     cout << "Grid input file name? ";
     cin >> fileName;
-    return fileName;
 }
 
-void getGridFromFile(string fileName, Grid<string>& grid){
+void getGridFromFile(const string fileName, Grid<string>& grid){
     int currLine = 0;
     int numRows;
     int numCols;
@@ -68,7 +66,7 @@ void printOptions(){
     cout << "a)nimate, t)ick, q)uit?";
 }
 
-int countNeighbors(const Grid<string>& grid, int row, int col){
+int countNeighbors(const Grid<string>& grid, const int row, const int col){
     int total = 0;
     for (int i = -1; i < 2; i++){
         for (int j = -1; j < 2; j++){
@@ -88,9 +86,7 @@ int countNeighbors(const Grid<string>& grid, int row, int col){
 }
 
 void tick(Grid<string>& grid){
-    // Allt riktigt arbete här!
     Grid<string> nextGen = grid;
-    //cout << countNeighbors(grid, 0,0);
     for (int row = 0; row < grid.numRows(); row++){
         for (int col = 0; col < grid.numCols(); col++){
             int neighbors = countNeighbors(grid, row, col);
@@ -121,7 +117,8 @@ void animate(Grid<string>& grid){
 int main() {
     Grid<string> grid;
     ShowStartMessage();
-    string fileName = getFileName();
+    string fileName;
+    getFileName(fileName);
     getGridFromFile(fileName, grid);
 
     printGrid(grid);
