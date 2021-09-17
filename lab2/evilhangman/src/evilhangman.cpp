@@ -2,6 +2,7 @@
 #include <string>
 #include <unordered_set>
 #include <fstream>
+#include <map>
 using namespace std;
 
 const string ALPHABET  = "abcdefghijklmnopqrstuvwxyz";
@@ -72,6 +73,16 @@ string askForGuess(const string& guessedLetters){
     return letter;
 }
 
+int stringToBits(const string& word, const char& guess){
+    int bits = 0;
+    for (unsigned i = 0; i < word.length(); i++){
+        if (word[i] == guess) {
+            bits += 1 << i;
+        }
+    }
+    return bits;
+}
+
 int main() {
     int remainingGuesses;
     //int remainingWords;
@@ -114,6 +125,10 @@ int main() {
     string guess = askForGuess(guessedLetters);
 
     // d. partition words based on family
+    multimap<int, string> partitions;
+    for (string word : possibleWords){
+        partitions[stringToBits(word)] = word;
+    }
 
     // e. find largest family, ...
 
