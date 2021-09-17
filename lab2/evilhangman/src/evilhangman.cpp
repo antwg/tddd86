@@ -11,7 +11,9 @@ const string ALPHABET  = "abcdefghijklmnopqrstuvwxyz";
  * Opens the dictionary.txt file and loads all words into an unordered set.
  */
 void getDict(unordered_set<string>& dict){
-    ifstream file("dictionary.txt");
+    //ifstream file("dictionary.txt");
+    ifstream file("di.txt");
+
     string line;
     while (getline(file, line)){
         dict.insert(line);
@@ -19,24 +21,22 @@ void getDict(unordered_set<string>& dict){
     file.close();
 }
 
-unordered_set<string> getWordsOfLength(const unsigned length, const unordered_set<string>& dict, unordered_set<string>& possibleWords){
+void getWordsOfLength(const unsigned length, const unordered_set<string>& dict, unordered_set<string>& possibleWords){
     for (const auto& word: dict){
         if (word.length() == length){
             possibleWords.insert(word);
         }
     }
-    return possibleWords;
 }
 
-int getWordLength(const unordered_set<string>& dict, unordered_set<string>& possibleWords){
-    unsigned length;
+void getWordLength(const unordered_set<string>& dict, unordered_set<string>& possibleWords, int& wordLength){
     cout << "Please enter a word length!" << endl;
-    cin >> length;
-    unordered_set<string>words = getWordsOfLength(length, dict, possibleWords);
-    if (words.empty()){
-        length = getWordLength(dict, possibleWords);
+    cin >> wordLength;
+    getWordsOfLength(wordLength, dict, possibleWords);
+    if (possibleWords.empty()){
+        cout << "No words of given length." << endl;
+        getWordLength(dict, possibleWords, wordLength);
     }
-    return length;
 }
 
 int getNumberOfGuesses(){
@@ -63,20 +63,19 @@ bool getShowRemainingWords(){
     }
 }
 
-string askForGuess(const string& guessedLetters){
-    cout << "Please enter a letter! " << endl;
-    string letter;
-    cin >> letter;
-    if (letter.length() != 1 || ALPHABET.find(letter) == string::npos){
-        letter = askForGuess(guessedLetters);
+void askForGuess(const string& guessedLetters, string& guess){
+    cout << "Please enter a letter! ";
+    cin >> guess;
+    if (guess.length() != 1 || ALPHABET.find(guess) == string::npos){
+        askForGuess(guessedLetters, guess);
     }
-    return letter;
 }
 
-int stringToBits(const string& word, const char& guess){
-    int bits = 0;
+int stringToBits(const string& word, const string& guess){
+    char guessChar = guess[0];
+    long bits = 0;
     for (unsigned i = 0; i < word.length(); i++){
-        if (word[i] == guess) {
+        if (word[i] == guessChar) {
             bits += 1 << i;
         }
     }
@@ -88,6 +87,7 @@ int main() {
     //int remainingWords;
     bool showRemainingWords;
     string wordProgress;
+    int wordLength;
     string guessedLetters = "";
     unordered_set<string> dict;
     unordered_set<string> possibleWords = {};
@@ -100,7 +100,7 @@ int main() {
     getDict(dict);
 
     // 2. prompt word length
-    getWordLength(dict, possibleWords);
+    getWordLength(dict, possibleWords, wordLength);
 
     // 3. prompt number of guesses
     remainingGuesses = getNumberOfGuesses();
@@ -122,15 +122,28 @@ int main() {
     }
 
     // c. prompt guess
-    string guess = askForGuess(guessedLetters);
+    string guess;
+    askForGuess(guessedLetters, guess);
 
     // d. partition words based on family
     multimap<int, string> partitions;
     for (string word : possibleWords){
-        partitions[stringToBits(word)] = word;
+        partitions.emplace(stringToBits(word, guess), word);
     }
 
+
     // e. find largest family, ...
+    long biggestPartitionKey;
+    unsigned biggestPartitionSize = 0;
+    for (long key = 0; key < 1 << wordLength; key++) {
+        if (partitions.count(key) > biggestPartitionSize) {
+            biggestPartitionSize = partitions.count(key);
+            biggestPartitionKey = key;
+        }
+    }
+    cout << "Biggest: " << biggestPartitionKey << endl;
+    //update wordProgress
+    //possibleWords = content of key
 
     // f. reveal word if out of guesses
 

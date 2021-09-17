@@ -42,7 +42,7 @@ void splitWords(const string& words, string& word1, string& word2){
  * Finds the shortest chain of neighboring words between w1 and w2.
  */
 
-stack<string> wordChain(string w1, string w2){
+void wordChain(stack<string>& currentChain, string w1, string w2){
     unordered_set<string> dictionary;
     getDict(dictionary);
 
@@ -52,14 +52,14 @@ stack<string> wordChain(string w1, string w2){
     ladderQueue.push(firstChain);
 
     while (!ladderQueue.empty()) {        // while the queue is not empty:
-        stack<string> currentChain = ladderQueue.front();     // dequeue the partial-chain stack from the front of the queue
+        currentChain = ladderQueue.front();     // dequeue the partial-chain stack from the front of the queue
         ladderQueue.pop();
 
         if (currentChain.top() == w2){    // if the word at the top of the stack is the destinaction word:
-            return currentChain;          // hooray! output the elements of the stack as the solution
+            return;          // hooray! output the elements of the stack as the solution
         } else {
             // for each valid English word that is a neighbour (differs by 1 letter) of the word at the top of the stack:
-            for (unsigned i = 0; i < currentChain.top().length(); i++) {
+            for (unsigned int i = 0; i < currentChain.top().length(); i++) {
                 for (auto c : ALPHABET){
                     string neighbourWord = currentChain.top();
                     neighbourWord[i] = c;
@@ -74,7 +74,6 @@ stack<string> wordChain(string w1, string w2){
         }
     }
     cout << "no valid path to w2" << endl;
-    return stack<string>();
 }
 
 /*
@@ -104,7 +103,8 @@ void getWords(string& word1, string& word2){
 void getResult(const string& word1, const string& word2){
     cout << "Chain from " << word2 << " back to " << word1 << ":" << endl;
 
-    auto ladder = wordChain(word1, word2);
+    stack<string> ladder;
+    wordChain(ladder, word1, word2);
     while (!ladder.empty()){
         cout << ladder.top() << " ";
         ladder.pop();
