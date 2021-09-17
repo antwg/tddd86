@@ -63,7 +63,7 @@ bool getShowRemainingWords(){
 }
 
 string askForGuess(const string& guessedLetters){
-    cout << "Please enter a letter! " << endl;
+    cout << "Please enter a letter! ";
     string letter;
     cin >> letter;
     if (letter.length() != 1 || ALPHABET.find(letter) == string::npos){
