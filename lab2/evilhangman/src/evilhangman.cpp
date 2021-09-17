@@ -18,21 +18,20 @@ void getDict(unordered_set<string>& dict){
     file.close();
 }
 
-unordered_set<string> getWordsOfLength(const unsigned length, const unordered_set<string>& dict, unordered_set<string>& possibleWords){
+void getWordsOfLength(const unsigned length, const unordered_set<string>& dict, unordered_set<string>& possibleWords){
     for (const auto& word: dict){
         if (word.length() == length){
             possibleWords.insert(word);
         }
     }
-    return possibleWords;
 }
 
 int getWordLength(const unordered_set<string>& dict, unordered_set<string>& possibleWords){
     unsigned length;
     cout << "Please enter a word length!" << endl;
     cin >> length;
-    unordered_set<string>words = getWordsOfLength(length, dict, possibleWords);
-    if (words.empty()){
+    getWordsOfLength(length, dict, possibleWords);
+    if (possibleWords.empty()){
         length = getWordLength(dict, possibleWords);
     }
     return length;
@@ -62,14 +61,12 @@ bool getShowRemainingWords(){
     }
 }
 
-string askForGuess(const string& guessedLetters){
+void askForGuess(const string& guessedLetters, string& guess){
     cout << "Please enter a letter! ";
-    string letter;
-    cin >> letter;
-    if (letter.length() != 1 || ALPHABET.find(letter) == string::npos){
-        letter = askForGuess(guessedLetters);
+    cin >> guess;
+    if (guess.length() != 1 || ALPHABET.find(guess) == string::npos){
+        askForGuess(guessedLetters, guess);
     }
-    return letter;
 }
 
 int main() {
@@ -111,7 +108,8 @@ int main() {
     }
 
     // c. prompt guess
-    string guess = askForGuess(guessedLetters);
+    string guess;
+    askForGuess(guessedLetters, guess);
 
     // d. partition words based on family
 
