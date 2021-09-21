@@ -21,6 +21,9 @@ void getDict(unordered_set<string>& dict){
     file.close();
 }
 
+/*
+ * Gets all words of a given length from a dictionary and adds them to a possibleWords.
+ */
 void getWordsOfLength(const unsigned length, const unordered_set<string>& dict, set<string>& possibleWords){
     for (const auto& word: dict){
         if (word.length() == length){
@@ -29,8 +32,11 @@ void getWordsOfLength(const unsigned length, const unordered_set<string>& dict, 
     }
 }
 
+/*
+ * Asks for a word length. Saves length if valid, else asks again.
+ */
 void getWordLength(const unordered_set<string>& dict, set<string>& possibleWords, int& wordLength){
-    cout << "Please enter a word length!" << endl;
+    cout << "Please enter a word length: " ;
     cin >> wordLength;
     getWordsOfLength(wordLength, dict, possibleWords);
     if (possibleWords.empty()){
@@ -39,9 +45,12 @@ void getWordLength(const unordered_set<string>& dict, set<string>& possibleWords
     }
 }
 
+/*
+ * Asks for how many guesses the user wants. Returns the number of guesses if it's > 1, else asks again.
+ */
 int getNumberOfGuesses(){
     int numberOfGuesses;
-    cout << "Enter number of guesses:" << endl;
+    cout << "Enter number of guesses: ";
     cin >> numberOfGuesses;
     if (numberOfGuesses < 1) {
         numberOfGuesses = getNumberOfGuesses();
@@ -49,8 +58,11 @@ int getNumberOfGuesses(){
     return numberOfGuesses;
 }
 
+/*
+ * Asks the user if the number of remaining words are to be shown, if "yes", return true, else false.
+ */
 bool getShowRemainingWords(){
-    cout << "Do you want to see the number of remaining words?" << endl;
+    cout << "Do you want to see the number of remaining words? ";
     string answer;
     cin >> answer;
     if (answer == "yes"){
@@ -63,15 +75,24 @@ bool getShowRemainingWords(){
     }
 }
 
+/*
+ * Asks the user for a guess. If the guess is a single letter, is in the alphabet and hasn't been guessed before,
+ * it's saved, else asks for another letter.
+ */
 void askForGuess(string& guessedLetters, string& guess){
-    cout << "Please enter a letter! ";
+    cout << "Please enter a letter: ";
     cin >> guess;
     if (guess.length() != 1 || ALPHABET.find(guess) == string::npos || guessedLetters.find(guess) != string::npos){
         askForGuess(guessedLetters, guess);
     }
     guessedLetters.append(guess);
+    cout << endl;
 }
 
+/*
+ * Converts word from a string to an int. If a letter in word is the same as guess, it gets the value 1, else 0.
+ * For example: word = code, guess = d would return 0010 = 2.
+ */
 int stringToBits(const string& word, const string& guess){
     char guessChar = guess[0];
     long bits = 0;
@@ -83,51 +104,53 @@ int stringToBits(const string& word, const string& guess){
     return bits;
 }
 
-int main() {
-    int remainingGuesses;
-    //int remainingWords;
-    bool showRemainingWords;
-    string wordProgress = "";
-    int wordLength;
-    string guessedLetters = "";
-    unordered_set<string> dict;
-    set<string> possibleWords = {};
-    string guess;
-
-
-    cout << "Welcome to Hangman." << endl;
-
-    // 1. read file
-    getDict(dict);
-
-    // 2. prompt word length
-    getWordLength(dict, possibleWords, wordLength);
-
-    // 3. prompt number of guesses
-    remainingGuesses = getNumberOfGuesses();
-
-    // 4. prompt show number of words
-    showRemainingWords = getShowRemainingWords();
-
-    // 5. Actual game
-
-    // a. create list of words based on length
-    // DONE IN 2.
-
-
+/*
+ * Makes wordProgress a string of '-' of length wordLength.
+ */
+void resetWordProgress(string& wordProgress, const int& wordLength){
     for (int j = 0; j < wordLength; j++){
         wordProgress.push_back('-');
     }
+}
 
-    while (!(possibleWords.size() == 1 && wordProgress == *possibleWords.begin())){
-    // c. prompt guess
-    askForGuess(guessedLetters, guess);
-
-    // d. partition words based on family
-    multimap<int, string> partitions;
+/*
+ * Gives all words a key in the form of an int. The bits in the int represent what family the word is in.
+ * All words in the same family have the same key.
+ */
+void partitionWords(const set<string>& possibleWords, multimap<int, string>& partitions, const string& guess){
     for (string word : possibleWords){
         partitions.emplace(stringToBits(word, guess), word);
     }
+}
+
+/*
+ * The game Evil Hangman.
+ */
+int main() {
+    int wordLength;
+    string wordProgress;
+    string guess;
+    string guessedLetters = "";
+    unordered_set<string> dict;
+    set<string> possibleWords = {};
+
+    cout << "Welcome to Hangman." << endl;
+
+    // Game setup
+    getDict(dict);
+    getWordLength(dict, possibleWords, wordLength);
+    int remainingGuesses = getNumberOfGuesses();
+    bool showRemainingWords = getShowRemainingWords();
+    resetWordProgress(wordProgress, wordLength);
+
+    // Main game loop
+    while (!(possibleWords.size() == 1 && wordProgress == *possibleWords.begin())){
+        cout << endl << "===========================" << endl;
+        askForGuess(guessedLetters, guess);
+
+        // Partition words based on family
+        multimap<int, string> partitions;
+        partitionWords(possibleWords, partitions, guess);
 
  // ======================================================================================================
     // e. find largest family, ...
