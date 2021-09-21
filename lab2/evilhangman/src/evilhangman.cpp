@@ -3,6 +3,7 @@
 #include <unordered_set>
 #include <fstream>
 #include <map>
+#include <set>
 using namespace std;
 
 const string ALPHABET  = "abcdefghijklmnopqrstuvwxyz";
@@ -13,7 +14,6 @@ const string ALPHABET  = "abcdefghijklmnopqrstuvwxyz";
 void getDict(unordered_set<string>& dict){
     //ifstream file("dictionary.txt");
     ifstream file("di.txt");
-
     string line;
     while (getline(file, line)){
         dict.insert(line);
@@ -21,7 +21,7 @@ void getDict(unordered_set<string>& dict){
     file.close();
 }
 
-void getWordsOfLength(const unsigned length, const unordered_set<string>& dict, unordered_set<string>& possibleWords){
+void getWordsOfLength(const unsigned length, const unordered_set<string>& dict, set<string>& possibleWords){
     for (const auto& word: dict){
         if (word.length() == length){
             possibleWords.insert(word);
@@ -29,7 +29,7 @@ void getWordsOfLength(const unsigned length, const unordered_set<string>& dict, 
     }
 }
 
-void getWordLength(const unordered_set<string>& dict, unordered_set<string>& possibleWords, int& wordLength){
+void getWordLength(const unordered_set<string>& dict, set<string>& possibleWords, int& wordLength){
     cout << "Please enter a word length!" << endl;
     cin >> wordLength;
     getWordsOfLength(wordLength, dict, possibleWords);
@@ -63,12 +63,13 @@ bool getShowRemainingWords(){
     }
 }
 
-void askForGuess(const string& guessedLetters, string& guess){
+void askForGuess(string& guessedLetters, string& guess){
     cout << "Please enter a letter! ";
     cin >> guess;
-    if (guess.length() != 1 || ALPHABET.find(guess) == string::npos){
+    if (guess.length() != 1 || ALPHABET.find(guess) == string::npos || guessedLetters.find(guess) != string::npos){
         askForGuess(guessedLetters, guess);
     }
+    guessedLetters.append(guess);
 }
 
 int stringToBits(const string& word, const string& guess){
@@ -86,12 +87,12 @@ int main() {
     int remainingGuesses;
     //int remainingWords;
     bool showRemainingWords;
-    string wordProgress;
+    string wordProgress = "";
     int wordLength;
     string guessedLetters = "";
     unordered_set<string> dict;
-    unordered_set<string> possibleWords = {};
-
+    set<string> possibleWords = {};
+    string guess;
 
 
     cout << "Welcome to Hangman." << endl;
@@ -113,16 +114,13 @@ int main() {
     // a. create list of words based on length
     // DONE IN 2.
 
-    // b. print remaining guesses + guessed letters (+ remaining words)
-    cout << "You have " << remainingGuesses << " guesses left." << endl;
-    cout << "Guessed letters: " << guessedLetters << endl;
-    cout << "Word progress: " << wordProgress << endl;
-    if (showRemainingWords) {
-        cout << "Remaining words: " << possibleWords.size() << endl;
+
+    for (int j = 0; j < wordLength; j++){
+        wordProgress.push_back('-');
     }
 
+    while (!(possibleWords.size() == 1 && wordProgress == *possibleWords.begin())){
     // c. prompt guess
-    string guess;
     askForGuess(guessedLetters, guess);
 
     // d. partition words based on family
@@ -131,9 +129,9 @@ int main() {
         partitions.emplace(stringToBits(word, guess), word);
     }
 
-
+ // ======================================================================================================
     // e. find largest family, ...
-    long biggestPartitionKey;
+    long biggestPartitionKey = 0;
     unsigned biggestPartitionSize = 0;
     for (long key = 0; key < 1 << wordLength; key++) {
         if (partitions.count(key) > biggestPartitionSize) {
@@ -141,8 +139,46 @@ int main() {
             biggestPartitionKey = key;
         }
     }
+
+    bool correctGuess = false;
+    for (int i = 0; i < wordLength; i++){
+        int temp = biggestPartitionKey;
+        temp &= 1 << i;
+        if (temp != 0){
+            wordProgress[i] = guess[0];
+            correctGuess = true;
+        }
+    }
+
+    if (!correctGuess){
+        remainingGuesses--;
+    }
     cout << "Biggest: " << biggestPartitionKey << endl;
     //update wordProgress
+    possibleWords.clear();
+    for (auto pair : partitions){
+        if(pair.first == biggestPartitionKey){
+            possibleWords.insert(pair.second);
+        }
+    }
+
+    cout << wordProgress << endl;
+    if (remainingGuesses == 0) {
+        cout << *possibleWords.begin() << endl;
+        break;
+    }
+
+    // b. print remaining guesses + guessed letters (+ remaining words)
+    cout << "You have " << remainingGuesses << " guesses left." << endl;
+    cout << "Guessed letters: " << guessedLetters << endl;
+    cout << "Word progress: " << wordProgress << endl;
+    if (showRemainingWords) {
+        cout << "Remaining words: " << possibleWords.size() << endl;
+    }
+    }
+
+    cout << "Ended" << endl;
+
     //possibleWords = content of key
 
     // f. reveal word if out of guesses
