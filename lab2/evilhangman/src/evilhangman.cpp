@@ -177,7 +177,7 @@ void printEndOfStep(int remainingGuesses, set<string> possibleWords, bool showRe
 /*
  * The main functionality of the game
  */
-void onStep(int wordLength, string wordProgress, string guessedLetters, bool showRemainingWords, string guess, int remainingGuesses, set<string> possibleWords)
+void onStep(int& wordLength, string& wordProgress, string& guessedLetters, bool& showRemainingWords, string& guess, int& remainingGuesses, set<string>& possibleWords)
 {
     cout << endl << "===========================" << endl;
     askForGuess(guessedLetters, guess);
