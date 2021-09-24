@@ -201,6 +201,16 @@ void onStep(int& wordLength, string& wordProgress, string& guessedLetters, const
     updateWordProgress(biggestPartitionKey, wordLength, wordProgress, guess, remainingGuesses);
 
     printEndOfStep(remainingGuesses, possibleWords, showRemainingWords, wordProgress, guessedLetters);
+
+    if (remainingGuesses == 0) {
+        gameStatus = -1;
+    } else if (possibleWords.size() == 1) {
+        if (*possibleWords.begin() == wordProgress) {
+            gameStatus = 1;
+        } else {
+            gameStatus = -1;
+        }
+    }
 }
 
 void setupGame(unordered_set<string>& dict, set<string>& possibleWords, int& wordLength, string& wordProgress, int& remainingGuesses, bool& showRemainingWords){
@@ -248,7 +258,7 @@ int main() {
         setupGame(dict, possibleWords, wordLength, wordProgress, remainingGuesses, showRemainingWords);
 
         while (gameStatus == 0) {
-            onStep();
+            onStep(wordLength, wordProgress, guessedLetters, showRemainingWords, remainingGuesses, possibleWords, gameStatus);
         }
         if (gameStatus == -1) {
             gameLost(possibleWords);
