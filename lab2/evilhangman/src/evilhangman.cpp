@@ -177,7 +177,7 @@ void printEndOfStep(int remainingGuesses, set<string> possibleWords, bool showRe
 /*
  * The main functionality of the game
  */
-void onStep(int& wordLength, string& wordProgress, string& guessedLetters, bool& showRemainingWords, string& guess, int& remainingGuesses, set<string>& possibleWords)
+void onStep(int& wordLength, string& wordProgress, string& guessedLetters, bool& showRemainingWords, string& guess, int& remainingGuesses, set<string>& possibleWords, int& gameStatus)
 {
     cout << endl << "===========================" << endl;
     askForGuess(guessedLetters, guess);
@@ -200,6 +200,16 @@ void onStep(int& wordLength, string& wordProgress, string& guessedLetters, bool&
     updateWordProgress(biggestPartitionKey, wordLength, wordProgress, guess, remainingGuesses);
 
     printEndOfStep(remainingGuesses, possibleWords, showRemainingWords, wordProgress, guessedLetters);
+
+    if (remainingGuesses == 0) {
+        gameStatus = -1;
+    } else if (possibleWords.size() == 1) {
+        if (*possibleWords.begin() == wordProgress) {
+            gameStatus = 1;
+        } else {
+            gameStatus = -1;
+        }
+    }
 }
 
 /*
@@ -210,7 +220,7 @@ int main() {
     while (playAgain) {
         setupGame();
         while (gameStatus == 0) {
-            onStep();
+            onStep(wordLength, wordProgress, guessedLetters, showRemainingWords, guess, remainingGuesses, possibleWords, gameStatus);
         }
         if (gameStatus == -1) {
             gameLost();
