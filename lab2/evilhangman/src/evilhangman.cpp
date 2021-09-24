@@ -206,6 +206,24 @@ void onStep(int& wordLength, string& wordProgress, string& guessedLetters, bool&
  * The game Evil Hangman.
  */
 int main() {
+    bool playAgain = true;
+    while (playAgain) {
+        setupGame();
+        while (gameStatus == 0) {
+            onStep();
+        }
+        if (gameStatus == -1) {
+            gameLost();
+        } else if (gameStatus == 1) {
+            gameWon();
+        }
+        askPlayAgain(playAgain);
+    }
+    return 0;
+}
+
+
+/*int main() {
     int wordLength;
     string wordProgress = "";
     string guess;
@@ -240,4 +258,4 @@ int main() {
 
     // 6. play again?
     return 0;
-}
+}*/
