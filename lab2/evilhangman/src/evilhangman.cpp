@@ -12,8 +12,8 @@ const string ALPHABET  = "abcdefghijklmnopqrstuvwxyz";
  * Opens the dictionary.txt file and loads all words into an unordered set.
  */
 void getDict(unordered_set<string>& dict){
-    //ifstream file("dictionary.txt");
-    ifstream file("di.txt");
+    ifstream file("dictionary.txt");
+    //ifstream file("di.txt");
     string line;
     while (getline(file, line)){
         dict.insert(line);
@@ -24,7 +24,7 @@ void getDict(unordered_set<string>& dict){
 /*
  * Gets all words of a given length from a dictionary and adds them to a possibleWords.
  */
-void getWordsOfLength(const unsigned length, const unordered_set<string>& dict, set<string>& possibleWords){
+void getWordsOfLength(const unsigned& length, const unordered_set<string>& dict, set<string>& possibleWords){
     for (const auto& word: dict){
         if (word.length() == length){
             possibleWords.insert(word);
@@ -36,7 +36,7 @@ void getWordsOfLength(const unsigned length, const unordered_set<string>& dict, 
  * Asks for a word length. Saves length if valid, else asks again.
  */
 void getWordLength(const unordered_set<string>& dict, set<string>& possibleWords, int& wordLength){
-    cout << "Please enter a word length: " ;
+    cout << "Please enter a word length: ";
     cin >> wordLength;
     getWordsOfLength(wordLength, dict, possibleWords);
     if (possibleWords.empty()){
