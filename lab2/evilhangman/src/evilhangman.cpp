@@ -7,6 +7,9 @@
 using namespace std;
 
 const string ALPHABET  = "abcdefghijklmnopqrstuvwxyz";
+const int GAMELOST = -1;
+const int GAMERUNNING = 0;
+const int GAMEWON = 1;
 
 /*
  * Opens the dictionary.txt file and loads all words into an unordered set.
@@ -177,7 +180,7 @@ void printEndOfStep(int remainingGuesses, set<string> possibleWords, bool showRe
 /*
  * The main functionality of the game
  */
-void onStep(int& wordLength, string& wordProgress, string& guessedLetters, const bool& showRemainingWords, int& remainingGuesses, set<string>& possibleWords)
+void onStep(int& wordLength, string& wordProgress, string& guessedLetters, const bool& showRemainingWords, int& remainingGuesses, set<string>& possibleWords, int& gameStatus)
 {
     cout << endl << "===========================" << endl;
     string guess;
@@ -203,16 +206,17 @@ void onStep(int& wordLength, string& wordProgress, string& guessedLetters, const
     printEndOfStep(remainingGuesses, possibleWords, showRemainingWords, wordProgress, guessedLetters);
 
     if (remainingGuesses == 0) {
-        gameStatus = -1;
+        gameStatus = GAMELOST;
     } else if (possibleWords.size() == 1) {
         if (*possibleWords.begin() == wordProgress) {
-            gameStatus = 1;
-        } else {
-            gameStatus = -1;
+            gameStatus = GAMEWON;
         }
     }
 }
 
+/*
+ * Sets up the game.
+ */
 void setupGame(unordered_set<string>& dict, set<string>& possibleWords, int& wordLength, string& wordProgress, int& remainingGuesses, bool& showRemainingWords){
     getDict(dict);
     getWordLength(dict, possibleWords, wordLength);
@@ -221,14 +225,23 @@ void setupGame(unordered_set<string>& dict, set<string>& possibleWords, int& wor
     resetWordProgress(wordProgress, wordLength);
 }
 
+/*
+ * Prints a congratulations message.
+ */
 void gameWon(){
     cout << "Congrats, you won! Do you want to play again?" << endl;
 }
 
+/*
+ * Reveals the "chosen" word.
+ */
 void gameLost(set<string>& possibleWords){
     cout << "You lost! The word was: " << *possibleWords.begin() <<"Do you want to play again?" << endl;
 }
 
+/*
+ * Asks the player if the want to play again
+ */
 void askPlayAgain(bool& playAgain){
     string answer;
     cin >> answer;
@@ -254,58 +267,19 @@ int main() {
         set<string> possibleWords = {};
         int remainingGuesses;
         bool showRemainingWords;
+        int gameStatus = GAMERUNNING;
 
         setupGame(dict, possibleWords, wordLength, wordProgress, remainingGuesses, showRemainingWords);
 
-        while (gameStatus == 0) {
+        while (gameStatus == GAMERUNNING) {
             onStep(wordLength, wordProgress, guessedLetters, showRemainingWords, remainingGuesses, possibleWords, gameStatus);
         }
-        if (gameStatus == -1) {
+        if (gameStatus == GAMELOST) {
             gameLost(possibleWords);
-        } else if (gameStatus == 1) {
+        } else if (gameStatus == GAMEWON) {
             gameWon();
         }
         askPlayAgain(playAgain);
     }
     return 0;
 }
-
-
-/*int main() {
-    int wordLength;
-    string wordProgress = "";
-    string guess;
-    string guessedLetters = "";
-    unordered_set<string> dict;
-    set<string> possibleWords = {};
-
-    cout << "Welcome to Hangman." << endl;
-
-    // Game setup
-    getDict(dict);
-    getWordLength(dict, possibleWords, wordLength);
-    int remainingGuesses = getNumberOfGuesses();
-    bool showRemainingWords = getShowRemainingWords();
-    resetWordProgress(wordProgress, wordLength);
-
-    // Main game loop
-    while (!(possibleWords.size() == 1 && wordProgress == *possibleWords.begin())){
-        onStep(wordLength, wordProgress, guessedLetters, showRemainingWords, guess, remainingGuesses, possibleWords);
-
-        if (remainingGuesses == 0) {
-<<<<<<< HEAD
-=======
-            cout << "Out of guesses. The word was: " << *possibleWords.begin() << endl;
->>>>>>> c6f477708b883184cf0ee3605fcb9908dad37e15
-            break;
-        }
-    }
-
-
-    cout << "Ended" << endl;
-
-    // g. congrats
-
-    // 6. play again?
-    return 0;
-}*/
