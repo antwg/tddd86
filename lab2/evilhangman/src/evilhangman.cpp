@@ -177,16 +177,17 @@ void printEndOfStep(int remainingGuesses, set<string> possibleWords, bool showRe
 /*
  * The main functionality of the game
  */
-void onStep(int& wordLength, string& wordProgress, string& guessedLetters, bool& showRemainingWords, string& guess, int& remainingGuesses, set<string>& possibleWords)
+void onStep(int& wordLength, string& wordProgress, string& guessedLetters, const bool& showRemainingWords, int& remainingGuesses, set<string>& possibleWords)
 {
     cout << endl << "===========================" << endl;
+    string guess;
     askForGuess(guessedLetters, guess);
 
     // Partition words based on family
     multimap<int, string> partitions;
     partitionWords(possibleWords, partitions, guess);
 
-    // e. find largest family, ...
+    // Find largest family, ...
     long biggestPartitionKey = findBiggestPartition(wordLength, partitions);
 
     possibleWords.clear();
@@ -210,20 +211,15 @@ void setupGame(unordered_set<string>& dict, set<string>& possibleWords, int& wor
     resetWordProgress(wordProgress, wordLength);
 }
 
-void gameWon(bool& playAgain){
+void gameWon(){
     cout << "Congrats, you won! Do you want to play again?" << endl;
-    string answer;
-    cin >> answer;
-    if (answer == "yes"){
-        playAgain = true;
-    }
-    else {
-        playAgain = false;
-    }
 }
 
-void gameLost(bool& playAgain, set<string>& possibleWords){
+void gameLost(set<string>& possibleWords){
     cout << "You lost! The word was: " << *possibleWords.begin() <<"Do you want to play again?" << endl;
+}
+
+void askPlayAgain(bool& playAgain){
     string answer;
     cin >> answer;
     if (answer == "yes"){
@@ -255,9 +251,9 @@ int main() {
             onStep();
         }
         if (gameStatus == -1) {
-            gameLost(playAgain, possibleWords);
+            gameLost(possibleWords);
         } else if (gameStatus == 1) {
-            gameWon(playAgain);
+            gameWon();
         }
         askPlayAgain(playAgain);
     }
