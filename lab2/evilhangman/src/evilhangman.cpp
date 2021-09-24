@@ -207,7 +207,7 @@ void onStep(int& wordLength, string& wordProgress, string& guessedLetters, bool&
  */
 int main() {
     int wordLength;
-    string wordProgress;
+    string wordProgress = "";
     string guess;
     string guessedLetters = "";
     unordered_set<string> dict;
@@ -227,7 +227,7 @@ int main() {
         onStep(wordLength, wordProgress, guessedLetters, showRemainingWords, guess, remainingGuesses, possibleWords);
 
         if (remainingGuesses == 0) {
-            cout << *possibleWords.begin() << endl;
+            cout << "Out of guesses. The word was: " << *possibleWords.begin() << endl;
             break;
         }
 
