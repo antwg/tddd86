@@ -202,6 +202,7 @@ void onStep(int& wordLength, string& wordProgress, string& guessedLetters, bool&
     printEndOfStep(remainingGuesses, possibleWords, showRemainingWords, wordProgress, guessedLetters);
 }
 
+
 /*
  * The game Evil Hangman.
  */
@@ -227,12 +228,10 @@ int main() {
         onStep(wordLength, wordProgress, guessedLetters, showRemainingWords, guess, remainingGuesses, possibleWords);
 
         if (remainingGuesses == 0) {
-            cout << *possibleWords.begin() << endl;
             break;
         }
-
-
     }
+
 
     cout << "Ended" << endl;
 
