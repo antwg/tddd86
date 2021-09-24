@@ -124,7 +124,7 @@ void partitionWords(const set<string>& possibleWords, multimap<int, string>& par
 }
 
 /*
- * The game Evil Hangman.
+ * Finds and returns the key of the biggest partition.
  */
 long findBiggestPartition(const int wordLength, const multimap<int, string>& partitions)
 {
@@ -140,6 +140,9 @@ long findBiggestPartition(const int wordLength, const multimap<int, string>& par
     return biggestPartitionKey;
 }
 
+/*
+ * Updates the wordProgress string based on the guess.
+ */
 void updateWordProgress(const long biggestPartitionKey, const int wordLength, string& wordProgress, const string& guess, int& remainingGuesses)
 {
     bool correctGuess = false;
@@ -157,6 +160,9 @@ void updateWordProgress(const long biggestPartitionKey, const int wordLength, st
     }
 }
 
+/*
+ * Prints info about the game state to the console.
+ */
 void printEndOfStep(int remainingGuesses, set<string> possibleWords, bool showRemainingWords, string wordProgress, string guessedLetters)
 {
     // b. print remaining guesses + guessed letters (+ remaining words)
@@ -168,6 +174,9 @@ void printEndOfStep(int remainingGuesses, set<string> possibleWords, bool showRe
     }
 }
 
+/*
+ * The game Evil Hangman.
+ */
 int main() {
     int wordLength;
     string wordProgress;
