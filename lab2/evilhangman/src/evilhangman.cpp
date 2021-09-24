@@ -220,6 +220,30 @@ void setupGame(unordered_set<string>& dict, set<string>& possibleWords, int& wor
     resetWordProgress(wordProgress, wordLength);
 }
 
+void gameWon(bool& playAgain){
+    cout << "Congrats, you won! Do you want to play again?" << endl;
+    string answer;
+    cin >> answer;
+    if (answer == "yes"){
+        playAgain = true;
+    }
+    else {
+        playAgain = false;
+    }
+}
+
+void gameLost(bool& playAgain, set<string>& possibleWords){
+    cout << "You lost! The word was: " << *possibleWords.begin() <<"Do you want to play again?" << endl;
+    string answer;
+    cin >> answer;
+    if (answer == "yes"){
+        playAgain = true;
+    }
+    else {
+        playAgain = false;
+    }
+}
+
 /*
  * The game Evil Hangman.
  */
@@ -241,9 +265,9 @@ int main() {
             onStep(wordLength, wordProgress, guessedLetters, showRemainingWords, guess, remainingGuesses, possibleWords, gameStatus);
         }
         if (gameStatus == -1) {
-            gameLost();
+            gameLost(playAgain, possibleWords);
         } else if (gameStatus == 1) {
-            gameWon();
+            gameWon(playAgain);
         }
         askPlayAgain(playAgain);
     }
