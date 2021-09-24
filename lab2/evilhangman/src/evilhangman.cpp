@@ -126,6 +126,49 @@ void partitionWords(const set<string>& possibleWords, multimap<int, string>& par
 /*
  * The game Evil Hangman.
  */
+long findBiggestPartition(const int wordLength, const multimap<int, string>& partitions)
+{
+    long biggestPartitionKey = 0;
+    unsigned biggestPartitionSize = 0;
+    for (long key = 0; key < 1 << wordLength; key++) {
+        if (partitions.count(key) > biggestPartitionSize) {
+            biggestPartitionSize = partitions.count(key);
+            biggestPartitionKey = key;
+        }
+    }
+
+    return biggestPartitionKey;
+}
+
+void updateWordProgress(const long biggestPartitionKey, const int wordLength, string& wordProgress, const string& guess, int& remainingGuesses)
+{
+    bool correctGuess = false;
+    for (int i = 0; i < wordLength; i++){
+        int temp = biggestPartitionKey;
+        temp &= 1 << i;
+        if (temp != 0){
+            wordProgress[i] = guess[0];
+            correctGuess = true;
+        }
+    }
+
+    if (!correctGuess){
+        remainingGuesses--;
+    }
+}
+
+void printEndOfStep(int remainingGuesses, set<string> possibleWords, bool showRemainingWords, string wordProgress, string guessedLetters)
+{
+    // b. print remaining guesses + guessed letters (+ remaining words)
+    cout << wordProgress << endl;
+    cout << "You have " << remainingGuesses << " guesses left." << endl;
+    cout << "Guessed letters: " << guessedLetters << endl;
+    cout << "Word progress: " << wordProgress << endl;
+    if (showRemainingWords) {
+        cout << "Remaining words: " << possibleWords.size() << endl;
+    }
+}
+
 int main() {
     int wordLength;
     string wordProgress;
@@ -152,52 +195,26 @@ int main() {
         multimap<int, string> partitions;
         partitionWords(possibleWords, partitions, guess);
 
- // ======================================================================================================
-    // e. find largest family, ...
-    long biggestPartitionKey = 0;
-    unsigned biggestPartitionSize = 0;
-    for (long key = 0; key < 1 << wordLength; key++) {
-        if (partitions.count(key) > biggestPartitionSize) {
-            biggestPartitionSize = partitions.count(key);
-            biggestPartitionKey = key;
+        // e. find largest family, ...
+        long biggestPartitionKey = findBiggestPartition(wordLength, partitions);
+
+        possibleWords.clear();
+        for (auto pair : partitions){
+            if(pair.first == biggestPartitionKey){
+                possibleWords.insert(pair.second);
+            }
         }
-    }
 
-    bool correctGuess = false;
-    for (int i = 0; i < wordLength; i++){
-        int temp = biggestPartitionKey;
-        temp &= 1 << i;
-        if (temp != 0){
-            wordProgress[i] = guess[0];
-            correctGuess = true;
+        //update wordProgress
+        updateWordProgress(biggestPartitionKey, wordLength, wordProgress, guess, remainingGuesses);
+
+        if (remainingGuesses == 0) {
+            cout << *possibleWords.begin() << endl;
+            break;
         }
-    }
 
-    if (!correctGuess){
-        remainingGuesses--;
-    }
-    cout << "Biggest: " << biggestPartitionKey << endl;
-    //update wordProgress
-    possibleWords.clear();
-    for (auto pair : partitions){
-        if(pair.first == biggestPartitionKey){
-            possibleWords.insert(pair.second);
-        }
-    }
+        printEndOfStep(remainingGuesses, possibleWords, showRemainingWords, wordProgress, guessedLetters);
 
-    cout << wordProgress << endl;
-    if (remainingGuesses == 0) {
-        cout << *possibleWords.begin() << endl;
-        break;
-    }
-
-    // b. print remaining guesses + guessed letters (+ remaining words)
-    cout << "You have " << remainingGuesses << " guesses left." << endl;
-    cout << "Guessed letters: " << guessedLetters << endl;
-    cout << "Word progress: " << wordProgress << endl;
-    if (showRemainingWords) {
-        cout << "Remaining words: " << possibleWords.size() << endl;
-    }
     }
 
     cout << "Ended" << endl;
