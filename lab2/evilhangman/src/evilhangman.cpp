@@ -160,7 +160,6 @@ void updateWordProgress(const long biggestPartitionKey, const int wordLength, st
 void printEndOfStep(int remainingGuesses, set<string> possibleWords, bool showRemainingWords, string wordProgress, string guessedLetters)
 {
     // b. print remaining guesses + guessed letters (+ remaining words)
-    cout << wordProgress << endl;
     cout << "You have " << remainingGuesses << " guesses left." << endl;
     cout << "Guessed letters: " << guessedLetters << endl;
     cout << "Word progress: " << wordProgress << endl;
