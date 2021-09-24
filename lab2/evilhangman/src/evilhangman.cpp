@@ -175,6 +175,34 @@ void printEndOfStep(int remainingGuesses, set<string> possibleWords, bool showRe
 }
 
 /*
+ * The main functionality of the game
+ */
+void onStep(int wordLength, string wordProgress, string guessedLetters, bool showRemainingWords, string guess, int remainingGuesses, set<string> possibleWords)
+{
+    cout << endl << "===========================" << endl;
+    askForGuess(guessedLetters, guess);
+
+    // Partition words based on family
+    multimap<int, string> partitions;
+    partitionWords(possibleWords, partitions, guess);
+
+    // e. find largest family, ...
+    long biggestPartitionKey = findBiggestPartition(wordLength, partitions);
+
+    possibleWords.clear();
+    for (auto pair : partitions){
+        if(pair.first == biggestPartitionKey){
+            possibleWords.insert(pair.second);
+        }
+    }
+
+    //update wordProgress
+    updateWordProgress(biggestPartitionKey, wordLength, wordProgress, guess, remainingGuesses);
+
+    printEndOfStep(remainingGuesses, possibleWords, showRemainingWords, wordProgress, guessedLetters);
+}
+
+/*
  * The game Evil Hangman.
  */
 int main() {
@@ -196,40 +224,17 @@ int main() {
 
     // Main game loop
     while (!(possibleWords.size() == 1 && wordProgress == *possibleWords.begin())){
-        cout << endl << "===========================" << endl;
-        askForGuess(guessedLetters, guess);
-
-        // Partition words based on family
-        multimap<int, string> partitions;
-        partitionWords(possibleWords, partitions, guess);
-
-        // e. find largest family, ...
-        long biggestPartitionKey = findBiggestPartition(wordLength, partitions);
-
-        possibleWords.clear();
-        for (auto pair : partitions){
-            if(pair.first == biggestPartitionKey){
-                possibleWords.insert(pair.second);
-            }
-        }
-
-        //update wordProgress
-        updateWordProgress(biggestPartitionKey, wordLength, wordProgress, guess, remainingGuesses);
+        onStep(wordLength, wordProgress, guessedLetters, showRemainingWords, guess, remainingGuesses, possibleWords);
 
         if (remainingGuesses == 0) {
             cout << *possibleWords.begin() << endl;
             break;
         }
 
-        printEndOfStep(remainingGuesses, possibleWords, showRemainingWords, wordProgress, guessedLetters);
 
     }
 
     cout << "Ended" << endl;
-
-    //possibleWords = content of key
-
-    // f. reveal word if out of guesses
 
     // g. congrats
 
