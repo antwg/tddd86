@@ -212,13 +212,31 @@ void onStep(int& wordLength, string& wordProgress, string& guessedLetters, bool&
     }
 }
 
+void setupGame(unordered_set<string>& dict, set<string>& possibleWords, int& wordLength, string& wordProgress, int& remainingGuesses, bool& showRemainingWords){
+    getDict(dict);
+    getWordLength(dict, possibleWords, wordLength);
+    remainingGuesses = getNumberOfGuesses();
+    showRemainingWords = getShowRemainingWords();
+    resetWordProgress(wordProgress, wordLength);
+}
+
 /*
  * The game Evil Hangman.
  */
 int main() {
     bool playAgain = true;
     while (playAgain) {
-        setupGame();
+        int wordLength;
+        string wordProgress = "";
+        string guess;
+        string guessedLetters = "";
+        unordered_set<string> dict;
+        set<string> possibleWords = {};
+        int remainingGuesses;
+        bool showRemainingWords;
+
+        setupGame(dict, possibleWords, wordLength, wordProgress, remainingGuesses, showRemainingWords);
+
         while (gameStatus == 0) {
             onStep(wordLength, wordProgress, guessedLetters, showRemainingWords, guess, remainingGuesses, possibleWords, gameStatus);
         }
@@ -255,12 +273,14 @@ int main() {
         onStep(wordLength, wordProgress, guessedLetters, showRemainingWords, guess, remainingGuesses, possibleWords);
 
         if (remainingGuesses == 0) {
+<<<<<<< HEAD
+=======
             cout << "Out of guesses. The word was: " << *possibleWords.begin() << endl;
+>>>>>>> c6f477708b883184cf0ee3605fcb9908dad37e15
             break;
         }
-
-
     }
+
 
     cout << "Ended" << endl;
 
