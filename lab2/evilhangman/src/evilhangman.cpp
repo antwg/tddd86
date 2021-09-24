@@ -11,6 +11,9 @@ const int GAMELOST = -1;
 const int GAMERUNNING = 0;
 const int GAMEWON = 1;
 
+// ========================================================================================================
+// Functions for setupGame()
+
 /*
  * Opens the dictionary.txt file and loads all words into an unordered set.
  */
@@ -79,6 +82,29 @@ bool getShowRemainingWords(){
 }
 
 /*
+ * Makes wordProgress a string of '-' of length wordLength.
+ */
+void resetWordProgress(string& wordProgress, const int& wordLength){
+    for (int j = 0; j < wordLength; j++){
+        wordProgress.push_back('-');
+    }
+}
+
+/*
+ * Sets up the game.
+ */
+void setupGame(unordered_set<string>& dict, set<string>& possibleWords, int& wordLength, string& wordProgress, int& remainingGuesses, bool& showRemainingWords){
+    getDict(dict);
+    getWordLength(dict, possibleWords, wordLength);
+    remainingGuesses = getNumberOfGuesses();
+    showRemainingWords = getShowRemainingWords();
+    resetWordProgress(wordProgress, wordLength);
+}
+
+// ========================================================================================================
+// Functions for onStep()
+
+/*
  * Asks the user for a guess. If the guess is a single letter, is in the alphabet and hasn't been guessed before,
  * it's saved, else asks for another letter.
  */
@@ -105,15 +131,6 @@ int stringToBits(const string& word, const string& guess){
         }
     }
     return bits;
-}
-
-/*
- * Makes wordProgress a string of '-' of length wordLength.
- */
-void resetWordProgress(string& wordProgress, const int& wordLength){
-    for (int j = 0; j < wordLength; j++){
-        wordProgress.push_back('-');
-    }
 }
 
 /*
@@ -214,16 +231,8 @@ void onStep(int& wordLength, string& wordProgress, string& guessedLetters, const
     }
 }
 
-/*
- * Sets up the game.
- */
-void setupGame(unordered_set<string>& dict, set<string>& possibleWords, int& wordLength, string& wordProgress, int& remainingGuesses, bool& showRemainingWords){
-    getDict(dict);
-    getWordLength(dict, possibleWords, wordLength);
-    remainingGuesses = getNumberOfGuesses();
-    showRemainingWords = getShowRemainingWords();
-    resetWordProgress(wordProgress, wordLength);
-}
+// ========================================================================================================
+// Other functions
 
 /*
  * Prints a congratulations message.
