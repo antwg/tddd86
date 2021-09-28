@@ -169,7 +169,7 @@ void updateWordProgress(const long biggestPartitionKey, const int wordLength, st
     for (int i = 0; i < wordLength; i++){
         int temp = biggestPartitionKey;
         temp &= 1 << i;
-        if (temp != 0){
+        if (temp){
             wordProgress[i] = guess[0];
             correctGuess = true;
         }
