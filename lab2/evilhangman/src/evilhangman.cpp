@@ -1,8 +1,17 @@
+// Benjamin Sundvall - bensu844
+// Anton Wegeström - antwe841
+//
+// An "evil" hangman game where the computer cheats by not choosing a single
+// word from the start, but instead stores all the possible words. If possible,
+// it chooses words so that the player's guesses are wrong.
+
+
 #include <iostream>
 #include <string>
 #include <unordered_set>
 #include <fstream>
 #include <map>
+#include <vector>
 #include <set>
 using namespace std;
 
@@ -19,7 +28,6 @@ const int GAMEWON = 1;
  */
 void getDict(unordered_set<string>& dict){
     ifstream file("dictionary.txt");
-    //ifstream file("di.txt");
     string line;
     while (getline(file, line)){
         dict.insert(line);
@@ -28,38 +36,33 @@ void getDict(unordered_set<string>& dict){
 }
 
 /*
- * Gets all words of a given length from a dictionary and adds them to a possibleWords.
+ * Asks for a word length. Saves length if valid, else asks again. It then adds all words of the given length to possibleWords.
  */
-void getWordsOfLength(const unsigned& length, const unordered_set<string>& dict, set<string>& possibleWords){
-    for (const auto& word: dict){
-        if (word.length() == length){
-            possibleWords.insert(word);
-        }
-    }
-}
-
-/*
- * Asks for a word length. Saves length if valid, else asks again.
- */
-void getWordLength(const unordered_set<string>& dict, set<string>& possibleWords, int& wordLength){
+void askForWordLength(const unordered_set<string>& dict, vector<string>& possibleWords, unsigned& wordLength){
     cout << "Please enter a word length: ";
     cin >> wordLength;
-    getWordsOfLength(wordLength, dict, possibleWords);
+
+    for (const auto& word : dict){
+        if (word.length() == wordLength){
+            possibleWords.push_back(word);
+        }
+    }
+
     if (possibleWords.empty()){
         cout << "No words of given length." << endl;
-        getWordLength(dict, possibleWords, wordLength);
+        askForWordLength(dict, possibleWords, wordLength);
     }
 }
 
 /*
  * Asks for how many guesses the user wants. Returns the number of guesses if it's > 1, else asks again.
  */
-int getNumberOfGuesses(){
+int askForNumberOfGuesses(){
     int numberOfGuesses;
     cout << "Enter number of guesses: ";
     cin >> numberOfGuesses;
     if (numberOfGuesses < 1) {
-        numberOfGuesses = getNumberOfGuesses();
+        numberOfGuesses = askForNumberOfGuesses();
     }
     return numberOfGuesses;
 }
@@ -67,7 +70,7 @@ int getNumberOfGuesses(){
 /*
  * Asks the user if the number of remaining words are to be shown, if "yes", return true, else false.
  */
-bool getShowRemainingWords(){
+bool askForShowRemainingWords(){
     cout << "Do you want to see the number of remaining words? ";
     string answer;
     cin >> answer;
@@ -84,8 +87,8 @@ bool getShowRemainingWords(){
 /*
  * Makes wordProgress a string of '-' of length wordLength.
  */
-void resetWordProgress(string& wordProgress, const int& wordLength){
-    for (int j = 0; j < wordLength; j++){
+void resetWordProgress(string& wordProgress, const unsigned wordLength){
+    for (unsigned i = 0; i < wordLength; i++){
         wordProgress.push_back('-');
     }
 }
@@ -93,11 +96,10 @@ void resetWordProgress(string& wordProgress, const int& wordLength){
 /*
  * Sets up the game.
  */
-void setupGame(unordered_set<string>& dict, set<string>& possibleWords, int& wordLength, string& wordProgress, int& remainingGuesses, bool& showRemainingWords){
-    getDict(dict);
-    getWordLength(dict, possibleWords, wordLength);
-    remainingGuesses = getNumberOfGuesses();
-    showRemainingWords = getShowRemainingWords();
+void setupGame(const unordered_set<string>& dict, vector<string>& possibleWords, unsigned& wordLength, string& wordProgress, int& remainingGuesses, bool& showRemainingWords){
+    askForWordLength(dict, possibleWords, wordLength);
+    remainingGuesses = askForNumberOfGuesses();
+    showRemainingWords = askForShowRemainingWords();
     resetWordProgress(wordProgress, wordLength);
 }
 
@@ -122,7 +124,7 @@ void askForGuess(string& guessedLetters, string& guess){
  * Converts word from a string to an int. If a letter in word is the same as guess, it gets the value 1, else 0.
  * For example: word = code, guess = d would return 0010 = 2.
  */
-int stringToBits(const string& word, const string& guess){
+long stringToBits(const string& word, const string& guess){
     char guessChar = guess[0];
     long bits = 0;
     for (unsigned i = 0; i < word.length(); i++){
@@ -137,36 +139,38 @@ int stringToBits(const string& word, const string& guess){
  * Gives all words a key in the form of an int. The bits in the int represent what family the word is in.
  * All words in the same family have the same key.
  */
-void partitionWords(const set<string>& possibleWords, multimap<int, string>& partitions, const string& guess){
+void partitionWords(const vector<string>& possibleWords, map<long, vector<string>>& partitions, const string& guess){
     for (string word : possibleWords){
-        partitions.emplace(stringToBits(word, guess), word);
+        long bitseq = stringToBits(word, guess);
+        if (partitions.count(bitseq) == 0) {
+            partitions[bitseq] = vector<string>();
+        }
+        partitions[bitseq].push_back(word);
     }
 }
 
 /*
  * Finds and returns the key of the biggest partition.
  */
-long findBiggestPartition(const int wordLength, const multimap<int, string>& partitions)
+void findBiggestPartition(const map<long, vector<string>>& partitions, vector<string>& possibleWords, long& biggestPartitionKey)
 {
-    long biggestPartitionKey = 0;
     unsigned biggestPartitionSize = 0;
-    for (long key = 0; key < 1 << wordLength; key++) {
-        if (partitions.count(key) > biggestPartitionSize) {
-            biggestPartitionSize = partitions.count(key);
-            biggestPartitionKey = key;
+    for(auto it = partitions.begin(); it != partitions.end(); it++){
+        if (it->second.size() > biggestPartitionSize){
+            biggestPartitionSize = it->second.size();
+            biggestPartitionKey = it->first;
+            possibleWords = it->second;
         }
     }
-
-    return biggestPartitionKey;
 }
 
 /*
  * Updates the wordProgress string based on the guess.
  */
-void updateWordProgress(const long biggestPartitionKey, const int wordLength, string& wordProgress, const string& guess, int& remainingGuesses)
+void updateWordProgress(const long biggestPartitionKey, const unsigned wordLength, string& wordProgress, const string& guess, int& remainingGuesses)
 {
     bool correctGuess = false;
-    for (int i = 0; i < wordLength; i++){
+    for (unsigned i = 0; i < wordLength; i++){
         int temp = biggestPartitionKey;
         temp &= 1 << i;
         if (temp != 0){
@@ -183,7 +187,7 @@ void updateWordProgress(const long biggestPartitionKey, const int wordLength, st
 /*
  * Prints info about the game state to the console.
  */
-void printEndOfStep(int remainingGuesses, set<string> possibleWords, bool showRemainingWords, string wordProgress, string guessedLetters)
+void printEndOfStep(const int remainingGuesses, const vector<string>& possibleWords, const bool showRemainingWords, const string& wordProgress, const string& guessedLetters)
 {
     // b. print remaining guesses + guessed letters (+ remaining words)
     cout << "You have " << remainingGuesses << " guesses left." << endl;
@@ -197,25 +201,19 @@ void printEndOfStep(int remainingGuesses, set<string> possibleWords, bool showRe
 /*
  * The main functionality of the game
  */
-void onStep(int& wordLength, string& wordProgress, string& guessedLetters, const bool& showRemainingWords, int& remainingGuesses, set<string>& possibleWords, int& gameStatus)
+void onStep(const unsigned& wordLength, string& wordProgress, string& guessedLetters, const bool& showRemainingWords, int& remainingGuesses, vector<string>& possibleWords, int& gameStatus)
 {
     cout << endl << "===========================" << endl;
     string guess;
     askForGuess(guessedLetters, guess);
 
     // Partition words based on family
-    multimap<int, string> partitions;
+    map<long, vector<string>>partitions;
     partitionWords(possibleWords, partitions, guess);
 
     // Find largest family, ...
-    long biggestPartitionKey = findBiggestPartition(wordLength, partitions);
-
-    possibleWords.clear();
-    for (auto pair : partitions){
-        if(pair.first == biggestPartitionKey){
-            possibleWords.insert(pair.second);
-        }
-    }
+    long biggestPartitionKey;
+    findBiggestPartition(partitions, possibleWords, biggestPartitionKey);
 
     //update wordProgress
     updateWordProgress(biggestPartitionKey, wordLength, wordProgress, guess, remainingGuesses);
@@ -244,8 +242,8 @@ void gameWon(){
 /*
  * Reveals the "chosen" word.
  */
-void gameLost(set<string>& possibleWords){
-    cout << "You lost! The word was: " << *possibleWords.begin() <<"Do you want to play again?" << endl;
+void gameLost(const vector<string>& possibleWords){
+    cout << "You lost! The word was: " << *possibleWords.begin() << "\nDo you want to play again?" << endl;
 }
 
 /*
@@ -267,13 +265,14 @@ void askPlayAgain(bool& playAgain){
  */
 int main() {
     bool playAgain = true;
+    unordered_set<string> dict;
+    getDict(dict);
     while (playAgain) {
-        int wordLength;
+        unsigned wordLength;
         string wordProgress = "";
         string guess;
         string guessedLetters = "";
-        unordered_set<string> dict;
-        set<string> possibleWords = {};
+        vector<string> possibleWords = {};
         int remainingGuesses;
         bool showRemainingWords;
         int gameStatus = GAMERUNNING;
