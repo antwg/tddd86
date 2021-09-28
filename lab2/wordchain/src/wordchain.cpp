@@ -1,3 +1,8 @@
+// Benjamin Sundvall - bensu844
+// Anton Wegeström - antwe841
+//
+// A program that finds the shortest chain of neighbor words between two given words.
+
 #include <fstream>
 #include <iostream>
 #include <string>
