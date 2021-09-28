@@ -9,9 +9,22 @@
 #include "Node.h"
 #include "Point.h"
 
+Node* firstNode;
+
 Tour::Tour()
 {
     // TODO: write this member
+}
+
+Tour::Tour(Point a, Point b, Point c, Point d)
+{
+    Node* node4 = new Node(d, nullptr);
+    Node* node3 = new Node(c, node4);
+    Node* node2 = new Node(b, node3);
+    Node* node1 = new Node(a, node2);
+    node4->next = node1;
+
+    firstNode = node1;
 }
 
 Tour::~Tour()
@@ -21,6 +34,7 @@ Tour::~Tour()
 
 void Tour::show()
 {
+    cout << firstNode->point.toString() << endl;
     // TODO: write this member
 }
 

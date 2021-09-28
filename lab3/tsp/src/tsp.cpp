@@ -18,6 +18,17 @@
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 
+    // define 4 points forming a square
+    Point p(100.0, 100.0);
+    Point q(500.0, 100.0);
+    Point r(500.0, 500.0);
+    Point s(100.0, 500.0);
+
+    Tour tr(p,q,r,s);
+
+    tr.show();
+
+
     string filename = "tsp10.txt";
     ifstream input;
     input.open(filename);
