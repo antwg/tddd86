@@ -27,6 +27,8 @@ int main(int argc, char *argv[]) {
     Tour tr(p,q,r,s);
 
     //tr.show();
+    double dist = tr.distance();
+    cout << "Total distance is: " << dist << endl;
 
 
     string filename = "tsp10.txt";

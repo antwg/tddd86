@@ -60,6 +60,17 @@ int Tour::size()
 
 double Tour::distance()
 {
+    double totalDistance = 0;
+
+    Node* curr = firstNodePointer;
+    totalDistance += curr->point.distanceTo(curr->next->point);
+    curr = curr->next;
+
+    while (curr != firstNodePointer){
+        totalDistance += curr->point.distanceTo(curr->next->point);
+        curr = curr->next;
+    }
+    return totalDistance;
     // TODO: write this member
 }
 
