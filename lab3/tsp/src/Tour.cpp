@@ -16,17 +16,6 @@ Tour::Tour()
     // TODO: write this member
 }
 
-Tour::Tour(Point a, Point b, Point c, Point d)
-{
-    Node* node4 = new Node(d, nullptr);
-    Node* node3 = new Node(c, node4);
-    Node* node2 = new Node(b, node3);
-    Node* node1 = new Node(a, node2);
-    node4->next = node1;
-
-    firstNodePointer = node1;
-}
-
 Tour::~Tour()
 {
     // TODO: write this member
@@ -44,8 +33,6 @@ void Tour::show()
         cout << curr->point.toString() << endl;
         curr = curr->next;
     }
-
-    // TODO: write this member
 }
 
 void Tour::draw(QGraphicsScene *scene)
@@ -96,7 +83,8 @@ double Tour::distance()
 void Tour::insertNearest(Point p)
 {
     if (firstNodePointer == nullptr){
-        firstNodePointer = new Node(p, firstNodePointer);
+        firstNodePointer = new Node(p, nullptr);
+        firstNodePointer->next = firstNodePointer;
         return;
     }
     Node* nearestNodePtr = nullptr;
@@ -126,5 +114,38 @@ void Tour::insertNearest(Point p)
 
 void Tour::insertSmallest(Point p)
 {
-    // TODO: write this member
+    if (firstNodePointer == nullptr){
+        firstNodePointer = new Node(p, nullptr);
+        firstNodePointer->next = firstNodePointer;
+        return;
+    }
+    Node* smallestNodePtr = nullptr;
+    int smallestIncrease = INT_MAX;
+
+    Node* curr = firstNodePointer;
+
+    int currIncrease = curr->point.distanceTo(p) +
+            p.distanceTo(curr->next->point) -
+            curr->point.distanceTo(curr->next->point);
+
+    if (currIncrease < smallestIncrease) {
+        smallestIncrease = currIncrease;
+        smallestNodePtr = curr;
+    }
+
+    curr = curr->next;
+    while (curr != firstNodePointer){
+        int currIncrease = curr->point.distanceTo(p) +
+                p.distanceTo(curr->next->point) -
+                curr->point.distanceTo(curr->next->point);
+
+        if (currIncrease < smallestIncrease) {
+            smallestIncrease = currIncrease;
+            smallestNodePtr = curr;
+        }
+        curr = curr->next;
+    }
+
+    Node* temp = smallestNodePtr->next;
+    smallestNodePtr->next = new Node(p, temp);
 }
