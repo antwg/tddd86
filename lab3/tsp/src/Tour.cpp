@@ -50,6 +50,16 @@ void Tour::show()
 
 void Tour::draw(QGraphicsScene *scene)
 {
+    if (firstNodePointer == nullptr){
+        return;
+    }
+    Node* curr = firstNodePointer;
+    curr->point.drawTo(curr->next->point, scene);
+    curr = curr->next;
+    while (curr != firstNodePointer){
+        curr->point.drawTo(curr->next->point, scene);
+        curr = curr->next;
+    }
     // TODO: write this member
 }
 
