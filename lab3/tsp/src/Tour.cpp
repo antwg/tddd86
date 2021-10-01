@@ -55,7 +55,18 @@ void Tour::draw(QGraphicsScene *scene)
 
 int Tour::size()
 {
-    // TODO: write this member
+    int size = 0;
+    if (firstNodePointer == nullptr){
+        return size;
+    }
+    Node* curr = firstNodePointer;
+    size++;
+    curr = curr->next;
+    while (curr != firstNodePointer){
+        size++;
+        curr = curr->next;
+    }
+    return size;
 }
 
 double Tour::distance()
@@ -76,7 +87,33 @@ double Tour::distance()
 
 void Tour::insertNearest(Point p)
 {
-    // TODO: write this member
+    if (firstNodePointer == nullptr){
+        firstNodePointer = new Node(p, firstNodePointer);
+        return;
+    }
+    Node* nearestNodePtr = nullptr;
+    int shortestDist = INT_MAX;
+
+    Node* curr = firstNodePointer;
+
+    int currDist = p.distanceTo(curr->point);
+    if (currDist < shortestDist) {
+        shortestDist = currDist;
+        nearestNodePtr = curr;
+    }
+
+    curr = curr->next;
+    while (curr != firstNodePointer){
+        int currDist = p.distanceTo(curr->point);
+        if (currDist < shortestDist) {
+            shortestDist = currDist;
+            nearestNodePtr = curr;
+        }
+        curr = curr->next;
+    }
+
+    Node* temp = nearestNodePtr->next;
+    nearestNodePtr->next = new Node(p, temp);
 }
 
 void Tour::insertSmallest(Point p)
