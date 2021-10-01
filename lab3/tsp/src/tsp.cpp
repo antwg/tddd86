@@ -26,7 +26,7 @@ int main(int argc, char *argv[]) {
 
     Tour tr(p,q,r,s);
 
-    tr.show();
+    //tr.show();
 
 
     string filename = "tsp10.txt";

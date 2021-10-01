@@ -9,7 +9,7 @@
 #include "Node.h"
 #include "Point.h"
 
-Node* firstNode;
+Node* firstNodePointer = nullptr;
 
 Tour::Tour()
 {
@@ -24,7 +24,7 @@ Tour::Tour(Point a, Point b, Point c, Point d)
     Node* node1 = new Node(a, node2);
     node4->next = node1;
 
-    firstNode = node1;
+    firstNodePointer = node1;
 }
 
 Tour::~Tour()
@@ -34,7 +34,17 @@ Tour::~Tour()
 
 void Tour::show()
 {
-    cout << firstNode->point.toString() << endl;
+    if (firstNodePointer == nullptr){
+        return;
+    }
+    Node* curr = firstNodePointer;
+    cout << curr->point.toString() << endl;
+    curr = curr->next;
+    while (curr != firstNodePointer){
+        cout << curr->point.toString() << endl;
+        curr = curr->next;
+    }
+
     // TODO: write this member
 }
 
