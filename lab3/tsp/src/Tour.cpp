@@ -122,7 +122,7 @@ void Tour::insertNearest(Point p)
     nearestNodePtr->next = new Node(p, temp);
 }
 
-int getCurrentIncrease(Node* curr, const Point& p){
+int getCurrentIncrease(Node* curr, const Point& p){ // New dist(CP+PN) - old dist(CN), c=current, n=next, p=new point
     return curr->point.distanceTo(p) +
             p.distanceTo(curr->next->point) -
             curr->point.distanceTo(curr->next->point);
