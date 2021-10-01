@@ -49,8 +49,6 @@ int main(int argc, char *argv[]) {
     view->setSceneRect(0, 0, width, height);
     view->show();
 
-    tr.draw(scene);
-
     // run insertion heuristic
     Tour tour;
     double x;

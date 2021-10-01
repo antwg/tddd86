@@ -33,13 +33,17 @@ Tour::~Tour()
 }
 
 void Tour::show()
-{
+{   // If there are no nodes, abort
     if (firstNodePointer == nullptr){
         return;
     }
     Node* curr = firstNodePointer;
+
+    // Special case for only first node
     cout << curr->point.toString() << endl;
     curr = curr->next;
+
+    // Loop until first node found. Print every loop
     while (curr != firstNodePointer){
         cout << curr->point.toString() << endl;
         curr = curr->next;
@@ -49,13 +53,17 @@ void Tour::show()
 }
 
 void Tour::draw(QGraphicsScene *scene)
-{
+{   // If there are no nodes, abort
     if (firstNodePointer == nullptr){
         return;
     }
     Node* curr = firstNodePointer;
+
+    // Special case for first node
     curr->point.drawTo(curr->next->point, scene);
     curr = curr->next;
+
+    // Loop over all nodes until first node is found. Draw lines every loop.
     while (curr != firstNodePointer){
         curr->point.drawTo(curr->next->point, scene);
         curr = curr->next;
