@@ -18,21 +18,8 @@
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 
-    // define 4 points forming a square
-    /*
-    Point p(100.0, 100.0);
-    Point q(500.0, 100.0);
-    Point r(500.0, 500.0);
-    Point s(100.0, 500.0);
-
-    Tour tr(p,q,r,s);
-    */
-    //tr.show();
-    //double dist = tr.distance();
-    //cout << "Total distance is: " << dist << endl;
-
-
-    string filename = "tsp10.txt";
+    //string filename = "tsp10.txt";
+    string filename = "mona-20k.txt";
     ifstream input;
     input.open(filename);
 
@@ -56,12 +43,13 @@ int main(int argc, char *argv[]) {
     double y;
     while (input >> x >> y) {
         Point p(x, y);
-        tour.insertNearest(p);
+        //tour.insertNearest(p);
+        tour.insertSmallest(p);
         //uncomment the 4 lines below to animate
-        tour.draw(scene);
-        std::chrono::milliseconds dura(50);
-        std::this_thread::sleep_for(dura);
-        a.processEvents();
+        //tour.draw(scene);
+        //std::chrono::milliseconds dura(50);
+        //std::this_thread::sleep_for(dura);
+        //a.processEvents();
     }
     input.close();
 
