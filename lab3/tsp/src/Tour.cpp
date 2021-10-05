@@ -21,7 +21,19 @@ Tour::Tour()
 
 Tour::~Tour()
 {
-    // TODO: write this member
+    if (firstNodePointer == nullptr){
+        return;
+    }
+
+    Node* currNodePtr = firstNodePointer;
+    Node* nextNodePtr = firstNodePointer->next;
+
+    while (nextNodePtr != firstNodePointer){
+        delete &currNodePtr;
+        currNodePtr = nextNodePtr;
+        nextNodePtr = currNodePtr->next;
+    }
+    delete &currNodePtr;
 }
 
 void Tour::show()
