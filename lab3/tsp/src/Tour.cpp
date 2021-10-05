@@ -36,7 +36,7 @@ Tour::~Tour()
     delete &currNodePtr;
 }
 
-void Tour::show()
+void Tour::show() const
 {   // If there are no nodes, return
     if (firstNodePointer == nullptr){
         return;
@@ -53,7 +53,7 @@ void Tour::show()
     }
 }
 
-void Tour::draw(QGraphicsScene *scene)
+void Tour::draw(QGraphicsScene *scene) const
 {   // If there are no nodes, return
     if (firstNodePointer == nullptr){
         return;
@@ -70,7 +70,7 @@ void Tour::draw(QGraphicsScene *scene)
     }
 }
 
-int Tour::size()
+int Tour::size() const
 {
     int size = 0;
 
@@ -91,7 +91,7 @@ int Tour::size()
     return size;
 }
 
-double Tour::distance()
+double Tour::distance() const
 {
     double totalDistance = 0;
     Node* curr = firstNodePointer;
