@@ -1,8 +1,11 @@
-// This is the .cpp file you will edit and turn in.
-// We have provided a skeleton for you,
-// but you must finish it as described in the spec.
-// Also remove these comments here and add your own.
-// TODO: remove this comment header
+/*
+ * TDDD86 TSP
+ * Benjamin Sundvall - bensu844
+ * Anton Wegeström - antwe841
+ *
+ * This file contains the implementation of the Tour structure.
+ * See Tour.h for comments about each member.
+ */
 
 #include <iostream>
 #include "Tour.h"
