@@ -23,22 +23,22 @@ public:
     /*
      * Prints the points that makes up the tour.
      */
-    void show();
+    void show() const;
 
     /*
      * Draws the tour onto the given QGraphicsScene.
      */
-    void draw(QGraphicsScene* scene);
+    void draw(QGraphicsScene* scene) const;
 
     /*
      * Returns the number of nodes in the tour.
      */
-    int size();
+    int size() const;
 
     /*
      * Returns the total distance of the tour.
      */
-    double distance();
+    double distance() const;
 
     /*
      * Inserts a new node in the tour after the nearest already existing point.
