@@ -12,8 +12,6 @@
 #include "Node.h"
 #include "Point.h"
 
-Node* firstNodePointer = nullptr;
-
 Tour::Tour()
 {
     // TODO: write this member
@@ -29,11 +27,11 @@ Tour::~Tour()
     Node* nextNodePtr = firstNodePointer->next;
 
     while (nextNodePtr != firstNodePointer){
-        delete &currNodePtr;
+        delete currNodePtr;
         currNodePtr = nextNodePtr;
         nextNodePtr = currNodePtr->next;
     }
-    delete &currNodePtr;
+    delete currNodePtr;
 }
 
 void Tour::show() const
@@ -117,8 +115,8 @@ void Tour::insertNearest(Point p)
 
     // Start at first node
     Node* curr = firstNodePointer;
-    int currDist = p.distanceTo(curr->point);
-    int shortestDist = currDist;
+    double currDist = p.distanceTo(curr->point);
+    double shortestDist = currDist;
     Node* nearestNodePtr = curr;
     curr = curr->next;
 
@@ -153,8 +151,8 @@ void Tour::insertSmallest(Point p)
 
     // Start at first node
     Node* curr = firstNodePointer;
-    int currIncrease = getCurrentIncrease(curr, p);
-    int smallestIncrease = currIncrease;
+    double currIncrease = getCurrentIncrease(curr, p);
+    double smallestIncrease = currIncrease;
     Node* smallestNodePtr = curr;
 
     curr = curr->next;

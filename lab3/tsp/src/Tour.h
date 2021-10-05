@@ -17,7 +17,6 @@ class Tour {
 public:
 
     Tour();
-    Tour(Point a, Point b, Point c, Point d);
     ~Tour();
 
     /*
@@ -51,6 +50,11 @@ public:
     void insertSmallest(Point p);
 
 private:
+    /*
+     * A pointer to the first node in the list
+     */
+    Node* firstNodePointer = nullptr;
+
     /*
      * Returns the increase in distance that would be caused by inserting a new node after the given node.
      */
