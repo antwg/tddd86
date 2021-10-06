@@ -213,7 +213,13 @@ void onStep(const unsigned& wordLength, string& wordProgress, string& guessedLet
 
     // Find largest family, ...
     long biggestPartitionKey;
-    findBiggestPartition(partitions, possibleWords, biggestPartitionKey);
+    if (remainingGuesses == 1 && partitions.count(0) != 0) {
+        biggestPartitionKey = 0;
+        possibleWords = partitions[0];
+    } else {
+        findBiggestPartition(partitions, possibleWords, biggestPartitionKey);
+    }
+
 
     //update wordProgress
     updateWordProgress(biggestPartitionKey, wordLength, wordProgress, guess, remainingGuesses);
