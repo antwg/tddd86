@@ -10,14 +10,19 @@
 #include <QGraphicsScene>
 
 class Robot : public Unit {
+
+protected:
     bool crashed = false;
 
 public:
+    Robot();
+
+    Robot(const Point& p);
 
     /*
      * did not crash yet
      */
-    bool canMove() const;
+    virtual bool canMove() const;
 
     /*
      * Crashes and remembers it
@@ -27,7 +32,7 @@ public:
     /*
      * Return whether the robot crashed
      */
-    bool justCrashed() const;
+    virtual bool justCrashed() const;
 
 
     /*
