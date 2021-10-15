@@ -27,7 +27,7 @@ const int GAMEWON = 1;
  * Opens the dictionary.txt file and loads all words into an unordered set.
  */
 void getDict(unordered_set<string>& dict){
-    ifstream file("dictionary.txt");
+    ifstream file("di.txt");
     string line;
     while (getline(file, line)){
         dict.insert(line);
