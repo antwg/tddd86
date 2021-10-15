@@ -14,6 +14,8 @@ class Junk : public Robot {
 public:
     Junk(const Point& p);
 
+    Junk* clone() const;
+
     /*
     * Draws this junk onto the given QGraphicsScene.
     */

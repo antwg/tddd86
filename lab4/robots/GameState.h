@@ -25,7 +25,11 @@ public:
      */
     GameState(int numberOfRobots);
 
-    ~GameState() = default;
+    GameState(const GameState& gameState);
+
+    ~GameState();
+
+    GameState& operator=(const GameState& gameState);
 
 
     /*
@@ -80,7 +84,6 @@ public:
 
 private:
     std::vector<Robot*> robots;  // the robots
-    //std::vector<Junk> junks;    // robots that have turned to junk
     Hero hero;                  // the hero
 
     // private helpers

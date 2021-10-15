@@ -19,6 +19,8 @@ public:
 
     Robot(const Point& p);
 
+    Robot* clone() const;
+
     /*
      * did not crash yet
      */

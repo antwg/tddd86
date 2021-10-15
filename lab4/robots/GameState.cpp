@@ -21,6 +21,30 @@ GameState::GameState(int numberOfRobots) {
     teleportHero();
 }
 
+GameState::GameState(const GameState& gameState){
+    for (Robot* robot : gameState.robots){
+        robots.push_back(robot->clone());
+    }
+
+    hero = gameState.hero;
+}
+
+GameState::~GameState(){
+    for(Robot *robot : robots){
+        delete robot;
+    }
+}
+
+GameState& GameState::operator=(const GameState& gameState){
+    if (this == &gameState)
+        return *this;
+
+    robots = gameState.robots;
+    hero = gameState.hero;
+
+    return *this;
+}
+
 void GameState::draw(QGraphicsScene *scene) const {
     scene->clear();
     hero.draw(scene);
@@ -64,8 +88,9 @@ void GameState::junkTheCrashed(){
             //junks.push_back(Junk(robots[i].asPoint()));
             //robots[i] = robots[robots.size()-1];
             //robots.pop_back();
-
-            robots[i] = new Junk(robots[i]->asPoint());
+            Point crashPoint = robots[i]->asPoint();
+            delete robots[i];
+            robots[i] = new Junk(crashPoint);
         }
     }
 }
