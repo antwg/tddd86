@@ -33,13 +33,23 @@ GameState::~GameState(){
     for(Robot *robot : robots){
         delete robot;
     }
+    robots.clear();
 }
 
 GameState& GameState::operator=(const GameState& gameState){
     if (this == &gameState)
         return *this;
 
-    robots = gameState.robots;
+    //robots = gameState.robots;
+    for (Robot* robot : this->robots){
+        delete robot;
+    }
+    robots.clear();
+
+    for (Robot* robot : gameState.robots){
+        robots.push_back(robot->clone());
+    }
+
     hero = gameState.hero;
 
     return *this;
