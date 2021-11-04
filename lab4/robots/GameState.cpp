@@ -11,14 +11,14 @@
 
 
 GameState::GameState(int numberOfRobots) {
-   for (int i = 0; i < numberOfRobots; i++) {
+   for (int i = 0; i < numberOfRobots; i++) {   // For all robots
         Robot* robot = new Robot();
-        while(!isEmpty(*robot)){
+        while(!isEmpty(*robot)){    // Find possible position
             robot->teleport();
         }
-        robots.push_back(robot);
+        robots.push_back(robot);    // Save robot in robots vector
     }
-    teleportHero();
+    teleportHero();     // Place hero in valid position
 }
 
 GameState::GameState(const GameState& gameState){
@@ -37,14 +37,16 @@ GameState::~GameState(){
 }
 
 GameState& GameState::operator=(const GameState& gameState){
-    if (this == &gameState)
+    if (this == &gameState) // Allows chaining
         return *this;
 
+    // Delete all robots
     for (Robot* robot : this->robots){
         delete robot;
     }
-    robots.clear();
+    robots.clear();     // Clear pointers
 
+    // Clone robots
     for (Robot* robot : gameState.robots){
         robots.push_back(robot->clone());
     }
@@ -75,7 +77,8 @@ void GameState::moveRobots() {
 void GameState::updateCrashes() {
     for(unsigned i=0; i < robots.size(); ++i){
         for(unsigned o=i+1; o < robots.size(); ++o){
-            if(robots[i]->at(*robots[o])){
+            // For all robots, check all other robots
+            if(robots[i]->at(*robots[o])){  // If at same pos, crash
                 robots[i]->doCrash();
                 robots[o]->doCrash();
             }
@@ -92,11 +95,9 @@ int GameState::countJustCrashed()const{
 }
 
 void GameState::junkTheCrashed(){
-    for(unsigned i=0; i < robots.size(); ++i){
-        if (robots[i]->justCrashed()) {
-            //junks.push_back(Junk(robots[i].asPoint()));
-            //robots[i] = robots[robots.size()-1];
-            //robots.pop_back();
+    for(unsigned i=0; i < robots.size(); ++i){  // For all robots
+        if (robots[i]->justCrashed()) {         // If just crashed
+            // Replace robot with junk
             Point crashPoint = robots[i]->asPoint();
             delete robots[i];
             robots[i] = new Junk(crashPoint);
