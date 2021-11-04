@@ -19,15 +19,15 @@ public:
     /*
     * Draws this junk onto the given QGraphicsScene.
     */
-    void draw(QGraphicsScene* scene) const;
+    void draw(QGraphicsScene* scene) const override;
 
-    void moveTowards(const Unit&);
+    void moveTowards(const Unit&) override;
 
-    void doCrash();
+    void doCrash() override;
 
-    bool justCrashed() const;
+    bool justCrashed() const override;
 
-    bool canMove() const;
+    bool canMove() const override;
 };
 
 #endif // JUNK_H
