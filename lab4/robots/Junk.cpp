@@ -29,10 +29,12 @@ void Junk::doCrash(){
     // Has already crashed so it can't crash again
 }
 
+
 bool Junk::justCrashed() const {
     return false;
 }
 
 bool Junk::canMove() const{
         return false;
-    }
+
+}
