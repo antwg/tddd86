@@ -29,7 +29,7 @@ public:
     /*
      * Crashes and remembers it
      */
-    void doCrash();
+    virtual void doCrash();
 
     /*
      * Return whether the robot crashed

@@ -40,7 +40,6 @@ GameState& GameState::operator=(const GameState& gameState){
     if (this == &gameState)
         return *this;
 
-    //robots = gameState.robots;
     for (Robot* robot : this->robots){
         delete robot;
     }

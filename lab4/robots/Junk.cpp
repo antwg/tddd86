@@ -23,9 +23,7 @@ void Junk::draw(QGraphicsScene *scene) const {
 
 void Junk::moveTowards(const Unit&){}
 
-void Junk::doCrash(){
-    //crashed = true;
-}
+void Junk::doCrash(){}
 
 bool Junk::justCrashed() const {
     return false;
@@ -33,4 +31,5 @@ bool Junk::justCrashed() const {
 
 bool Junk::canMove() const{
         return false;
-    }
+
+}
