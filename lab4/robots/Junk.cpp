@@ -21,10 +21,12 @@ void Junk::draw(QGraphicsScene *scene) const {
                              JUNK_RADIUS, JUNK_RADIUS), QPen(), QBrush(JUNK_COLOR));
 }
 
-void Junk::moveTowards(const Unit&){}
+void Junk::moveTowards(const Unit&){
+    // Is not able to move
+}
 
 void Junk::doCrash(){
-    //crashed = true;
+    // Has already crashed so it can't crash again
 }
 
 bool Junk::justCrashed() const {
