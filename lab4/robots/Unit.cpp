@@ -55,7 +55,7 @@ double Unit::distanceTo(const Unit& u) const {
 }
 
 void Unit::draw(QGraphicsScene* scene) const {
-
+    // A unit cannot be drawn, only its subclasses can
 }
 
 /*
