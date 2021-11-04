@@ -1,6 +1,11 @@
 /**
+ * bensu844
+ * antwe841
+ *
  * Copyright (C) David Wolfe, 1999.  All rights reserved.
  * Ported to Qt and adapted for TDDD86, 2015.
+ *
+ * The hostile robots that chase the hero.
  */
 
 #include "Robot.h"

@@ -1,7 +1,11 @@
 /**
+ * bensu844
+ * antwe841
+ *
  * Copyright (C) David Wolfe, 1999.  All rights reserved.
  * Ported to Qt and adapted for TDDD86, 2015.
- * Updated for TDDD86, 2021.
+ *
+ * Maintains the game state:  Location of all robots, junk and hero.
  */
 
 #include "GameState.h"

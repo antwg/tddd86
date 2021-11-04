@@ -1,6 +1,12 @@
 /**
+ * bensu844
+ * antwe841
+ *
  * Copyright (C) David Wolfe, 1999.  All rights reserved.
  * Ported to Qt and adapted for TDDD86, 2015.
+ * Updated for TDDD86, 2021.
+ *
+ * Keeps track of the position and state of a unit. Superclass to Junk, Robot and Hero.
  */
 
 #include "Unit.h"

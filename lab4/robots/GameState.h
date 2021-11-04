@@ -1,4 +1,7 @@
 /**
+ * bensu844
+ * antwe841
+ *
  * Copyright (C) David Wolfe, 1999.  All rights reserved.
  * Ported to Qt and adapted for TDDD86, 2015.
  *
@@ -21,16 +24,25 @@ public:
 
     /*
      * Create a GameState with randomly placed, but not
-     * overlapping hero and numberOfRobots robots
+     * overlapping hero and numberOfRobots robots.
      */
     GameState(int numberOfRobots);
 
+    /*
+     * Create a copy of the given GameState.
+     */
     GameState(const GameState& gameState);
 
+    /*
+     * Destructor for GameState
+     */
     ~GameState();
 
+    /*
+     * Set the list of robots and hero position of this GameState
+     * to be the same as the given GameState.
+     */
     GameState& operator=(const GameState& gameState);
-
 
     /*
      * Clear and redraw entire playing field

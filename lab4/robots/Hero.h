@@ -1,6 +1,11 @@
 /**
+ * bensu844
+ * antwe841
+ *
  * Copyright (C) David Wolfe, 1999.  All rights reserved.
  * Ported to Qt and adapted for TDDD86, 2015.
+ *
+ * A subclass to Unit for the hero.
  */
 
 #ifndef HERO_H
