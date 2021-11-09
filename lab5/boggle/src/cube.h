@@ -10,8 +10,6 @@ class Cube
 public:
     Cube(const string& letters);
 
-    Cube(const char letter);
-
     /*
      * Sets topLetter to a random letter from the letters string
      */
@@ -22,8 +20,14 @@ public:
      */
     char getTopLetter();
 
+    /*
+     * Returns whether the cube has been visited
+     */
     bool isVisited();
 
+    /*
+     * Sets whether the cube has been visited
+     */
     void setVisited(const bool choice);
 
 private:
