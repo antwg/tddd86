@@ -1,18 +1,24 @@
 #include "cube.h"
 #include "random.h"
 
+Cube::Cube(){}
+
 Cube::Cube(const string& letters){
     this->letters = letters;
-    this->topLetter = letters[randomInteger(0, letters.size())];
     this->visited = false;
+    shake();
 }
 
 void Cube::shake(){
-    this->topLetter = letters[randomInteger(0, letters.size())];
+    this->topLetter = letters[randomInteger(0, letters.size() - 1)];
 }
 
-char Cube::getTopLetter(){
+string Cube::getTopLetter(){
     return topLetter;
+}
+
+void Cube::forceTopLetter(char letter){
+    this->topLetter = string(1, letter);
 }
 
 bool Cube::isVisited(){

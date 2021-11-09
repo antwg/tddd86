@@ -17,6 +17,13 @@
 void playOneGame(Boggle& boggle) {
     // TODO: implement this function (and add any other functions you like to help you)
 
+    if (!yesOrNo("Do you want to generate a random board? ")){
+        boggle.forceBoard("abcdefghijklmnop");
+    } else {
+        boggle.randomizeBoard();
+    }
+
+    cout << boggle.boardToString() << endl;
 }
 
 /*

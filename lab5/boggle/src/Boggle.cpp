@@ -9,6 +9,8 @@
 #include "random.h"
 #include "shuffle.h"
 #include "strlib.h"
+#include "grid.h"
+#include "cube.h"
 
 static const int NUM_CUBES = 16;   // the number of cubes in the game
 static const int CUBE_SIDES = 6;   // the number of sides on each cube
@@ -20,3 +22,46 @@ static string CUBES[NUM_CUBES] = {        // the letters on all 6 sides of every
 };
 
 // TODO: implement the members you declared in Boggle.h
+
+Boggle::Boggle() {
+    board = Grid<Cube>(4,4);
+
+    int i = 0;
+    for(int row = 0; row < board.nRows; row++){
+        for(int col = 0; col < board.nCols; col++){
+            board[row][col] = Cube(CUBES[i]);
+            i++;
+        }
+    }
+}
+
+void Boggle::randomizeBoard(){
+    for(int row = 0; row < board.nRows; row++){
+        for(int col = 0; col < board.nCols; col++){
+            board[row][col].shake();
+        }
+    }
+    shuffle(board);
+}
+
+void Boggle::forceBoard(const string& boardString){
+    int i = 0;
+    for(int row = 0; row < board.nRows; row++){
+        for(int col = 0; col < board.nCols; col++){
+            board[row][col].forceTopLetter(boardString[i]);
+            i++;
+        }
+    }
+}
+
+string Boggle::boardToString(){
+    string output = "";
+
+    for(int row = 0; row < board.nRows; row++){
+        for(int col = 0; col < board.nCols; col++){
+            output.append(board[row][col].getTopLetter());
+        }
+        output.append("\n");
+    }
+    return output;
+}

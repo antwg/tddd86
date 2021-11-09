@@ -8,6 +8,8 @@ using namespace std;
 class Cube
 {
 public:
+    Cube();
+
     Cube(const string& letters);
 
     /*
@@ -18,7 +20,9 @@ public:
     /*
      * Gets the top letter
      */
-    char getTopLetter();
+    string getTopLetter();
+
+    void forceTopLetter(char letter);
 
     bool isVisited();
 
@@ -26,7 +30,7 @@ public:
 
 private:
     string letters;
-    char topLetter;
+    string topLetter;
     bool visited;
 
 };

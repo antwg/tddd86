@@ -9,6 +9,8 @@
 
 #include <iostream>
 #include <string>
+#include "grid.h"
+#include "cube.h"
 // TODO: include any other header files you need
 
 using namespace std;
@@ -19,11 +21,27 @@ public:
     const int MIN_WORD_LENGTH = 4;
     const int BOARD_SIZE = 4;
 
+    Boggle();
+
     // TODO: decide the public member functions and declare them
+    /*
+     *
+     */
+    void randomizeBoard();
+
+    /*
+     * Forces the board configuration. Assumes that the given string is valid.
+     */
+    void forceBoard(const string& boardString);
+
+    /*
+     * Returns a string representing the board state.
+     */
+    string boardToString();
 
 private:
     // TODO: decide the private member variables/functions and declare them
-
+    Grid<Cube> board;
 };
 
 #endif
