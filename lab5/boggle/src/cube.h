@@ -24,8 +24,14 @@ public:
 
     void forceTopLetter(char letter);
 
+    /*
+     * Returns whether the cube has been visited
+     */
     bool isVisited();
 
+    /*
+     * Sets whether the cube has been visited
+     */
     void setVisited(const bool choice);
 
 private:
