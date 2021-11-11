@@ -94,6 +94,15 @@ void playOneGame(Boggle& boggle) {
     cout << boggle.boardToString() << endl;
 }
 
+bool onlyLetters(string str){
+    for (unsigned int i = 0; i < str.size(); i++){
+        if (!isalpha(str[i])){
+            return false;
+        }
+    }
+    return true;
+}
+
 /*
  * Erases all currently visible text from the output console.
  */
