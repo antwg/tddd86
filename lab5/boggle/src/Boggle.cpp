@@ -39,6 +39,10 @@ void Boggle::loadDict(){
     this->dict = Lexicon(DICTIONARY_FILE);
 }
 
+bool Boggle::isInDict(string word){
+    return dict.contains(word);
+}
+
 void Boggle::randomizeBoard(){
     for(int row = 0; row < board.nRows; row++){
         for(int col = 0; col < board.nCols; col++){
