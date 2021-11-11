@@ -65,3 +65,7 @@ string Boggle::boardToString(){
     }
     return output;
 }
+
+void Boggle::doComputerTurn(){
+    cout << "computer turn" << endl;
+}

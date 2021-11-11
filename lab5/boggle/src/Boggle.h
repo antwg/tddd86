@@ -39,6 +39,8 @@ public:
      */
     string boardToString();
 
+    void doComputerTurn();
+
 private:
     // TODO: decide the private member variables/functions and declare them
     Grid<Cube> board;
