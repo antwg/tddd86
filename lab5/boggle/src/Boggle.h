@@ -11,6 +11,7 @@
 #include <string>
 #include "grid.h"
 #include "cube.h"
+#include "lexicon.h"
 // TODO: include any other header files you need
 
 using namespace std;
@@ -20,8 +21,19 @@ public:
     const string DICTIONARY_FILE = "EnglishWords.dat";
     const int MIN_WORD_LENGTH = 4;
     const int BOARD_SIZE = 4;
+    Lexicon dict;
 
     Boggle();
+
+    /*
+     *
+     */
+    void loadDict();
+
+    /*
+     *
+     */
+    bool isInDict(string word);
 
     // TODO: decide the public member functions and declare them
     /*
