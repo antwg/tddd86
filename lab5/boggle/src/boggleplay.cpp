@@ -11,14 +11,37 @@
 #include "strlib.h"
 // TODO: include any other header files you need
 
+bool onlyLetters(const string& str){
+    for (unsigned int i = 0; i < str.size(); i++){
+        if(!isalpha(str[i])){
+            return false;
+        }
+    }
+    return true;
+}
+
+string promptBoardString(){
+    cout << "Enter 16 letters: " << endl;
+    while (true) {
+        string answer;
+        getline(cin, answer);
+        answer = trim(toLowerCase(answer));
+        if (answer.size() == 16 && onlyLetters(answer)) {
+            return answer;
+        } else {
+            cout << "Invalid input. Please enter 16 letters (A-Z. a-z): " << endl;
+        }
+    }
+}
+
 /*
  * Plays one game of Boggle using the given boggle game state object.
  */
 void playOneGame(Boggle& boggle) {
     // TODO: implement this function (and add any other functions you like to help you)
 
-    if (!yesOrNo("Do you want to generate a random board? ")){
-        boggle.forceBoard("abcdefghijklmnop");
+    if (!yesOrNo("Do you want to generate a random board? (Y/N) ")){
+        boggle.forceBoard(promptBoardString());
     } else {
         boggle.randomizeBoard();
     }
