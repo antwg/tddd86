@@ -35,6 +35,10 @@ Boggle::Boggle() {
     }
 }
 
+void Boggle::loadDict(){
+    this->dict = Lexicon(DICTIONARY_FILE);
+}
+
 void Boggle::randomizeBoard(){
     for(int row = 0; row < board.nRows; row++){
         for(int col = 0; col < board.nCols; col++){
