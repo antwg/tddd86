@@ -66,6 +66,19 @@ void playOneGame(Boggle& boggle) {
         if (input.empty()){
             cout << "It's my turn!" << endl;
             boggle.doComputerTurn();
+            cout << "My words (" << boggle.getComputerWords().size() << "): " << endl;
+            for (string word : boggle.getComputerWords()){
+                cout << "\"" << word << "\"" << endl;
+            }
+
+            // Print score
+            cout << "My score: " << boggle.getComputerScore() << "\"" << endl;
+
+            if(boggle.getComputerScore() > score){
+                cout << "Ha ha ha, I destroyed you. Better luck next time, puny human!" << endl;
+            } else {
+                cout << "Congratulations on clearly cheating. You win..." << endl;
+            }
             return;
         }
 
@@ -92,12 +105,7 @@ void playOneGame(Boggle& boggle) {
 
             // Print score
             cout << "Your score: " << score << "\"" << endl;
-
-
         }
-
-
-
     }
 
     //For debugging

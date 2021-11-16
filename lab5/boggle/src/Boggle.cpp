@@ -106,5 +106,15 @@ string Boggle::boardToString(){
 }
 
 void Boggle::doComputerTurn(){
+
+
     cout << "computer turn" << endl;
+}
+
+int Boggle::getComputerScore(){
+    return computerScore;
+}
+
+set<string> Boggle::getComputerWords(){
+    return computerWords;
 }

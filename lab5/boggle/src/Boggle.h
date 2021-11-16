@@ -9,6 +9,7 @@
 
 #include <iostream>
 #include <string>
+#include <set>
 #include "grid.h"
 #include "cube.h"
 #include "lexicon.h"
@@ -57,9 +58,15 @@ public:
 
     void doComputerTurn();
 
+    int getComputerScore();
+
+    set<string> getComputerWords();
+
 private:
     // TODO: decide the private member variables/functions and declare them
     Grid<Cube> board;
+    int computerScore;
+    set<string> computerWords;
 };
 
 #endif
