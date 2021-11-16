@@ -40,6 +40,7 @@ string promptBoardString(){
  */
 void playOneGame(Boggle& boggle) {
     // TODO: implement this function (and add any other functions you like to help you)
+    boggle.loadDict();
 
     if (!yesOrNo("Do you want to generate a random board? (Y/N) ")){
         boggle.forceBoard(promptBoardString());
@@ -50,8 +51,14 @@ void playOneGame(Boggle& boggle) {
     string input;
     set<string> playerWords;
     int score = 0;
+
+    cout << "It's your turn!" << endl;
     while (true){
-        cout << "\nType a word (or press Enter to end your turn): " << endl;
+
+        cout << "\n==================================\n" << endl;
+        cout << boggle.boardToString() << endl;;
+
+        cout << "Type a word (or press Enter to end your turn): " << endl;
         getline(cin, input);
 
         clearConsole();
@@ -62,12 +69,16 @@ void playOneGame(Boggle& boggle) {
             return;
         }
 
+        for (auto & c: input) c = toupper(c);
+
         if (input.size() < 4) {
             cout << "Word too short (minimum 4 letters)!" << endl;
         } else if (playerWords.count(input) > 0) {
             cout << "You have already guessed this word!" << endl;
-        //} else if (!boggle.isInDict(input)){
-        //    cout << "Word is not in the dictionary!" << endl;
+        } else if (!boggle.isInDict(input)){
+            cout << "Word \"" << input <<"\" is not in the dictionary!" << endl;
+        } else if (!boggle.isInBoard(input)) {
+            cout << "Word \"" << input <<"\" does not exist in the board!" << endl;
         } else {
             playerWords.insert(input);
             score += input.size() - 3;
@@ -78,10 +89,9 @@ void playOneGame(Boggle& boggle) {
             for (string word : playerWords){
                 cout << "\"" << word << "\"" << endl;
             }
-            //cout << endl;
 
             // Print score
-            cout << "Your score: " << score << endl;
+            cout << "Your score: " << score << "\"" << endl;
 
 
         }

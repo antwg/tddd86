@@ -33,7 +33,11 @@ public:
     /*
      *
      */
-    bool isInDict(string word);
+    bool isInDict(const string& word);
+
+    bool search(const int x, const int y, const string& word);
+
+    bool isInBoard(const string& word);
 
     // TODO: decide the public member functions and declare them
     /*

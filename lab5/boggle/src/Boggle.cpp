@@ -22,7 +22,6 @@ static string CUBES[NUM_CUBES] = {        // the letters on all 6 sides of every
 };
 
 // TODO: implement the members you declared in Boggle.h
-
 Boggle::Boggle() {
     board = Grid<Cube>(4,4);
 
@@ -39,8 +38,40 @@ void Boggle::loadDict(){
     this->dict = Lexicon(DICTIONARY_FILE);
 }
 
-bool Boggle::isInDict(string word){
+bool Boggle::isInDict(const string& word){
     return dict.contains(word);
+}
+
+bool Boggle::search(const int x, const int y, const string& word){
+    if(word == ""){
+        return true;    // "" can always be found
+    }
+
+    for(int dy = -1; dy < 2; dy++){
+        for(int dx = -1; dx < 2; dx++){
+            if(board.inBounds(y + dy, x + dx) &&                                // The letter is in bounds,
+                    !board.get(y + dy, x + dx).isVisited() &&                   // is not visited
+                    board.get(y + dy, x + dx).getTopLetter()[0] == word[0]){    // and mathes the sought letter
+                board.get(y + dy, x + dx).setVisited(true);
+                bool found = search(x + dx, y + dy, word.substr(1));    // Search for the rest of the word
+                board.get(y + dy, x + dx).setVisited(false);
+                return found;
+            }
+        }
+    }
+    return false;   // Didn't find the next letter adjacent to (x, y)
+}
+
+
+bool Boggle::isInBoard(const string& word){
+    for(int y = 0; y < board.nRows; y++){
+        for(int x = 0; x < board.nCols; x++){
+            if(search(x, y, word)){
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 void Boggle::randomizeBoard(){
