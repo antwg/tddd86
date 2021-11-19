@@ -129,9 +129,15 @@ void Boggle::doComputerTurn(){
     for(int y = 0; y < board.nRows; y++){
         for(int x = 0; x < board.nCols; x++){
             if(dict.containsPrefix(board.get(y, x).getTopLetter())){
-                board.get(y, x).setVisited(true);
+                Cube newCube = board.get(y, x);
+                newCube.setVisited(true);
+
+                board.set(y, x, newCube);
                 search(x, y, board.get(y, x).getTopLetter());
-                board.get(y, x).setVisited(false);
+
+                newCube.setVisited(false);
+
+                board.set(y, x, newCube);
             }
         }
     }
@@ -160,9 +166,17 @@ void Boggle::search(const int x, const int y, string str){
                 }
                 if(dict.containsPrefix(str)){
                     cout << "prefix" << endl;
-                    board.get(y + dy, x + dx).setVisited(true);
+
+                    Cube newCube = board.get(y + dy, x + dx);
+                    newCube.setVisited(true);
+
+                    board.set(y + dy, x + dx, newCube);
+                    cout << "Visited: " << board.get(y + dy, x + dx).isVisited() << endl;
                     search(x + dx, y + dy, str);    // Search for the rest of the word
-                    board.get(y + dy, x + dx).setVisited(false);
+
+                    newCube.setVisited(false);
+
+                    board.set(y + dy, x + dx, newCube);
                 }
 
                 str.pop_back();
