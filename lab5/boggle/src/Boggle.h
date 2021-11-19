@@ -36,9 +36,9 @@ public:
      */
     bool isInDict(const string& word);
 
-    bool search(const int x, const int y, const string& word);
+    bool searchForWord(const int x, const int y, const string& word);
 
-    bool isInBoard(const string& word);
+    bool isWordInBoard(const string& word);
 
     // TODO: decide the public member functions and declare them
     /*
@@ -56,16 +56,30 @@ public:
      */
     string boardToString();
 
+    void addPlayerWord(const string& word);
+
+    set<string> getPlayerWords();
+
+    int getScore();
+
+    void addScore(int pts);
+
     void doComputerTurn();
 
     int getComputerScore();
+
+    void search(const int x, const int y, string str);
 
     set<string> getComputerWords();
 
 private:
     // TODO: decide the private member variables/functions and declare them
+    set<string> playerWords;
+    int score = 0;
+
+
     Grid<Cube> board;
-    int computerScore;
+    int computerScore = 0;
     set<string> computerWords;
 };
 

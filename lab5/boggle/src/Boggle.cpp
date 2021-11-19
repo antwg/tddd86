@@ -42,7 +42,7 @@ bool Boggle::isInDict(const string& word){
     return dict.contains(word);
 }
 
-bool Boggle::search(const int x, const int y, const string& word){
+bool Boggle::searchForWord(const int x, const int y, const string& word){
     if(word == ""){
         return true;    // "" can always be found
     }
@@ -53,7 +53,7 @@ bool Boggle::search(const int x, const int y, const string& word){
                     !board.get(y + dy, x + dx).isVisited() &&                   // is not visited
                     board.get(y + dy, x + dx).getTopLetter()[0] == word[0]){    // and mathes the sought letter
                 board.get(y + dy, x + dx).setVisited(true);
-                bool found = search(x + dx, y + dy, word.substr(1));    // Search for the rest of the word
+                bool found = searchForWord(x + dx, y + dy, word.substr(1));    // Search for the rest of the word
                 board.get(y + dy, x + dx).setVisited(false);
                 return found;
             }
@@ -63,10 +63,10 @@ bool Boggle::search(const int x, const int y, const string& word){
 }
 
 
-bool Boggle::isInBoard(const string& word){
-    for(int y = 0; y < board.nRows; y++){
-        for(int x = 0; x < board.nCols; x++){
-            if(search(x, y, word)){
+bool Boggle::isWordInBoard(const string& word){
+    for(int row = 0; row < board.nRows; row++){
+        for(int col = 0; col < board.nCols; col++){
+            if(searchForWord(col, row, word)){
                 return true;
             }
         }
@@ -105,14 +105,70 @@ string Boggle::boardToString(){
     return output;
 }
 
-void Boggle::doComputerTurn(){
+void Boggle::addPlayerWord(const string& word){
+    playerWords.insert(word);
+}
 
+
+set<string> Boggle::getPlayerWords(){
+    return playerWords;
+}
+
+int Boggle::getScore(){
+    return score;
+}
+
+void Boggle::addScore(int pts){
+    score += pts;
+}
+
+
+void Boggle::doComputerTurn(){
+    computerWords.clear();
+
+    for(int y = 0; y < board.nRows; y++){
+        for(int x = 0; x < board.nCols; x++){
+            if(dict.containsPrefix(board.get(y, x).getTopLetter())){
+                board.get(y, x).setVisited(true);
+                search(x, y, board.get(y, x).getTopLetter());
+                board.get(y, x).setVisited(false);
+            }
+        }
+    }
 
     cout << "computer turn" << endl;
 }
 
 int Boggle::getComputerScore(){
     return computerScore;
+}
+
+void Boggle::search(const int x, const int y, string str){
+    for(int dy = -1; dy < 2; dy++){
+        for(int dx = -1; dx < 2; dx++){
+            if(!(dx == 0 && dy == 0) &&
+                    board.inBounds(y + dy, x + dx) &&                                // The letter is in bounds,
+                    !board.get(y + dy, x + dx).isVisited()){    // and mathes the sought letter
+                str.append(board.get(y + dy, x + dx).getTopLetter());
+
+                cout << str << endl;
+
+                if(str.length() > 3 && computerWords.count(str) < 1 && playerWords.count(str) < 1 && dict.contains(str)){
+                    cout << "word" << endl;
+                    computerWords.insert(str);
+                    computerScore += str.length() - 3;
+                }
+                if(dict.containsPrefix(str)){
+                    cout << "prefix" << endl;
+                    board.get(y + dy, x + dx).setVisited(true);
+                    search(x + dx, y + dy, str);    // Search for the rest of the word
+                    board.get(y + dy, x + dx).setVisited(false);
+                }
+
+                str.pop_back();
+            }
+        }
+    }
 }
 
 set<string> Boggle::getComputerWords(){

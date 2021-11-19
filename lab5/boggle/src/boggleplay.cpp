@@ -49,8 +49,6 @@ void playOneGame(Boggle& boggle) {
     }
 
     string input;
-    set<string> playerWords;
-    int score = 0;
 
     cout << "It's your turn!" << endl;
     while (true){
@@ -61,7 +59,7 @@ void playOneGame(Boggle& boggle) {
         cout << "Type a word (or press Enter to end your turn): " << endl;
         getline(cin, input);
 
-        clearConsole();
+        //clearConsole();
 
         if (input.empty()){
             cout << "It's my turn!" << endl;
@@ -72,9 +70,9 @@ void playOneGame(Boggle& boggle) {
             }
 
             // Print score
-            cout << "My score: " << boggle.getComputerScore() << "\"" << endl;
+            cout << "My score: " << boggle.getComputerScore() << endl;
 
-            if(boggle.getComputerScore() > score){
+            if(boggle.getComputerScore() > boggle.getScore()){
                 cout << "Ha ha ha, I destroyed you. Better luck next time, puny human!" << endl;
             } else {
                 cout << "Congratulations on clearly cheating. You win..." << endl;
@@ -86,25 +84,25 @@ void playOneGame(Boggle& boggle) {
 
         if (input.size() < 4) {
             cout << "Word too short (minimum 4 letters)!" << endl;
-        } else if (playerWords.count(input) > 0) {
+        } else if (boggle.getPlayerWords().count(input) > 0) {
             cout << "You have already guessed this word!" << endl;
         } else if (!boggle.isInDict(input)){
             cout << "Word \"" << input <<"\" is not in the dictionary!" << endl;
-        } else if (!boggle.isInBoard(input)) {
+        } else if (!boggle.isWordInBoard(input)) {
             cout << "Word \"" << input <<"\" does not exist in the board!" << endl;
         } else {
-            playerWords.insert(input);
-            score += input.size() - 3;
+            boggle.addPlayerWord(input);
+            boggle.addScore(input.size() - 3);
             cout << "You found a new word! \"" << input << "\"\n...\n" << endl;
 
             // Print word list
-            cout << "Your words (" << playerWords.size() << "): " << endl;
-            for (string word : playerWords){
+            cout << "Your words (" << boggle.getPlayerWords().size() << "): " << endl;
+            for (string word : boggle.getPlayerWords()){
                 cout << "\"" << word << "\"" << endl;
             }
 
             // Print score
-            cout << "Your score: " << score << "\"" << endl;
+            cout << "Your score: " << boggle.getScore()<< "\"" << endl;
         }
     }
 
