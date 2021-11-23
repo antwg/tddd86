@@ -22,7 +22,6 @@ static string CUBES[NUM_CUBES] = {        // the letters on all 6 sides of every
    "EIOSST", "ELRTTY", "HIMNQU", "HLNNRZ"
 };
 
-// TODO: implement the members you declared in Boggle.h
 Boggle::Boggle() {
     board = Grid<Cube>(4,4);
 
