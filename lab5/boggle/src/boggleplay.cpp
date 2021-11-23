@@ -1,6 +1,9 @@
-// You will edit and turn in this CPP file.
-// Also remove these comments here and add your own.
-// TODO: remove this comment header and replace with your own
+/*
+ * antwe841
+ * bensu844
+ *
+ * This file acts as an interface between the player and the ongoing boggle game.
+ */
 
 #include <cstdlib>
 #include <iostream>
@@ -10,7 +13,6 @@
 #include "Boggle.h"
 #include "bogglemain.h"
 #include "strlib.h"
-// TODO: include any other header files you need
 
 bool onlyLetters(const string& str){
     for (unsigned int i = 0; i < str.size(); i++){
@@ -39,7 +41,6 @@ string promptBoardString(){
  * Plays one game of Boggle using the given boggle game state object.
  */
 void playOneGame(Boggle& boggle) {
-    // TODO: implement this function (and add any other functions you like to help you)
     boggle.resetGame();
 
     if (!yesOrNo("Do you want to generate a random board? (Y/N) ")){
@@ -58,8 +59,6 @@ void playOneGame(Boggle& boggle) {
 
         cout << "Type a word (or press Enter to end your turn): " << endl;
         getline(cin, input);
-
-        //clearConsole();
 
         if (input.empty()){
             cout << "It's my turn!" << endl;
@@ -105,9 +104,6 @@ void playOneGame(Boggle& boggle) {
             cout << "Your score: " << boggle.getScore()<< "\"" << endl;
         }
     }
-
-    //For debugging
-    cout << boggle.boardToString() << endl;
 }
 
 bool onlyLetters(string str){

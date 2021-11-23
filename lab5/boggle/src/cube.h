@@ -1,3 +1,12 @@
+/*
+ * antwe841
+ * bensu844
+ *
+ * The cube class stores information about a boggle cube such as
+ * the letters on the sides of a boggle cube, which face is up,
+ * and if the cube has been visited by the search algorithm.
+ */
+
 #ifndef CUBE_H
 #define CUBE_H
 
@@ -22,6 +31,9 @@ public:
      */
     string getTopLetter();
 
+    /*
+     * Forces the top letter
+     */
     void forceTopLetter(char letter);
 
     /*
