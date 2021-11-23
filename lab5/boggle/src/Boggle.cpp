@@ -46,7 +46,7 @@ bool Boggle::searchForWord(const int x, const int y, const string& word){
     if(word == ""){
         return true;    // "" can always be found
     }
-
+    bool found = false;
     for(int dy = -1; dy < 2; dy++){
         for(int dx = -1; dx < 2; dx++){
             if(board.inBounds(y + dy, x + dx) &&                                // The letter is in bounds,
@@ -58,16 +58,15 @@ bool Boggle::searchForWord(const int x, const int y, const string& word){
                 newCube.setVisited(true);
                 board.set(y + dy, x + dx, newCube);
 
-                bool found = searchForWord(x + dx, y + dy, word.substr(1));    // Search for the rest of the word
+                found = searchForWord(x + dx, y + dy, word.substr(1));    // Search for the rest of the word
 
                 // Unset visited
                 newCube.setVisited(false);
                 board.set(y + dy, x + dx, newCube);
-                return found;
             }
         }
     }
-    return false;   // Didn't find the next letter adjacent to (x, y)
+    return found;   // Didn't find the next letter adjacent to (x, y)
 }
 
 

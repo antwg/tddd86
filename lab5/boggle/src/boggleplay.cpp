@@ -26,7 +26,7 @@ string promptBoardString(){
     while (true) {
         string answer;
         getline(cin, answer);
-        answer = trim(toLowerCase(answer));
+        answer = trim(toUpperCase(answer));
         if (answer.size() == 16 && onlyLetters(answer)) {
             return answer;
         } else {
