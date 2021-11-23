@@ -2,15 +2,9 @@
  * antwe841
  * bensu844
  *
- * This class contains most of the functionality for the game Boggle.
- * It keeps track of board state, score and found words for both the player and the computer.
+ * This file declares the functions for Boggle.cpp. It also stores some variables
+ * such as the dictionary, the board and scores.
  */
-
-// This is the .h file you will edit and turn in.
-// We have provided a minimal skeleton for you,
-// but you must finish it as described in the spec.
-// Also remove these comments here and add your own, as well as on the members.
-// TODO: remove this comment header and replace it with your own
 
 #ifndef _boggle_h
 #define _boggle_h
@@ -60,9 +54,8 @@ public:
      */
     bool isWordInBoard(const string& word);
 
-    // TODO: decide the public member functions and declare them
     /*
-     *
+     * Randomizes the board
      */
     void randomizeBoard();
 
