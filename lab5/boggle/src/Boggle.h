@@ -1,3 +1,11 @@
+/*
+ * antwe841
+ * bensu844
+ *
+ * This class contains most of the functionality for the game Boggle.
+ * It keeps track of board state, score and found words for both the player and the computer.
+ */
+
 // This is the .h file you will edit and turn in.
 // We have provided a minimal skeleton for you,
 // but you must finish it as described in the spec.
@@ -13,7 +21,6 @@
 #include "grid.h"
 #include "cube.h"
 #include "lexicon.h"
-// TODO: include any other header files you need
 
 using namespace std;
 
@@ -27,17 +34,30 @@ public:
     Boggle();
 
     /*
-     *
+     * Loads the dictionary from a file.
      */
     void loadDict();
 
     /*
-     *
+     * Resets the game.
+     */
+    void resetGame();
+
+    /*
+     * Returns true if the given word exists in the dictionary, otherwise false.
      */
     bool isInDict(const string& word);
 
+    /*
+     * Recursively searches the board around the coordinates (x, y) for the given word.
+     * Returns true if the word was found, otherwise false.
+     */
     bool searchForWord(const int x, const int y, const string& word);
 
+    /*
+     * Searches the board for the given word. Returns true if the
+     * given word exists somewhere in the board, otherwise false.
+     */
     bool isWordInBoard(const string& word);
 
     // TODO: decide the public member functions and declare them
@@ -56,27 +76,51 @@ public:
      */
     string boardToString();
 
+    /*
+     * Adds a word to the set of words found by the player.
+     */
     void addPlayerWord(const string& word);
 
+    /*
+     * Returns a set of strings containing the words found by the player.
+     */
     set<string> getPlayerWords();
 
+    /*
+     * Returns the player's score.
+     */
     int getScore();
 
+    /*
+     * Incrments the player's score by a given number.
+     */
     void addScore(int pts);
 
+    /*
+     * Executes the computer's turn. Finds all the words that the player didn't find
+     * and adds them to the set of words found by the computer.
+     */
     void doComputerTurn();
 
+    /*
+     * Returns the computer's score.
+     */
     int getComputerScore();
 
+    /*
+     * Recursively searches the board around the given coordinates for words starting with the
+     * letters in str and adds them to computerWords.
+     */
     void search(const int x, const int y, string str);
 
+    /*
+     * Returns the set of words found by the computer.
+     */
     set<string> getComputerWords();
 
 private:
-    // TODO: decide the private member variables/functions and declare them
     set<string> playerWords;
     int score = 0;
-
 
     Grid<Cube> board;
     int computerScore = 0;

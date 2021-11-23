@@ -40,7 +40,7 @@ string promptBoardString(){
  */
 void playOneGame(Boggle& boggle) {
     // TODO: implement this function (and add any other functions you like to help you)
-    boggle.loadDict();
+    boggle.resetGame();
 
     if (!yesOrNo("Do you want to generate a random board? (Y/N) ")){
         boggle.forceBoard(promptBoardString());
