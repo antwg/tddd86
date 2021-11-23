@@ -61,10 +61,18 @@ bool Boggle::searchForWord(const int x, const int y, const string& word){
         for(int dx = -1; dx < 2; dx++){
             if(board.inBounds(y + dy, x + dx) &&                                // The letter is in bounds,
                     !board.get(y + dy, x + dx).isVisited() &&                   // is not visited
-                    board.get(y + dy, x + dx).getTopLetter()[0] == word[0]){    // and mathes the sought letter
-                board.get(y + dy, x + dx).setVisited(true);
+                    board.get(y + dy, x + dx).getTopLetter()[0] == word[0]){    // and matches the sought letter
+
+                // Set visited
+                Cube newCube = board.get(y + dy, x + dx);
+                newCube.setVisited(true);
+                board.set(y + dy, x + dx, newCube);
+
                 bool found = searchForWord(x + dx, y + dy, word.substr(1));    // Search for the rest of the word
-                board.get(y + dy, x + dx).setVisited(false);
+
+                // Unset visited
+                newCube.setVisited(false);
+                board.set(y + dy, x + dx, newCube);
                 return found;
             }
         }
@@ -135,18 +143,19 @@ void Boggle::addScore(int pts){
 
 void Boggle::doComputerTurn(){
     computerWords.clear();
-
     for(int y = 0; y < board.nRows; y++){
         for(int x = 0; x < board.nCols; x++){
-            if(dict.containsPrefix(board.get(y, x).getTopLetter())){
+            if(dict.containsPrefix(board.get(y, x).getTopLetter())){ // Continue if prefix, else try next cube
                 Cube newCube = board.get(y, x);
+                // Set visited
                 newCube.setVisited(true);
-
                 board.set(y, x, newCube);
+
+                // Exhaustive search starting at current cube
                 search(x, y, board.get(y, x).getTopLetter());
 
+                // Unset visited
                 newCube.setVisited(false);
-
                 board.set(y, x, newCube);
             }
         }
@@ -160,35 +169,33 @@ int Boggle::getComputerScore(){
 }
 
 void Boggle::search(const int x, const int y, string str){
+    // For each cube around current cube
     for(int dy = -1; dy < 2; dy++){
         for(int dx = -1; dx < 2; dx++){
-            if(!(dx == 0 && dy == 0) &&
-                    board.inBounds(y + dy, x + dx) &&                                // The letter is in bounds,
-                    !board.get(y + dy, x + dx).isVisited()){    // and mathes the sought letter
-                str.append(board.get(y + dy, x + dx).getTopLetter());
+            if(board.inBounds(y + dy, x + dx) &&                                // The letter is in bounds,
+                    !board.get(y + dy, x + dx).isVisited()){                    // hasn't already been visited
+                str.append(board.get(y + dy, x + dx).getTopLetter());           // Save cube/top letter
 
-                cout << str << endl;
-
+                // If valid word
                 if(str.length() > 3 && computerWords.count(str) < 1 && playerWords.count(str) < 1 && dict.contains(str)){
-                    cout << "word" << endl;
                     computerWords.insert(str);
                     computerScore += str.length() - 3;
                 }
+                // If valid prefix
                 if(dict.containsPrefix(str)){
-                    cout << "prefix" << endl;
 
+                    // Set visited
                     Cube newCube = board.get(y + dy, x + dx);
                     newCube.setVisited(true);
-
                     board.set(y + dy, x + dx, newCube);
-                    cout << "Visited: " << board.get(y + dy, x + dx).isVisited() << endl;
+
                     search(x + dx, y + dy, str);    // Search for the rest of the word
 
+                    // Unset visited
                     newCube.setVisited(false);
-
                     board.set(y + dy, x + dx, newCube);
                 }
-
+                // Backtrack
                 str.pop_back();
             }
         }
