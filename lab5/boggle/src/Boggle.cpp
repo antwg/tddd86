@@ -51,10 +51,18 @@ bool Boggle::searchForWord(const int x, const int y, const string& word){
         for(int dx = -1; dx < 2; dx++){
             if(board.inBounds(y + dy, x + dx) &&                                // The letter is in bounds,
                     !board.get(y + dy, x + dx).isVisited() &&                   // is not visited
-                    board.get(y + dy, x + dx).getTopLetter()[0] == word[0]){    // and mathes the sought letter
-                board.get(y + dy, x + dx).setVisited(true);
+                    board.get(y + dy, x + dx).getTopLetter()[0] == word[0]){    // and matches the sought letter
+
+                // Set visited
+                Cube newCube = board.get(y + dy, x + dx);
+                newCube.setVisited(true);
+                board.set(y + dy, x + dx, newCube);
+
                 bool found = searchForWord(x + dx, y + dy, word.substr(1));    // Search for the rest of the word
-                board.get(y + dy, x + dx).setVisited(false);
+
+                // Unset visited
+                newCube.setVisited(false);
+                board.set(y + dy, x + dx, newCube);
                 return found;
             }
         }
