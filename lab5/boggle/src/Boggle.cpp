@@ -1,8 +1,10 @@
-// This is the .cpp file you will edit and turn in.
-// We have provided a minimal skeleton for you,
-// but you must finish it as described in the spec.
-// Also remove these comments here and add your own.
-// TODO: remove this comment header and replace it with your own
+/*
+ * antwe841
+ * bensu844
+ *
+ * This class handles the logic for the boggle game. It has functions to manipulate the board,
+ * search for words and handle scores. It contains the computers turns logic as well.
+ */
 
 #include <sstream>
 #include "Boggle.h"
