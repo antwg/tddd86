@@ -56,27 +56,20 @@ bool Boggle::searchForWord(const int x, const int y, const string& word){
     if(word == ""){
         return true;    // "" can always be found
     }
+    board[y][x].setVisited(true);
 
     for(int dy = -1; dy < 2; dy++){
         for(int dx = -1; dx < 2; dx++){
             if(board.inBounds(y + dy, x + dx) &&                                // The letter is in bounds,
                     !board.get(y + dy, x + dx).isVisited() &&                   // is not visited
-                    board.get(y + dy, x + dx).getTopLetter()[0] == word[0]){    // and matches the sought letter
-
-                // Set visited
-                Cube newCube = board.get(y + dy, x + dx);
-                newCube.setVisited(true);
-                board.set(y + dy, x + dx, newCube);
-
-                bool found = searchForWord(x + dx, y + dy, word.substr(1));    // Search for the rest of the word
-
-                // Unset visited
-                newCube.setVisited(false);
-                board.set(y + dy, x + dx, newCube);
-                return found;
+                    board.get(y + dy, x + dx).getTopLetter()[0] == word[0] &&   // and matches the sought letter
+                    searchForWord(x + dx, y + dy, word.substr(1))){
+                board[y][x].setVisited(false);
+                return true;
             }
         }
     }
+    board[y][x].setVisited(false);
     return false;   // Didn't find the next letter adjacent to (x, y)
 }
 
