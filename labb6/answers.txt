@@ -1,0 +1,46 @@
+﻿EventQueue:
+- ~Simulation
+- Run
+- Schedule event
+
+allTheFish:
+- ~Simulation
+- harvestTonnageNow
+- addFish
+
+EventQueue är en priorityQueue med pekare till alla events som ska utföras samt deras prioritet.
+
+allTheFish är en vektor med pekare till alla fiskar.
+
+
+LANDING:
+-------------------------------
+70000		75000		45000
+300		400		100
+-------------------------------
+MIN_CATCHABLE_AGE:
+
+Båda påverkar. Om den ena blir större måste även den andra bli större för att fiskarna inte ska dö ut. Om man höjer landing eller sänker min_catchable_age mer så dör fiskarna.
+
+Programmet allokerar new event:
+- main()
+- HatchEvent()
+- SpawnEvent()
+- matureEvent()
+- HarvestEvent()
+- PrintEvent()
+
+Programmet deallokerar event:
+- run()
+
+Programmet allokerar new Fish:
+- hatchEvent()
+
+Programmet deallokerar fish:
+- SpawnEvent()
+- MatureEvent()
+- DeathEvent()
+- Simulation()
+- ScheduleEvent()
+
+Det finns inga minnesläckor eftersom allt som skapas tas bort. Events läggs alltid till I kön av events och allt I kön tas bort förr eller senare. Fiskar tas bort när de fångas eller dör och de som överlever tas bort av simulatorns destruktor.
