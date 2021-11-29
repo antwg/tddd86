@@ -92,7 +92,7 @@ private:
 
 template<typename T>
 MyVector<T>::MyVector() : arraySize(0) , capacity(1){
-    for (int i; i < capacity; i++){
+    for (int i = 0; i < capacity; i++){
         arr[i] = 0;
     }
 }
