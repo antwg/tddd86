@@ -99,28 +99,45 @@ MyVector<T>::MyVector() : arraySize(0) , capacity(1){
 
 template<typename T>
 MyVector<T>::~MyVector(){
-    delete arr[capacity];
+    delete[] arr;
     delete arraySize;
     delete capacity;
 
 }
 
 template<typename T>
-MyVector<T>::MyVector(const MyVector& other){
-    // TODO: replace the code below with your code for this member
-    MYEXCEPTION("unimplemented method");
+MyVector<T>::MyVector(const MyVector& other) : arraySize(other.arraySize), capacity(other.capacity){
+    for (int i; i < other.arraySize; i++){
+        arr[i] = other.arr[i].copy;
+    }
 }
 
 template<typename T>
 MyVector<T>& MyVector<T>::operator =(const MyVector& other){
-    // TODO: replace the code below with your code for this member
-    MYEXCEPTION("unimplemented method");
+    if (this == &other) // Allows chaining
+        return *this;
+
+    arraySize = other.arraySize;
+    capacity = other.capacity;
+    for (int i; i < other.arraySize; i++){
+        arr[i] = other.arr[i];
+    }
 }
 
 template<typename T>
 void MyVector<T>::push_back(const T& e){
-    // TODO: replace the code below with your code for this member
-    MYEXCEPTION("unimplemented method");
+    if (arraySize == capacity){
+        T newArray = new T[capacity * 2];
+        newArray.arraySize = arraySize;
+        newArray.capacity = capacity * 2;
+        for (int i = 0; i < arraySize; i++){
+            newArray[i] = arr[i];
+        }
+        delete[] arr;
+        arr = &newArray;
+    }
+    arr[arraySize] = e;
+    arraySize++;
 }
 
 template<typename T>
