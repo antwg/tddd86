@@ -14,19 +14,39 @@ class MyVector
 {
 
 public:
+    /**
+     * Constructor
+     */
     MyVector();
 
+    /**
+     * Destructor
+     */
     ~MyVector();
 
+    /**
+     * Copy constructor
+     */
     MyVector(const MyVector& other);
 
+    /**
+     * Equals operator
+     */
     MyVector& operator =(const MyVector& other);
 
-
+    /**
+     * Adds an element to the back of the vector.
+     */
     void push_back(const T&);
 
+    /**
+     * Removes the last element of the vector.
+     */
     void pop_back();
 
+    /**
+     * [] operator. Returns the i:th element in the vector.
+     */
     T& operator[](unsigned i);
 
     const T& operator[](unsigned i)const;

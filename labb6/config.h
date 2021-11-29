@@ -1,6 +1,7 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+
 //life expectancy
 const unsigned MAX_AGE = 2000;
 const unsigned STARVE_THRESHOLD=20000;
@@ -24,6 +25,5 @@ const unsigned LANDING = 70000;
 // Simulation: duration and printing
 const unsigned SIMULATION_HORIZON=8000;
 const unsigned PRINT_PERIOD=20;
-
 
 #endif // CONFIG_H
