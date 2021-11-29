@@ -29,18 +29,39 @@ public:
 
     T& operator[](unsigned i);
 
+    /**
+     * Defines the [] operator to point at the i:th element in the vector
+     */
     const T& operator[](unsigned i)const;
 
+    /**
+     * Removes the element in index i
+     */
     void remove(unsigned i);
 
+    /**
+     * Returns true if vector is empty, else false
+     */
     bool empty()const;
 
+    /**
+     * Returns a pointer to the first element in the vector
+     */
     T* begin();
 
+    /**
+     * Returns a pointer to the last element in the vector
+     */
     T* end();
 
+    /**
+     * Clears the vectors elements
+     */
     void clear();
 
+    /**
+     * Returns the size of the vector
+     */
     unsigned size()const;
 
 private:
