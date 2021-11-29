@@ -91,15 +91,18 @@ private:
 };
 
 template<typename T>
-MyVector<T>::MyVector(){
-    // TODO: replace the code below with your code for this member
-    MYEXCEPTION("unimplemented method");
+MyVector<T>::MyVector() : arraySize(0) , capacity(1){
+    for (int i; i < capacity; i++){
+        arr[i] = 0;
+    }
 }
 
 template<typename T>
 MyVector<T>::~MyVector(){
-    // TODO: replace the code below with your code for this member
-    MYEXCEPTION("unimplemented method");
+    delete arr[capacity];
+    delete arraySize;
+    delete capacity;
+
 }
 
 template<typename T>
