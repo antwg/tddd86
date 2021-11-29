@@ -85,10 +85,9 @@ public:
     unsigned size()const;
 
 private:
-    T arr[10];
+    T arr[1];
     int arraySize = 0;
-    int capacity = 10;
-    int curr = 0;
+    int capacity = 1;
 };
 
 template<typename T>
@@ -123,50 +122,47 @@ void MyVector<T>::push_back(const T& e){
 
 template<typename T>
 void MyVector<T>::pop_back(){
-    // TODO: replace the code below with your code for this member
-    MYEXCEPTION("unimplemented method");
+    arr[arraySize] = 0;
+    arraySize--;
 }
 
 template<typename T>
 T& MyVector<T>::operator[](unsigned i){
-    // TODO: replace the code below with your code for this member
-    MYEXCEPTION("unimplemented method");
+    return arr[i];
 }
 
 template<typename T>
 const T& MyVector<T>::operator[](unsigned i)const{
-    // TODO: replace the code below with your code for this member
-    MYEXCEPTION("unimplemented method");
+    return arr[i];  // const ???
 }
 
 template<typename T>
 bool MyVector<T>::empty()const{
-    // TODO: replace the code below with your code for this member
-    MYEXCEPTION("unimplemented method");
+    return arraySize == 0;
 }
 
 template<typename T>
 void MyVector<T>::clear(){
-    // TODO: replace the code below with your code for this member
-    MYEXCEPTION("unimplemented method");
+    arraySize = 0;
+    capacity = 1;
+
+    delete[] arr;
+    arr = new T[1];
 }
 
 template<typename T>
 unsigned MyVector<T>::size()const{
-    // TODO: replace the code below with your code for this member
-    MYEXCEPTION("unimplemented method");
+    return arraySize;
 }
 
 template<typename T>
 T* MyVector<T>::begin(){
-    // TODO: replace the code below with your code for this member
-    MYEXCEPTION("unimplemented method");
+    return &arr[0];
 }
 
 template<typename T>
 T* MyVector<T>::end(){
-    // TODO: replace the code below with your code for this member
-    MYEXCEPTION("unimplemented method");
+    return &arr[arraySize];
 }
 
 #endif // MY_VECTOR_H
