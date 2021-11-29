@@ -85,7 +85,7 @@ public:
     unsigned size()const;
 
 private:
-    T arr[1];
+    T* arr = new T[1];
     int arraySize = 0;
     int capacity = 1;
 };
@@ -100,9 +100,6 @@ MyVector<T>::MyVector() : arraySize(0) , capacity(1){
 template<typename T>
 MyVector<T>::~MyVector(){
     delete[] arr;
-    delete arraySize;
-    delete capacity;
-
 }
 
 template<typename T>
@@ -127,14 +124,13 @@ MyVector<T>& MyVector<T>::operator =(const MyVector& other){
 template<typename T>
 void MyVector<T>::push_back(const T& e){
     if (arraySize == capacity){
-        T newArray = new T[capacity * 2];
-        newArray.arraySize = arraySize;
-        newArray.capacity = capacity * 2;
+        T* newArray = new T[capacity * 2];
+        capacity *= 2;
         for (int i = 0; i < arraySize; i++){
             newArray[i] = arr[i];
         }
         delete[] arr;
-        arr = &newArray;
+        arr = newArray;
     }
     arr[arraySize] = e;
     arraySize++;
