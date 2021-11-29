@@ -85,9 +85,10 @@ public:
     unsigned size()const;
 
 private:
-
-    // private members?
-
+    T arr[10];
+    int arraySize = 0;
+    int capacity = 10;
+    int curr = 0;
 };
 
 template<typename T>
