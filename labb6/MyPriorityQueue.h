@@ -18,10 +18,19 @@ class MyPriorityQueue
     C strictly_larger_operator;
 
 public:
+    /**
+     * Constructor
+     */
     MyPriorityQueue();
 
+    /**
+     * Destructor
+     */
     ~MyPriorityQueue();
 
+    /**
+     * Adds t to the priority queue
+     */
     void push(const T& t);
 
     /**
