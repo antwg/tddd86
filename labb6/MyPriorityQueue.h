@@ -100,8 +100,7 @@ void MyPriorityQueue<T,C>::push(const T& t){
 
 template <typename T, typename C>
 T MyPriorityQueue<T,C>::top()const{
-    // TODO: replace the code below with your code for this member
-    MYEXCEPTION("unimplemented method");
+    return vector_array[0];
 }
 
 template <typename T, typename C>
