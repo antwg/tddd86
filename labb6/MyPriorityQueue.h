@@ -105,8 +105,13 @@ T MyPriorityQueue<T,C>::top()const{
 
 template <typename T, typename C>
 void MyPriorityQueue<T,C>::pop(){
-    // TODO: replace the code below with your code for this member
-    MYEXCEPTION("unimplemented method");
+    if (vector_array.empty()) return;
+    swap(0, vector_array.size() - 1);   // Swap root and last element
+    vector_array.pop_back();        // Remove last element
+    if (!vector_array.empty()){
+        siftdown(0);
+    }
+
 }
 
 template <typename T, typename C>
