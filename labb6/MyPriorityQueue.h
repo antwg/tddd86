@@ -24,10 +24,19 @@ public:
 
     void push(const T& t);
 
+    /**
+     * Returns the element with the highest priority in the queue.
+     */
     T top()const;
 
+    /**
+     * Removes the element with the highest priority from the queue.
+     */
     void pop();
 
+    /**
+     * Returns true if the queue contains no elements, otherwise false.
+     */
     bool empty()const;
 
 private:
