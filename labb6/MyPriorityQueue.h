@@ -51,17 +51,17 @@ public:
 private:
 
     /**
-     * Returns the index of the node with index i:s left child
+     * Returns the index of the node with index i:s left child, if outside scope, return null.
      */
     int leftChild(int i);
 
     /**
-     * Returns the index of the node with index i:s right child
+     * Returns the index of the node with index i:s right child, if outside scope, return null.
      */
     int rightChild(int i);
 
     /**
-     * Returns the index of the node with index i:s parent
+     * Returns the index of the node with index i:s parent, if outside scope, return null.
      */
     int parent(int i);
 };
