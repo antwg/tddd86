@@ -41,6 +41,7 @@ public:
 
     /**
      * Removes the element with the highest priority from the queue.
+     * Inspired by https://www.ida.liu.se/opendsa/Books/TDDD86F21/html/Heaps.html
      */
     void pop();
 
@@ -75,6 +76,12 @@ private:
      * Swaps the elements at position i and j in vector_array.
      */
     void swap(const int i, const int j);
+
+    /**
+     * Puts the element at index pos at the correct index.
+     * Inspired by https://www.ida.liu.se/opendsa/Books/TDDD86F21/html/Heaps.html
+     */
+    void siftdown(int pos);
 };
 
 template <typename T, typename C>
@@ -154,6 +161,27 @@ void MyPriorityQueue<T, C>::swap(const int i, const int j){
     T temp = vector_array[i];
     vector_array[i] = vector_array[j];
     vector_array[j] = temp;
+}
+
+template <typename T, typename C>
+void MyPriorityQueue<T, C>::siftdown(int pos){
+    if ((pos < 0) || (pos >= vector_array.size())) { // Out of bounds
+        return;
+    }
+    while (!isLeaf(pos)){
+        // Choose largest child
+        int child = leftChild(pos);
+        if (child < (vector_array.size() - 1) && (vector_array[child].strictly_greater_than(vector_array[child + 1]) < 0)){
+            child++; // Right child
+        }
+        // If node larger than child, return, else continue
+        if (vector_array[pos].strictly_greater_than(vector_array[child]) >= 0){
+            return;
+        }
+        // Swap and move down
+        swap(pos, child);
+        pos = child;
+    }
 }
 
 #endif // MY_PRIORITY_QUEUE_H
