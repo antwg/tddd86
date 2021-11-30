@@ -135,10 +135,4 @@ int MyPriorityQueue<T, C>::parent(int i){
     return ((i - 1) / 2);
 }
 
-template <typename T, typename C>
-bool MyPriorityQueue<T, C>::isLeaf(int i){
-    return (i < vector_array.size() and 2*i + 1 > vector_array.size());
-
-}
-
 #endif // MY_PRIORITY_QUEUE_H
