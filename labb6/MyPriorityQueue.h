@@ -49,7 +49,21 @@ public:
     bool empty()const;
 
 private:
-    // Other private members?
+
+    /**
+     * Returns the index of the node with index i:s left child
+     */
+    int leftChild(int i);
+
+    /**
+     * Returns the index of the node with index i:s right child
+     */
+    int rightChild(int i);
+
+    /**
+     * Returns the index of the node with index i:s parent
+     */
+    int parent(int i);
 };
 
 template <typename T, typename C>
@@ -60,13 +74,13 @@ MyPriorityQueue<T,C>::MyPriorityQueue(){
 template <typename T, typename C>
 MyPriorityQueue<T,C>::~MyPriorityQueue(){
     // TODO: replace the code below with your code for this member
-    MYEXCEPTION("unimplemented method");
+    // MYEXCEPTION("unimplemented method");
 }
 
 template <typename T, typename C>
 void MyPriorityQueue<T,C>::push(const T& t){
-    // TODO: replace the code below with your code for this member
-    MYEXCEPTION("unimplemented method");
+    vector_array.push_back(t);
+
 }
 
 template <typename T, typename C>
