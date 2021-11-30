@@ -112,8 +112,7 @@ void MyPriorityQueue<T,C>::pop(){
 
 template <typename T, typename C>
 bool MyPriorityQueue<T,C>::empty()const{
-    // TODO: replace the code below with your code for this member
-    MYEXCEPTION("unimplemented method");
+    return vector_array.size() > 0;
 }
 
 template <typename T, typename C>
