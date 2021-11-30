@@ -61,14 +61,19 @@ private:
     int rightChild(int i);
 
     /**
+     * Returns true if node is a leaf, else false
+     */
+    bool isLeaf(int i);
+
+    /**
      * Returns the index of the node with index i:s parent, if outside scope, return null.
      */
     int parent(int i);
 
     /**
-     * Returns true if node is a leaf, else false
+     * Swaps the elements at position i and j in vector_array.
      */
-    bool isLeaf(int i);
+    void swap(int i, int j);
 };
 
 template <typename T, typename C>
@@ -138,6 +143,13 @@ int MyPriorityQueue<T, C>::parent(int i){
         return (int) NULL;
     }
     return ((i - 1) / 2);
+}
+
+template <typename T, typename C>
+void MyPriorityQueue<T, C>::swap(int i, int j){
+    T temp = vector_array[i];
+    vector_array[i] = vector_array[j];
+    vector_array[j] = temp;
 }
 
 #endif // MY_PRIORITY_QUEUE_H
