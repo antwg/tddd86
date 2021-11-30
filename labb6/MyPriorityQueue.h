@@ -85,6 +85,11 @@ MyPriorityQueue<T,C>::~MyPriorityQueue(){
 template <typename T, typename C>
 void MyPriorityQueue<T,C>::push(const T& t){
     vector_array.push_back(t);
+    int curr = vector_array.size();
+    while ((curr != 0) && (vector_array[curr].strictly_larger_than(vector_array[parent(curr)]) > 0)){
+        swap(curr, parent(curr));
+        curr = parent(curr);
+    }
 
 }
 
