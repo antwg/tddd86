@@ -30,6 +30,7 @@ public:
 
     /**
      * Adds t to the priority queue
+     * Inspired by https://www.ida.liu.se/opendsa/Books/TDDD86F21/html/Heaps.html
      */
     void push(const T& t);
 
