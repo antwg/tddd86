@@ -53,27 +53,27 @@ private:
     /**
      * Returns the index of the node with index i:s left child, if outside scope, return null.
      */
-    int leftChild(int i);
+    int leftChild(const int i);
 
     /**
      * Returns the index of the node with index i:s right child, if outside scope, return null.
      */
-    int rightChild(int i);
+    int rightChild(const int i);
 
     /**
      * Returns true if node is a leaf, else false
      */
-    bool isLeaf(int i);
+    bool isLeaf(const int i);
 
     /**
      * Returns the index of the node with index i:s parent, if outside scope, return null.
      */
-    int parent(int i);
+    int parent(const int i);
 
     /**
      * Swaps the elements at position i and j in vector_array.
      */
-    void swap(int i, int j);
+    void swap(const int i, const int j);
 };
 
 template <typename T, typename C>
@@ -117,7 +117,7 @@ bool MyPriorityQueue<T,C>::empty()const{
 }
 
 template <typename T, typename C>
-int MyPriorityQueue<T, C>::leftChild(int i){
+int MyPriorityQueue<T, C>::leftChild(const int i){
     if (2 * i + 1 >= vector_array.size()){
         return (int) NULL;
     }
@@ -125,7 +125,7 @@ int MyPriorityQueue<T, C>::leftChild(int i){
 }
 
 template <typename T, typename C>
-int MyPriorityQueue<T, C>::rightChild(int i){
+int MyPriorityQueue<T, C>::rightChild(const int i){
     if (2 * i + 2 >= vector_array.size()){
         return (int) NULL;
     }
@@ -133,12 +133,12 @@ int MyPriorityQueue<T, C>::rightChild(int i){
 }
 
 template <typename T, typename C>
-bool MyPriorityQueue<T, C>::isLeaf(int i){
+bool MyPriorityQueue<T, C>::isLeaf(const int i){
     return (i < vector_array.size()) && (2 * i + 1 > vector_array.size());
 }
 
 template <typename T, typename C>
-int MyPriorityQueue<T, C>::parent(int i){
+int MyPriorityQueue<T, C>::parent(const int i){
     if (i == 0){
         return (int) NULL;
     }
@@ -146,7 +146,7 @@ int MyPriorityQueue<T, C>::parent(int i){
 }
 
 template <typename T, typename C>
-void MyPriorityQueue<T, C>::swap(int i, int j){
+void MyPriorityQueue<T, C>::swap(const int i, const int j){
     T temp = vector_array[i];
     vector_array[i] = vector_array[j];
     vector_array[j] = temp;
