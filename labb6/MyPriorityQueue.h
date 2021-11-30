@@ -103,16 +103,25 @@ bool MyPriorityQueue<T,C>::empty()const{
 
 template <typename T, typename C>
 int MyPriorityQueue<T, C>::leftChild(int i){
+    if (2 * i + 1 >= vector_array.size()){
+        return NULL;
+    }
     return 2 * i + 1;
 }
 
 template <typename T, typename C>
 int MyPriorityQueue<T, C>::rightChild(int i){
+    if (2 * i + 2 >= vector_array.size()){
+        return NULL;
+    }
     return 2 * i + 2;
 }
 
 template <typename T, typename C>
 int MyPriorityQueue<T, C>::parent(int i){
+    if (i == 0){
+        return NULL;
+    }
     return ((i - 1) / 2);
 }
 
