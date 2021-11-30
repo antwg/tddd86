@@ -64,6 +64,11 @@ private:
      * Returns the index of the node with index i:s parent, if outside scope, return null.
      */
     int parent(int i);
+
+    /**
+     * Returns true if node is a leaf, else false
+     */
+    bool isLeaf(int i);
 };
 
 template <typename T, typename C>
@@ -128,6 +133,12 @@ int MyPriorityQueue<T, C>::parent(int i){
         return (int) NULL;
     }
     return ((i - 1) / 2);
+}
+
+template <typename T, typename C>
+bool MyPriorityQueue<T, C>::isLeaf(int i){
+    return (i < vector_array.size() and 2*i + 1 > vector_array.size());
+
 }
 
 #endif // MY_PRIORITY_QUEUE_H
