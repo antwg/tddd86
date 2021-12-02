@@ -1,8 +1,10 @@
-// This is the first .h file you will edit
-// We have provided a skeleton for you,
-// but you must finish it as described in the spec.
-// Also remove these comments here and add your own, as well as on the members.
-// TODO: remove this comment header
+/*
+ * antwe841
+ * bensu844
+ *
+ * MyVector is an implementation of the Vector data structure.
+ */
+
 
 #ifndef MY_VECTOR_H
 #define MY_VECTOR_H
