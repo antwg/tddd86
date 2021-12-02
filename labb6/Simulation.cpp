@@ -21,10 +21,10 @@ Simulation::~Simulation(){
 
 
 
-void Simulation::run (){
-    while (! eventQueue.empty ()){
-        Event * nextEvent = eventQueue.top ();
-        eventQueue.pop ();
+void Simulation::run(){
+    while (!eventQueue.empty()){
+        Event * nextEvent = eventQueue.top();
+        eventQueue.pop();
         if(simulationTime < SIMULATION_HORIZON){
             simulationTime = nextEvent->eventTime;
             nextEvent->processEvent(*this);
@@ -36,7 +36,7 @@ void Simulation::run (){
 }
 
 
-void Simulation::scheduleEvent (Event * newEvent){
+void Simulation::scheduleEvent(Event * newEvent){
     eventQueue.push(newEvent);
 }
 

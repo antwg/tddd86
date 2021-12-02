@@ -125,7 +125,7 @@ void MyPriorityQueue<T,C>::pop(){
 
 template <typename T, typename C>
 bool MyPriorityQueue<T,C>::empty()const{
-    return vector_array.size() > 0;
+    return vector_array.size() <= 0;
 }
 
 template <typename T, typename C>
@@ -176,7 +176,7 @@ void MyPriorityQueue<T, C>::siftdown(unsigned pos){
             child++; // Right child
         }
         // If node larger than child, return, else continue
-        if (strictly_larger_operator(vector_array[child], vector_array[child])){
+        if (strictly_larger_operator(vector_array[pos], vector_array[child])){
             return;
         }
         // Swap and move down
