@@ -1,8 +1,9 @@
-// This is the second .h file you will edit
-// We have provided a skeleton for you,
-// but you must finish it as described in the spec.
-// Also remove these comments here and add your own, as well as on the members.
-// TODO: remove this comment header
+/*
+ * antwe841
+ * bensu844
+ *
+ * A general implementation of the ADS priority queue.
+ */
 
 #ifndef MY_PRIORITY_QUEUE_H
 #define MY_PRIORITY_QUEUE_H
@@ -55,22 +56,22 @@ private:
     /**
      * Returns the index of the node with index i:s left child, if outside scope, return null.
      */
-    int leftChild(const int i);
+    int leftChild(const unsigned i);
 
     /**
      * Returns the index of the node with index i:s right child, if outside scope, return null.
      */
-    int rightChild(const int i);
+    int rightChild(const unsigned i);
 
     /**
      * Returns true if node is a leaf, else false
      */
-    bool isLeaf(const int i);
+    bool isLeaf(const unsigned i);
 
     /**
      * Returns the index of the node with index i:s parent, if outside scope, return null.
      */
-    int parent(const int i);
+    int parent(const unsigned i);
 
     /**
      * Swaps the elements at position i and j in vector_array.
@@ -81,7 +82,7 @@ private:
      * Puts the element at index pos at the correct index.
      * Inspired by https://www.ida.liu.se/opendsa/Books/TDDD86F21/html/Heaps.html
      */
-    void siftdown(int pos);
+    void siftdown(unsigned pos);
 };
 
 template <typename T, typename C>
@@ -128,7 +129,7 @@ bool MyPriorityQueue<T,C>::empty()const{
 }
 
 template <typename T, typename C>
-int MyPriorityQueue<T, C>::leftChild(const int i){
+int MyPriorityQueue<T, C>::leftChild(const unsigned i){
     if (2 * i + 1 >= vector_array.size()){
         return (int) NULL;
     }
@@ -136,7 +137,7 @@ int MyPriorityQueue<T, C>::leftChild(const int i){
 }
 
 template <typename T, typename C>
-int MyPriorityQueue<T, C>::rightChild(const int i){
+int MyPriorityQueue<T, C>::rightChild(const unsigned i){
     if (2 * i + 2 >= vector_array.size()){
         return (int) NULL;
     }
@@ -144,12 +145,12 @@ int MyPriorityQueue<T, C>::rightChild(const int i){
 }
 
 template <typename T, typename C>
-bool MyPriorityQueue<T, C>::isLeaf(const int i){
+bool MyPriorityQueue<T, C>::isLeaf(const unsigned i){
     return (i < vector_array.size()) && (2 * i + 1 > vector_array.size());
 }
 
 template <typename T, typename C>
-int MyPriorityQueue<T, C>::parent(const int i){
+int MyPriorityQueue<T, C>::parent(const unsigned i){
     if (i == 0){
         return (int) NULL;
     }
@@ -164,13 +165,13 @@ void MyPriorityQueue<T, C>::swap(const int i, const int j){
 }
 
 template <typename T, typename C>
-void MyPriorityQueue<T, C>::siftdown(int pos){
+void MyPriorityQueue<T, C>::siftdown(unsigned pos){
     if ((pos < 0) || (pos >= vector_array.size())) { // Out of bounds
         return;
     }
     while (!isLeaf(pos)){
         // Choose largest child
-        int child = leftChild(pos);
+        unsigned child = leftChild(pos);
         if (child < (vector_array.size() - 1) && (strictly_larger_operator(vector_array[child], vector_array[child + 1]) < 0)){
             child++; // Right child
         }
