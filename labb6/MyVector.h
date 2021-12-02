@@ -121,6 +121,7 @@ MyVector<T>& MyVector<T>::operator =(const MyVector& other){
     for (int i; i < other.arraySize; i++){
         arr[i] = other.arr[i];
     }
+    return *this;
 }
 
 template<typename T>
