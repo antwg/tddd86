@@ -172,7 +172,7 @@ void MyPriorityQueue<T, C>::siftdown(unsigned pos){
     while (!isLeaf(pos)){
         // Choose largest child
         unsigned child = leftChild(pos);
-        if (child < (vector_array.size() - 1) && (!strictly_larger_operator(vector_array[child], vector_array[child + 1]))){
+        if (child < (vector_array.size() - 1) && !(strictly_larger_operator(vector_array[child], vector_array[child + 1]))){
             child++; // Right child
         }
         // If node larger than child, return, else continue
