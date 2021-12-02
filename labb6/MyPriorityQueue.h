@@ -98,8 +98,8 @@ MyPriorityQueue<T,C>::~MyPriorityQueue(){
 template <typename T, typename C>
 void MyPriorityQueue<T,C>::push(const T& t){
     vector_array.push_back(t);
-    int curr = vector_array.size();
-    while ((curr != 0) && (vector_array[curr].strictly_larger_than(vector_array[parent(curr)]) > 0)){
+    int curr = vector_array.size() - 1;
+    while ((curr != 0) && (strictly_larger_operator(vector_array[curr], vector_array[parent(curr)]) > 0)){
         swap(curr, parent(curr));
         curr = parent(curr);
     }
@@ -171,11 +171,11 @@ void MyPriorityQueue<T, C>::siftdown(int pos){
     while (!isLeaf(pos)){
         // Choose largest child
         int child = leftChild(pos);
-        if (child < (vector_array.size() - 1) && (vector_array[child].strictly_greater_than(vector_array[child + 1]) < 0)){
+        if (child < (vector_array.size() - 1) && (strictly_larger_operator(vector_array[child], vector_array[child + 1]) < 0)){
             child++; // Right child
         }
         // If node larger than child, return, else continue
-        if (vector_array[pos].strictly_greater_than(vector_array[child]) >= 0){
+        if (strictly_larger_operator(vector_array[child], vector_array[child]) >= 0){
             return;
         }
         // Swap and move down
