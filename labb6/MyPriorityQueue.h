@@ -51,6 +51,11 @@ public:
      */
     bool empty()const;
 
+    /**
+     * Returns the size of the vector
+     */
+    unsigned size()const;
+
 private:
 
     /**
@@ -100,7 +105,7 @@ template <typename T, typename C>
 void MyPriorityQueue<T,C>::push(const T& t){
     vector_array.push_back(t);
     int curr = vector_array.size() - 1;
-    while ((curr != 0) && (strictly_larger_operator(vector_array[curr], vector_array[parent(curr)]))){
+    while ((curr != 0) && (strictly_larger_operator(vector_array[parent(curr)], vector_array[curr]))){
         swap(curr, parent(curr));
         curr = parent(curr);
     }
@@ -126,6 +131,11 @@ void MyPriorityQueue<T,C>::pop(){
 template <typename T, typename C>
 bool MyPriorityQueue<T,C>::empty()const{
     return vector_array.size() <= 0;
+}
+
+template <typename T, typename C>
+unsigned MyPriorityQueue<T, C>::size()const{
+    return vector_array.size();
 }
 
 template <typename T, typename C>
@@ -178,7 +188,7 @@ void MyPriorityQueue<T, C>::siftdown(unsigned pos){
             child++; // Right child
         }
         // If node larger than child, return, else continue
-        if (!strictly_larger_operator(vector_array[child], vector_array[pos])){
+        if (!strictly_larger_operator(vector_array[pos], vector_array[child])){
             return;
         }
         // Swap and move down

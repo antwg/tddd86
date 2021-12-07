@@ -107,7 +107,7 @@ MyVector<T>::~MyVector(){
 template<typename T>
 MyVector<T>::MyVector(const MyVector& other) : arraySize(other.arraySize), capacity(other.capacity){
     for (int i; i < other.arraySize; i++){
-        arr[i] = other.arr[i].copy();
+        arr[i] = other.arr[i];
     }
 }
 

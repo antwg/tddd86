@@ -46,8 +46,8 @@ private:
   std::priority_queue<Event*,
                       vector<Event *, allocator<Event*> >,
                       EventComparator> eventQueue;
-*/
 
+*/
   MyVector<Fish*> allTheFish;
 //  std::vector<Fish*> allTheFish;
 
