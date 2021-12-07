@@ -114,7 +114,7 @@ T MyPriorityQueue<T,C>::top()const{
 
 template <typename T, typename C>
 void MyPriorityQueue<T,C>::pop(){
-    if (vector_array.empty()) return;
+    if (vector_array.size() < 1) return;
     swap(0, vector_array.size() - 1);   // Swap root and last element
     vector_array.pop_back();        // Remove last element
     if (!vector_array.empty()){
@@ -146,7 +146,9 @@ int MyPriorityQueue<T, C>::rightChild(const unsigned i){
 
 template <typename T, typename C>
 bool MyPriorityQueue<T, C>::isLeaf(const unsigned i){
-    return (i < vector_array.size()) && (2 * i + 1 > vector_array.size());
+    return (i < vector_array.size()) && (i >= vector_array.size()/2);
+
+    //return (i < vector_array.size()) && (2 * i + 1 > vector_array.size());
 }
 
 template <typename T, typename C>
@@ -172,11 +174,11 @@ void MyPriorityQueue<T, C>::siftdown(unsigned pos){
     while (!isLeaf(pos)){
         // Choose largest child
         unsigned child = leftChild(pos);
-        if (child < (vector_array.size() - 1) && !(strictly_larger_operator(vector_array[child], vector_array[child + 1]))){
+        if (child < (vector_array.size() - 1) && (strictly_larger_operator(vector_array[child + 1], vector_array[child]))){
             child++; // Right child
         }
         // If node larger than child, return, else continue
-        if (strictly_larger_operator(vector_array[pos], vector_array[child])){
+        if (!strictly_larger_operator(vector_array[child], vector_array[pos])){
             return;
         }
         // Swap and move down
