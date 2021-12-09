@@ -29,7 +29,7 @@ double Point::slopeTo(const Point& p) const {
 void Point::draw(QGraphicsScene *scene) const {
     QGraphicsEllipseItem *item = new QGraphicsEllipseItem(x / (COORD_MAX + 1.0) * scene->width(),
                                                           y / (COORD_MAX + 1.0) * scene->height(),
-                                                          5, 5); //TODO ändra till 1,1
+                                                          1, 1);
     item->setBrush(QBrush(QColor(255, 0, 0)));
     scene->addItem(item);
 }

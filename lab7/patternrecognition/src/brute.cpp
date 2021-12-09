@@ -29,6 +29,8 @@ void render_line(QGraphicsScene* scene, const Point& p1, const Point& p2) {
     p1.lineTo(scene, p2);
 }
 
+// Fast
+
 template <typename K, typename V>
 bool comparePairs(const std::pair<K,V>& lhs, const std::pair<K,V>& rhs)
 {
@@ -57,7 +59,7 @@ int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 
     // open file
-    string filename = "grid4x4.txt";
+    string filename = "mystery150.txt";
     //string filename = "input3200.txt";
     ifstream input;
     input.open(filename);
@@ -94,7 +96,7 @@ int main(int argc, char *argv[]) {
     sort(points.begin(), points.end());
     auto begin = chrono::high_resolution_clock::now();
 
-    // iterate through all combinations of 4 points
+    // Fast
 
     vector<pair<Point, double>> slopes;
     for (int i = 0 ; i < N ; i++) {
@@ -109,7 +111,9 @@ int main(int argc, char *argv[]) {
 
         drawLines(slopes, points[i], scene);
     }
-/*
+
+
+    /*
     // iterate through all combinations of 4 points
     for (int i = 0 ; i < N-3 ; ++i) {
         for (int j = i+1 ; j < N-2 ; ++j) {
@@ -126,7 +130,8 @@ int main(int argc, char *argv[]) {
             }
         }
     }
-*/
+    */
+
     auto end = chrono::high_resolution_clock::now();
     cout << "Computing line segments took "
          << std::chrono::duration_cast<chrono::milliseconds>(end - begin).count()
