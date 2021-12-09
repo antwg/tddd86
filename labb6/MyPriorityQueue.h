@@ -11,7 +11,6 @@
 #include "MyVector.h"
 #include "MyException.h"
 
-
 template <typename T, typename C>
 class MyPriorityQueue
 {
@@ -109,7 +108,6 @@ void MyPriorityQueue<T,C>::push(const T& t){
         swap(curr, parent(curr));
         curr = parent(curr);
     }
-
 }
 
 template <typename T, typename C>
@@ -182,9 +180,9 @@ void MyPriorityQueue<T, C>::siftdown(unsigned pos){
         return;
     }
     while (!isLeaf(pos)){
-        // Choose largest child
+        // Choose smallest child
         unsigned child = leftChild(pos);
-        if (child < (vector_array.size() - 1) && (strictly_larger_operator(vector_array[child + 1], vector_array[child]))){
+        if (child < (vector_array.size() - 1) && (strictly_larger_operator(vector_array[child], vector_array[child + 1]))){
             child++; // Right child
         }
         // If node larger than child, return, else continue

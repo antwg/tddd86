@@ -124,11 +124,27 @@ MyVector<T>& MyVector<T>::operator =(const MyVector& other){
     return *this;
 }
 
+/*
 template<typename T>
 void MyVector<T>::push_back(const T& e){
     if (arraySize == capacity){
         T* newArray = new T[capacity * 2];
         capacity *= 2;
+        for (int i = 0; i < arraySize; i++){
+            newArray[i] = arr[i];
+        }
+        delete[] arr;
+        arr = newArray;
+    }
+    arr[arraySize] = e;
+    arraySize++;
+}
+*/
+template<typename T>
+void MyVector<T>::push_back(const T& e){
+    if (arraySize == capacity){
+        T* newArray = new T[capacity + 1];
+        capacity += 1;
         for (int i = 0; i < arraySize; i++){
             newArray[i] = arr[i];
         }
