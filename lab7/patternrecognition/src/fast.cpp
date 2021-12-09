@@ -3,9 +3,7 @@
 * This program computes and plots all line segments involving 4 points
 * in a file using Qt.
 */
-
-
-
+/*
 #include <QApplication>
 #include <QGraphicsView>
 #include <QGraphicsScene>
@@ -15,6 +13,7 @@
 #include <vector>
 #include <chrono>
 #include "Point.h"
+#include "fast.h"
 
 // constants
 static const int SCENE_WIDTH = 512;
@@ -34,8 +33,8 @@ int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 
     // open file
-    //string filename = "input100.txt";
-    string filename = "input3200.txt";
+    string filename = "input100.txt";
+    //string filename = "input3200.txt";
     ifstream input;
     input.open(filename);
 
@@ -63,7 +62,7 @@ int main(int argc, char *argv[]) {
     render_points(scene, points);
     view->scale(1, -1); //screen y-axis is inverted
     view->resize(view->sizeHint());
-    view->setWindowTitle("Brute Force Pattern Recognition");
+    view->setWindowTitle("Fast Recognition");
     view->show();
 
     // sort points by natural order
@@ -72,21 +71,30 @@ int main(int argc, char *argv[]) {
     auto begin = chrono::high_resolution_clock::now();
 
     // iterate through all combinations of 4 points
-    for (int i = 0 ; i < N-3 ; ++i) {
-        for (int j = i+1 ; j < N-2 ; ++j) {
-            for (int k = j+1 ; k < N-1 ; ++k) {
-                //only consider fourth point if first three are collinear
-                if (points.at(i).slopeTo(points.at(j)) == points.at(i).slopeTo(points.at(k))) {
-                    for (int m{k+1} ; m < N ; ++m) {
-                        if (points.at(i).slopeTo(points.at(j)) == points.at(i).slopeTo(points.at(m))) {
-                            render_line(scene, points.at(i), points.at(m));
-                            a.processEvents(); // show rendered line
-                        }
-                    }
+    map<double, std::vector<Point>> slopes;
+    for (int i = 0 ; i < N ; i++) {
+        slopes.clear();
+        for (int j = 0 ; j < N ; j++) {
+            if (i != j){
+                double currSlope = points.at(i).slopeTo(points.at(j));
+                if (slopes.count(currSlope) <= 0) {
+                    std::vector<Point> *vect = new std::vector<Point>;
+                    slopes[currSlope] = *vect;
+                }
+                else {
+                    slopes[currSlope].push_back(points.at(j));
+                }
+            }
+        }
+        for (auto slope : slopes){
+            if (slope.second.size() >= 3){
+                for (Point point : slope.second){
+                render_line(scene, points.at(i), point);
                 }
             }
         }
     }
+
 
     auto end = chrono::high_resolution_clock::now();
     cout << "Computing line segments took "
@@ -96,3 +104,4 @@ int main(int argc, char *argv[]) {
     return a.exec(); // start Qt event loop
 }
 
+*/

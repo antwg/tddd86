@@ -5,7 +5,7 @@
 class fast
 {
 public:
-    fast();
+    //fast();
 };
 
 #endif // FAST_H
