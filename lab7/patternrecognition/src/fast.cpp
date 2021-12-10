@@ -3,6 +3,40 @@
  * This program computes and plots all line segments involving 4 points
  * in a file using Qt.
  */
+#include <vector>
+/*
+void drawLines(vector<pair<Point, double>> pairs, Point p,  QGraphicsScene* scene) {
+    int start = 0;
+    double currSlope = pairs[0].second;
+
+    for (unsigned end = 0; end < pairs.size(); end++) {
+        if (pairs[end].second != currSlope || end == pairs.size() - 1) {
+            if (end - start >= 3){
+                for (unsigned i = start; i < end; i++){
+                    render_line(scene, p, pairs[i].first);
+                }
+            }
+            start = end;
+            currSlope = pairs[start].second;
+        }
+    }
+}
+
+vector<pair<Point, double>> slopes;
+for (int i = 0 ; i < N ; i++) {
+    slopes.clear();
+    for (int j = 0 ; j < N ; j++) {
+        if (i != j){
+            pair<Point, double> pair = make_pair(points.at(j), points.at(i).slopeTo(points.at(j)));
+            slopes.push_back(pair);
+        }
+    }
+    sort(slopes.begin(), slopes.end(), comparePairs<Point, double>);
+
+    drawLines(slopes, points[i], scene);
+}
+*/
+
 /*
 
 #include <QApplication>
