@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 
     // open file
-    string filename = "input200.txt";
+    string filename = "input12800.txt";
     //string filename = "input3200.txt";
     ifstream input;
     input.open(filename);
@@ -82,7 +82,6 @@ int main(int argc, char *argv[]) {
 
                 if(slopes.count(slope) >= 3){
                     render_line(scene, points.at(p), points.at(q));
-
                 }
             }
         }
@@ -90,6 +89,7 @@ int main(int argc, char *argv[]) {
 
 
     /*
+    // Brute
     // iterate through all combinations of 4 points
     for (int i = 0 ; i < N-3 ; ++i) {
         for (int j = i+1 ; j < N-2 ; ++j) {
