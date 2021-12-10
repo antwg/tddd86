@@ -1,7 +1,8 @@
 /*
- * TDDD86 Pattern Recognition
- * This program computes and plots all line segments involving 4 points
- * in a file using Qt.
+ * Implements two methods for finding lines in a graph of points.
+ *
+ * antwe841
+ * bensu844
  */
 
 
@@ -14,7 +15,6 @@
 #include <vector>
 #include <chrono>
 #include "Point.h"
-#include "fast.h"
 
 // constants
 static const int SCENE_WIDTH = 512;
@@ -73,13 +73,16 @@ int main(int argc, char *argv[]) {
 
     // Fast
     multimap<double, Point> slopes;
+    // For each point p
     for (int p = 0 ; p < N ; p++) {
         slopes.clear();
+        // Compute slope to every other point
         for (int q = 0 ; q < N ; q++) {
             if (p != q){
                 double slope = points.at(p).slopeTo(points.at(q));
                 slopes.insert({slope, points.at(q)});
 
+                // If at least 3 equal slopes, draw
                 if(slopes.count(slope) >= 3){
                     render_line(scene, points.at(p), points.at(q));
                 }

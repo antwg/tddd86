@@ -1,33 +1,33 @@
-/**********************************************************************
- *  Mönsterigenkänning readme.txt
+ï»¿/**********************************************************************
+ *  Mï¿½nsterigenkï¿½nning readme.txt
  **********************************************************************/
 
 /**********************************************************************
- *  Empirisk    Fyll i tabellen nedan med riktiga körtider i sekunder
- *  analys      när det känns vettigt att vänta på hela beräkningen.
- *              Ge uppskattningar av körtiden i övriga fall.
+ *  Empirisk    Fyll i tabellen nedan med riktiga kï¿½rtider i sekunder
+ *  analys      nï¿½r det kï¿½nns vettigt att vï¿½nta pï¿½ hela berï¿½kningen.
+ *              Ge uppskattningar av kï¿½rtiden i ï¿½vriga fall.
  *
  **********************************************************************/
     
       N       brute       sortering
  ----------------------------------
-    150
-    200
-    300
-    400
-    800
-   1600
-   3200
-   6400
-  12800
+    150	  0.030	  0.016
+    200	  0.086	  0.030
+    300	  0.256	  0.075
+    400	  0.592	  0.141
+    800	  4.785	  0.542
+   1600	  38.450	  2.428
+   3200	  300.863	  10.071
+   6400		  	  42.714
+  12800			  181.942
 
 
 /**********************************************************************
- *  Teoretisk   Ge ordo-uttryck för värstafallstiden för programmen som
+ *  Teoretisk   Ge ordo-uttryck fï¿½r vï¿½rstafallstiden fï¿½r programmen som
  *  analys      en funktion av N. Ge en kort motivering.
  *
  **********************************************************************/
 
-Brute:
+Brute: VÃ¤rsta fall ordo(nâ´). I vÃ¤rsta fall ligger alla punkter pÃ¥ en linje och dÃ¥ mÃ¥ste alla fyra loopar kÃ¶ras. Varje loop Ã¤r ordo(n).
 
-Sortering:
+Sortering: VÃ¤rsta fall ordo(nÂ²logn). TvÃ¥ nÃ¤stlade loops med ordo(n) och en multimap count som Ã¤r ordo(logn).
