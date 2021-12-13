@@ -164,17 +164,18 @@ vector<Node *> dijkstrasAlgorithm(BasicGraph& graph, Vertex* start, Vertex* end)
                 std::reverse(path.begin(), path.end());
                 return path;
             }
-            else if (!neighborNode->visited){
-                // Update node
-                neighborNode->previous = shortestDistNode;
-                neighborNode->visited = true;
-                neighborNode->setColor(YELLOW);
-
-                // If new path to node is shorter than current, update
+            else {
                 double newCost = shortestDistNode->cost + edgeToNeighbor->cost;
-                if (newCost < neighborNode->cost) {
+                // If new cost lower, update cost
+                if (newCost < neighborNode->cost){
                     neighborNode->cost = newCost;
+                    neighborNode->previous = shortestDistNode;
                     priorityQueue.changePriority(neighborNode, newCost);
+                    if (!neighborNode->visited){
+                        // Update node
+                        neighborNode->visited = true;
+                        neighborNode->setColor(YELLOW);
+                    }
                 }
             }
         }
@@ -217,17 +218,19 @@ vector<Node *> aStar(BasicGraph& graph, Vertex* start, Vertex* end) {
                 std::reverse(path.begin(), path.end());
                 return path;
             }
-            else if (!neighborNode->visited){
-                // Update node
-                neighborNode->previous = shortestDistNode;
-                neighborNode->visited = true;
-                neighborNode->setColor(YELLOW);
 
-                // If new path to node is shorter than current, update
+            else {
                 double newCost = shortestDistNode->cost + edgeToNeighbor->cost;
-                if (newCost < neighborNode->cost) {
+                // If new cost lower, update cost
+                if (newCost < neighborNode->cost){
                     neighborNode->cost = newCost;
+                    neighborNode->previous = shortestDistNode;
                     priorityQueue.changePriority(neighborNode, newCost + neighborNode->heuristic(end));
+                    if (!neighborNode->visited){
+                        // Update node
+                        neighborNode->visited = true;
+                        neighborNode->setColor(YELLOW);
+                    }
                 }
             }
         }
