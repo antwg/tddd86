@@ -77,9 +77,9 @@ vector<Node *> breadthFirstSearch(BasicGraph& graph, Vertex* start, Vertex* end)
     return path;
 }
 
-void setNodesInfinity(BasicGraph& graph, Vertex* currentNode, PriorityQueue<Vertex*>& queue, Set<Node*> visited = {}){
+void setNodesInfinity(BasicGraph& graph, Vertex* currentNode, PriorityQueue<Vertex*>& queue, Set<Node*> visitedNodes = {}){
     // Set cost of currentNode to infinity
-    visited.add(currentNode);
+    visitedNodes.insert(currentNode);
     queue.enqueue(currentNode, POSITIVE_INFINITY);
     currentNode->cost = POSITIVE_INFINITY;
     // For all neighbors
@@ -87,8 +87,8 @@ void setNodesInfinity(BasicGraph& graph, Vertex* currentNode, PriorityQueue<Vert
     for(Arc* edgeToNeighbor : outgoingEdges){
         Vertex* neighborNode = edgeToNeighbor->finish;
         // If not visited, recurse
-        if (!visited.contains(neighborNode)){
-            setNodesInfinity(graph, neighborNode, queue, visited);
+        if (!visitedNodes.contains(neighborNode)){
+            setNodesInfinity(graph, neighborNode, queue, visitedNodes);
         }
     }
 }
