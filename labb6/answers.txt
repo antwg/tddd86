@@ -44,3 +44,9 @@ Programmet deallokerar fish:
 - ScheduleEvent()
 
 Det finns inga minnesläckor eftersom allt som skapas tas bort. Events läggs alltid till I kön av events och allt I kön tas bort förr eller senare. Fiskar tas bort när de fångas eller dör och de som överlever tas bort av simulatorns destruktor.
+
+Jämförelse O(1) mot O(n):
+
+O(1) tog 20 sekunder.
+
+O(n) gav vi upp på efter ca en timme.

@@ -12,7 +12,7 @@ const  unsigned AVG_MATURATION_TM = 500;
 // spawning
 const  unsigned MAX_AVG_EGGS_NUM = 100;
 const double MIN_SPAWN_CONC = 0.05;
-const unsigned SPAWN_THRESHOLD= 0.05 * STARVE_THRESHOLD;
+const unsigned SPAWN_THRESHOLD= 1000;
 
 
 // Harvesting
