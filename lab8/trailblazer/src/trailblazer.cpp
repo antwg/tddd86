@@ -15,6 +15,7 @@
 #include <queue>
 #include <algorithm>
 #include <vector>
+#include <unordered_set>
 using namespace std;
 
 vector<Node*> DFS(BasicGraph& graph, Vertex* currentNode, Vertex* targetNode){
@@ -112,7 +113,7 @@ vector<Node *> breadthFirstSearch(BasicGraph& graph, Vertex* startNode, Vertex* 
     return path;
 }
 
-void setNodesInfinity(BasicGraph& graph, Vertex* currentNode, PriorityQueue<Vertex*>& queue, Set<Node*> visitedNodes = {}){
+void setNodesInfinity(BasicGraph& graph, Vertex* currentNode, PriorityQueue<Vertex*>& queue, unordered_set<Node*>& visitedNodes){
     // Set cost of currentNode to infinity
     visitedNodes.insert(currentNode);
     queue.enqueue(currentNode, POSITIVE_INFINITY);
@@ -122,7 +123,7 @@ void setNodesInfinity(BasicGraph& graph, Vertex* currentNode, PriorityQueue<Vert
     for(Arc* edgeToNeighbor : outgoingEdges){
         Vertex* neighborNode = edgeToNeighbor->finish;
         // If not visited, recurse
-        if (!visitedNodes.contains(neighborNode)){
+        if (visitedNodes.count(neighborNode) == 0){  //contains(neighborNode)){
             setNodesInfinity(graph, neighborNode, queue, visitedNodes);
         }
     }
@@ -133,7 +134,8 @@ vector<Node *> dijkstrasAlgorithm(BasicGraph& graph, Vertex* start, Vertex* end)
     graph.resetData();
     vector<Vertex*> path;
     PriorityQueue<Vertex*> priorityQueue;
-    setNodesInfinity(graph, start, priorityQueue);
+    unordered_set<Node*> temp;
+    setNodesInfinity(graph, start, priorityQueue, temp);
 
     // Begin with start node
     start->cost = 0;
@@ -185,7 +187,8 @@ vector<Node *> aStar(BasicGraph& graph, Vertex* start, Vertex* end) {
     graph.resetData();
     vector<Vertex*> path;
     PriorityQueue<Vertex*> priorityQueue;
-    setNodesInfinity(graph, start, priorityQueue);
+    unordered_set<Node*> temp;
+    setNodesInfinity(graph, start, priorityQueue, temp);
 
     // Begin with start node
     start->cost = 0;
