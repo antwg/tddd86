@@ -6,6 +6,7 @@
 #include "costs.h"
 #include "trailblazer.h"
 // TODO: include any other headers you need; remove this comment
+#include <queue>
 using namespace std;
 
 vector<Node*> DFS(BasicGraph& graph, Vertex* currentNode, Vertex* targetNode){
@@ -44,6 +45,26 @@ vector<Node *> breadthFirstSearch(BasicGraph& graph, Vertex* start, Vertex* end)
     //       (The function body code provided below is just a stub that returns
     //        an empty vector so that the overall project will compile.
     //        You should remove that code and replace it with your implementation.)
+    queue<Vertex*> searchQueue;
+    searchQueue.push(start);
+    start->setColor(YELLOW);
+    while(!searchQueue.empty()){
+        Vertex* currentNode = searchQueue.front();
+        searchQueue.pop();
+        currentNode->visited = true;
+        currentNode->setColor(GREEN);
+        Set<Arc*> outgoingEdges = currentNode->arcs;
+
+        for(Arc* edgeToNeighbor : outgoingEdges){
+            Vertex* neighborNode = edgeToNeighbor->finish;
+            if(!neighborNode->visited){
+                searchQueue.push(neighborNode);
+                neighborNode->setColor(YELLOW);
+            }
+        }
+    }
+
+
     vector<Vertex*> path;
     return path;
 }
