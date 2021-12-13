@@ -107,18 +107,24 @@ MyVector<T>::~MyVector(){
 
 template<typename T>
 MyVector<T>::MyVector(const MyVector& other) : arraySize(other.arraySize), capacity(other.capacity){
+    delete[] arr;
+    arr = new T[other.capacity];
     for (int i; i < other.arraySize; i++){
         arr[i] = other.arr[i];
     }
 }
-
+ // Ny array
 template<typename T>
 MyVector<T>& MyVector<T>::operator =(const MyVector& other){
     if (this == &other) // Allows chaining
         return *this;
 
+    delete[] arr;
+    arr = new T[other.capacity];
+
     arraySize = other.arraySize;
     capacity = other.capacity;
+
     for (int i; i < other.arraySize; i++){
         arr[i] = other.arr[i];
     }
@@ -139,10 +145,10 @@ void MyVector<T>::push_back(const T& e){
     }
     arr[arraySize] = e;
     arraySize++;
-    int a = 0;
-    for (int i = 0; i < arraySize; i++){
-        a++;
-    }
+    //int a = 0;
+    //for (int i = 0; i < arraySize; i++){
+    //    a++;
+    //}
 }
 
 template<typename T>
