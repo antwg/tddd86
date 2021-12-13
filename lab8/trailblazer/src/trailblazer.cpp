@@ -79,6 +79,7 @@ vector<Node*> BFS(BasicGraph& graph, Vertex* currentNode, Vertex* targetNode, Ve
     */
 }
 
+/* Senaste
 vector<Node *> breadthFirstSearch(BasicGraph& graph, Vertex* startNode, Vertex* targetNode) {
     graph.resetData();
     queue<vector<Vertex*>> searchQueue;
@@ -110,6 +111,48 @@ vector<Node *> breadthFirstSearch(BasicGraph& graph, Vertex* startNode, Vertex* 
         }
     }
     path.clear();   // No path to target found
+    return path;
+}
+ */
+
+
+
+vector<Node *> breadthFirstSearch(BasicGraph& graph, Vertex* startNode, Vertex* targetNode) {
+    graph.resetData();
+    queue<Vertex*> searchQueue;
+    vector<Vertex*> path;
+    searchQueue.push(startNode);
+
+    while(!searchQueue.empty()){
+        // Queue startNode
+        Vertex* currentNode = searchQueue.front();
+        searchQueue.pop();
+        currentNode->visited = true;
+        currentNode->setColor(GREEN);
+
+        if(currentNode == targetNode){
+            // Update currentNode
+            path.push_back(currentNode);
+            currentNode->setColor(GREEN);
+            // Add all predecesors to path
+            while (currentNode != startNode) {
+                path.push_back(currentNode->previous);
+                currentNode = currentNode->previous;
+            }
+            return path;
+        }
+
+        // queue exploration of all neigbors of the current node
+        for(Arc* edgeToNeighbor : currentNode->arcs){
+            Vertex* neighbor = edgeToNeighbor->finish;
+            if(!neighbor->visited){
+                neighbor->visited = true;
+                neighbor->previous = currentNode;
+                searchQueue.push(neighbor);
+                neighbor->setColor(YELLOW);
+            }
+        }
+    }
     return path;
 }
 
