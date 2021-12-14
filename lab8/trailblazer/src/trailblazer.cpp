@@ -16,6 +16,7 @@
 #include <algorithm>
 #include <vector>
 #include <unordered_set>
+#include <set>
 using namespace std;
 
 vector<Node*> DFS(BasicGraph& graph, Vertex* currentNode, Vertex* targetNode){
@@ -88,21 +89,13 @@ vector<Node *> breadthFirstSearch(BasicGraph& graph, Vertex* startNode, Vertex* 
     return path;
 }
 
-void setNodesInfinity(BasicGraph& graph, Vertex* currentNode, PriorityQueue<Vertex*>& queue, unordered_set<Node*>& visitedNodes){
-    // Set cost of currentNode to infinity
-    visitedNodes.insert(currentNode);
-    queue.enqueue(currentNode, POSITIVE_INFINITY);
-    currentNode->cost = POSITIVE_INFINITY;
-    // For all neighbors
-    Set<Arc*> outgoingEdges = currentNode->arcs;
-    for(Arc* edgeToNeighbor : outgoingEdges){
-        Vertex* neighborNode = edgeToNeighbor->finish;
-        // If not visited, recurse
-        if (visitedNodes.count(neighborNode) == 0){  //contains(neighborNode)){
-            setNodesInfinity(graph, neighborNode, queue, visitedNodes);
-        }
+void setNodesInfinity(BasicGraph& graph, PriorityQueue<Vertex*>& queue){
+    for (Node* node : graph.getVertexSet()){
+        queue.enqueue(node, POSITIVE_INFINITY);
+        node->cost = POSITIVE_INFINITY;
     }
 }
+
 
 vector<Node *> dijkstrasAlgorithm(BasicGraph& graph, Vertex* start, Vertex* end) {
     // Setup
@@ -110,7 +103,7 @@ vector<Node *> dijkstrasAlgorithm(BasicGraph& graph, Vertex* start, Vertex* end)
     vector<Vertex*> path;
     PriorityQueue<Vertex*> priorityQueue;
     unordered_set<Node*> temp;
-    setNodesInfinity(graph, start, priorityQueue, temp);
+    setNodesInfinity(graph, priorityQueue);
 
     // Begin with start node
     start->cost = 0;
@@ -163,7 +156,7 @@ vector<Node *> aStar(BasicGraph& graph, Vertex* start, Vertex* end) {
     vector<Vertex*> path;
     PriorityQueue<Vertex*> priorityQueue;
     unordered_set<Node*> temp;
-    setNodesInfinity(graph, start, priorityQueue, temp);
+    setNodesInfinity(graph, priorityQueue);
 
     // Begin with start node
     start->cost = 0;
