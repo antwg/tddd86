@@ -19,6 +19,9 @@
 #include <set>
 using namespace std;
 
+/*
+ * A helper function for depth first search, performs most of the work.
+ */
 vector<Node*> DFS(BasicGraph& graph, Vertex* currentNode, Vertex* targetNode){
     // Previsit
     currentNode->visited = true;
@@ -47,11 +50,17 @@ vector<Node*> DFS(BasicGraph& graph, Vertex* currentNode, Vertex* targetNode){
     return toReturn;
 }
 
+/*
+ * An implementation of the depth first search algorithm. Mostly uses DFS()
+ */
 vector<Node *> depthFirstSearch(BasicGraph& graph, Vertex* start, Vertex* end) {
     graph.resetData();
     return DFS(graph, start, end);
 }
 
+/*
+ * An implementation of the breadth first search algorithm.
+ */
 vector<Node *> breadthFirstSearch(BasicGraph& graph, Vertex* startNode, Vertex* targetNode) {
     graph.resetData();
     queue<Vertex*> searchQueue;
@@ -92,6 +101,9 @@ vector<Node *> breadthFirstSearch(BasicGraph& graph, Vertex* startNode, Vertex* 
     return path;
 }
 
+/*
+ * Sets the cost and priotity of all nodes in graph to infinity
+ */
 void setNodesInfinity(BasicGraph& graph, PriorityQueue<Vertex*>& queue){
     for (Node* node : graph.getVertexSet()){
         queue.enqueue(node, POSITIVE_INFINITY);
@@ -99,7 +111,9 @@ void setNodesInfinity(BasicGraph& graph, PriorityQueue<Vertex*>& queue){
     }
 }
 
-
+/*
+ *  In implementation of Dijkstras algorithm
+ */
 vector<Node *> dijkstrasAlgorithm(BasicGraph& graph, Vertex* start, Vertex* end) {
     // Setup
     graph.resetData();
@@ -152,6 +166,9 @@ vector<Node *> dijkstrasAlgorithm(BasicGraph& graph, Vertex* start, Vertex* end)
     return path;
 }
 
+/*
+ * An implementation of the A* algortihm.
+ */
 vector<Node *> aStar(BasicGraph& graph, Vertex* start, Vertex* end) {
     // Setup
     graph.resetData();
