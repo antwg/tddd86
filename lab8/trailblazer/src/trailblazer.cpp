@@ -29,6 +29,7 @@ vector<Node*> DFS(BasicGraph& graph, Vertex* currentNode, Vertex* targetNode){
         Vertex* neighborNode = edgeToNeighbor->finish;
 
         if (neighborNode == targetNode) {
+            neighborNode->setColor(GREEN);
             vector<Node*> toReturn = {currentNode, neighborNode};     // Return the path from current to last (trivial)
             return toReturn;    // return [currentMode, targetNode]
         } else if (!neighborNode->visited) {
@@ -41,6 +42,7 @@ vector<Node*> DFS(BasicGraph& graph, Vertex* currentNode, Vertex* targetNode){
         }
     }
     // No path has been found from currentNode to targetNode
+    currentNode->setColor(GRAY);
     vector<Node*> toReturn = {};
     return toReturn;
 }
@@ -86,6 +88,7 @@ vector<Node *> breadthFirstSearch(BasicGraph& graph, Vertex* startNode, Vertex* 
             }
         }
     }
+    path.clear();
     return path;
 }
 
@@ -102,7 +105,6 @@ vector<Node *> dijkstrasAlgorithm(BasicGraph& graph, Vertex* start, Vertex* end)
     graph.resetData();
     vector<Vertex*> path;
     PriorityQueue<Vertex*> priorityQueue;
-    unordered_set<Node*> temp;
     setNodesInfinity(graph, priorityQueue);
 
     // Begin with start node
@@ -155,7 +157,6 @@ vector<Node *> aStar(BasicGraph& graph, Vertex* start, Vertex* end) {
     graph.resetData();
     vector<Vertex*> path;
     PriorityQueue<Vertex*> priorityQueue;
-    unordered_set<Node*> temp;
     setNodesInfinity(graph, priorityQueue);
 
     // Begin with start node
