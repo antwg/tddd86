@@ -1,14 +1,36 @@
-// This is the CPP file you will edit and turn in.
-// Also remove these comments here and add your own, along with
-// comments on every function and on complex code sections.
-// TODO: remove this comment header
+/*
+ * antwe841
+ * bensu844
+ *
+ * An implementation of Huffman encoding
+ */
 
 #include "encoding.h"
+#include <iterator>
 // TODO: include any other headers you need
 
+using namespace std;
+
 map<int, int> buildFrequencyTable(istream& input) {
-    // TODO: implement this function
     map<int, int> freqTable;
+    freqTable.emplace(PSEUDO_EOF, 1);
+    int character = input.get();
+    while (character != -1) {
+        // If char already in map, increment value
+        auto findChar = freqTable.find(character);
+        if (findChar != freqTable.end()) {
+            findChar->second += 1;
+        }
+        // else, create new
+        else {
+            freqTable.emplace(character, 1);
+        }
+        // Get next letter
+        character = input.get();
+    }
+
+
+
     return freqTable;
 }
 
