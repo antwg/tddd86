@@ -33,13 +33,15 @@ map<int, int> buildFrequencyTable(istream& input) {
     return freqTable;
 }
 
-bool compare(HuffmanNode l, HuffmanNode r){
-    return l.count > r.count;
-}
+class Compare {
+public:
+    bool operator() (HuffmanNode* l, HuffmanNode* r){
+        return l->count > r->count;
+    }
+};
 
 HuffmanNode* buildEncodingTree(const map<int, int> &freqTable) {
-    // TODO Sorterar efter address, inte count, av nån jävla anledning
-    std::priority_queue<HuffmanNode*> queue;
+    std::priority_queue<HuffmanNode*, vector<HuffmanNode*>, Compare> queue;
     // Add all chars to queue as nodes
     for (auto it = freqTable.begin(); it != freqTable.end(); it++){
         HuffmanNode* node = new HuffmanNode(it->first, it->second, nullptr, nullptr);
