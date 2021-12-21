@@ -71,14 +71,11 @@ void traverseTree(const HuffmanNode* root, const string& path, map<int, string>&
     if(root->isLeaf()) {
         map.emplace(root->character, path);
     } else {
-        if (root->zero != nullptr){
-            string newPath = path;
-            traverseTree(root->zero, newPath.append("0") , map);
-        }
-        if (root->one != nullptr){
-            string newPath = path;
-            traverseTree(root->one, newPath.append("1") , map);
-        }
+        string newPath = path;
+        traverseTree(root->zero, newPath.append("0") , map);
+
+        newPath = path;
+        traverseTree(root->one, newPath.append("1") , map);
     }
 }
 
@@ -99,7 +96,6 @@ void writeCharacter(int character, const map<int, string> &encodingMap, obitstre
 }
 
 void encodeData(istream& input, const map<int, string> &encodingMap, obitstream& output) {
-    // TODO: implement this function
     int character = input.get();
     while(character != -1){
         writeCharacter(character, encodingMap, output);
@@ -110,11 +106,57 @@ void encodeData(istream& input, const map<int, string> &encodingMap, obitstream&
 }
 
 void decodeData(ibitstream& input, HuffmanNode* encodingTree, ostream& output) {
-    // TODO: implement this function
+    int bit = input.readBit();
+    HuffmanNode* currentNode = encodingTree;
+
+    while(bit != -1){
+        if(bit == 0){
+            currentNode = currentNode->zero;
+        } else {
+            currentNode = currentNode->one;
+        }
+
+        if (currentNode->isLeaf()){
+            output.put(currentNode->character);
+            currentNode = encodingTree;
+        }
+
+        bit = input.readBit();
+    }
+}
+
+void writeAscii(int c, obitstream& output){
+    for(int i = 0; i < 8; i++){
+        output.writeBit((c >> i) & 1);
+    }
+}
+
+void writeHeader(map<int, string> encodingMap, obitstream& output){
+    output.put('{');
+    for (pair<int, string> pair : encodingMap){
+        // print character
+        output.put(':');
+        // print count
+        output.put(',');
+        output.put(' ');
+    }
+    output.put('}');
 }
 
 void compress(istream& input, obitstream& output) {
     // TODO: implement this function
+    map<int, int> frequencyTable = buildFrequencyTable(input);
+    HuffmanNode* encodingTree = buildEncodingTree(frequencyTable);
+    map<int, string> encodingMap = buildEncodingMap(encodingTree);
+
+    writeHeader(encodingMap, output);
+
+    input.clear();              // removes any current eof/failure flags
+    input.seekg(0, ios::beg);   // tells the stream to seek back to the beginning
+
+    encodeData(input, encodingMap, output);
+
+
 }
 
 void decompress(ibitstream& input, ostream& output) {
