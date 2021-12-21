@@ -42,11 +42,13 @@ public:
 
 HuffmanNode* buildEncodingTree(const map<int, int> &freqTable) {
     std::priority_queue<HuffmanNode*, vector<HuffmanNode*>, Compare> queue;
+
     // Add all chars to queue as nodes
     for (auto it = freqTable.begin(); it != freqTable.end(); it++){
         HuffmanNode* node = new HuffmanNode(it->first, it->second, nullptr, nullptr);
         queue.push(node);
     }
+
     while (queue.size() >= 2){
         // Get two smallest
         HuffmanNode* leftChildptr = queue.top();
@@ -60,14 +62,33 @@ HuffmanNode* buildEncodingTree(const map<int, int> &freqTable) {
         HuffmanNode* newNode = new HuffmanNode(NOT_A_CHAR, leftChildptr->count + rightChildptr->count, leftChildptr, rightChildptr);
         queue.push(newNode);
     }
-    //HuffmanNode root = queue.top();
+
     HuffmanNode* rootptr = queue.top();
     return rootptr;
 }
 
+void traverseTree(const HuffmanNode* root, const string& path, map<int, string>& map){
+    if(root->isLeaf()) {
+        map.emplace(root->character, path);
+        cout << "emplacing " << root->character << " at " << path << endl;
+    } else {
+        if (root->zero != nullptr){
+            string newPath = path;
+            traverseTree(root->zero, newPath.append("0") , map);
+        }
+        if (root->one != nullptr){
+            string newPath = path;
+            traverseTree(root->one, newPath.append("1") , map);
+        }
+    }
+}
+
 map<int, string> buildEncodingMap(HuffmanNode* encodingTree) {
-    // TODO: implement this function
     map<int, string> encodingMap;
+    string emptyString = "";
+
+    traverseTree(encodingTree, emptyString, encodingMap);
+
     return encodingMap;
 }
 
