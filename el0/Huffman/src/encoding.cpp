@@ -39,28 +39,27 @@ bool compare(HuffmanNode l, HuffmanNode r){
 
 HuffmanNode* buildEncodingTree(const map<int, int> &freqTable) {
     // TODO Sorterar efter address, inte count, av nån jävla anledning
-    std::priority_queue<HuffmanNode> queue;
+    std::priority_queue<HuffmanNode*> queue;
     // Add all chars to queue as nodes
     for (auto it = freqTable.begin(); it != freqTable.end(); it++){
-        HuffmanNode node = HuffmanNode(it->first, it->second, nullptr, nullptr);
+        HuffmanNode* node = new HuffmanNode(it->first, it->second, nullptr, nullptr);
         queue.push(node);
     }
     while (queue.size() >= 2){
         // Get two smallest
-        HuffmanNode leftChild = queue.top();
-        HuffmanNode* leftChildptr = &leftChild;
+        HuffmanNode* leftChildptr = queue.top();
         queue.pop();
 
-        HuffmanNode rightChild = queue.top();
-        HuffmanNode* rightChildptr = &rightChild;
+
+        HuffmanNode* rightChildptr = queue.top();
         queue.pop();
 
         // Create new node with two smallest as children
-        HuffmanNode newNode = HuffmanNode(NOT_A_CHAR, leftChild.count + rightChild.count, leftChildptr, rightChildptr);
+        HuffmanNode* newNode = new HuffmanNode(NOT_A_CHAR, leftChildptr->count + rightChildptr->count, leftChildptr, rightChildptr);
         queue.push(newNode);
     }
-    HuffmanNode root = queue.top();
-    HuffmanNode* rootptr = & root;
+    //HuffmanNode root = queue.top();
+    HuffmanNode* rootptr = queue.top();
     return rootptr;
 }
 
