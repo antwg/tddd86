@@ -70,7 +70,6 @@ HuffmanNode* buildEncodingTree(const map<int, int> &freqTable) {
 void traverseTree(const HuffmanNode* root, const string& path, map<int, string>& map){
     if(root->isLeaf()) {
         map.emplace(root->character, path);
-        cout << "emplacing " << root->character << " at " << path << endl;
     } else {
         if (root->zero != nullptr){
             string newPath = path;
@@ -92,8 +91,22 @@ map<int, string> buildEncodingMap(HuffmanNode* encodingTree) {
     return encodingMap;
 }
 
+void writeCharacter(int character, const map<int, string> &encodingMap, obitstream& output){
+    for(char c : encodingMap.at(character)){
+        cout << c - 48 << endl;
+        output.writeBit(c - 48);    // convert ascii-coded char to int 0 or 1
+    }
+}
+
 void encodeData(istream& input, const map<int, string> &encodingMap, obitstream& output) {
     // TODO: implement this function
+    int character = input.get();
+    while(character != -1){
+        writeCharacter(character, encodingMap, output);
+        character = input.get();
+    }
+
+    writeCharacter(PSEUDO_EOF, encodingMap, output);
 }
 
 void decodeData(ibitstream& input, HuffmanNode* encodingTree, ostream& output) {
