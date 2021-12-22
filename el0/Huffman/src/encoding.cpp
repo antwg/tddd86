@@ -90,8 +90,7 @@ map<int, string> buildEncodingMap(HuffmanNode* encodingTree) {
 
 void writeCharacter(int character, const map<int, string> &encodingMap, obitstream& output){
     for(char c : encodingMap.at(character)){
-        cout << c - 48 << endl;
-        output.writeBit(c - 48);    // convert ascii-coded char to int 0 or 1
+        output.writeBit(c - '0');    // convert ascii-coded char to int 0 or 1
     }
 }
 
@@ -125,31 +124,41 @@ void decodeData(ibitstream& input, HuffmanNode* encodingTree, ostream& output) {
     }
 }
 
-void writeAscii(int c, obitstream& output){
-    for(int i = 0; i < 8; i++){
-        output.writeBit((c >> i) & 1);
+void writeInteger(int n, obitstream& output){
+    string s = to_string(n);
+    for(char digit : s){
+        output.put(digit);
     }
 }
 
-void writeHeader(map<int, string> encodingMap, obitstream& output){
+void writeHeader(map<int, int> frequencyTable, obitstream& output){
+    bool firstStep = true;
+
     output.put('{');
-    for (pair<int, string> pair : encodingMap){
-        // print character
+    for (pair<int, int> pair : frequencyTable){
+        if(!firstStep){
+            output.put(',');
+            output.put(' ');
+        } else {
+            firstStep = false;
+        }
+
+        // Write character
+        writeInteger(pair.first, output);
         output.put(':');
-        // print count
-        output.put(',');
-        output.put(' ');
+        // Write count
+        writeInteger(pair.second, output);
+
     }
     output.put('}');
 }
 
 void compress(istream& input, obitstream& output) {
-    // TODO: implement this function
     map<int, int> frequencyTable = buildFrequencyTable(input);
     HuffmanNode* encodingTree = buildEncodingTree(frequencyTable);
     map<int, string> encodingMap = buildEncodingMap(encodingTree);
 
-    writeHeader(encodingMap, output);
+    writeHeader(frequencyTable, output);
 
     input.clear();              // removes any current eof/failure flags
     input.seekg(0, ios::beg);   // tells the stream to seek back to the beginning
@@ -159,8 +168,47 @@ void compress(istream& input, obitstream& output) {
 
 }
 
+
+map<int, int> readHeader(ibitstream& input){
+    map<int, int> frequencyTable= {};
+    char byte = input.get();
+    bool readingToCharacter = true;
+    string character = "";
+    string count = "";
+
+    while (byte != '}'){
+        byte = input.get();
+        if(byte == '}'){
+            frequencyTable.emplace(stoi(character), stoi(count));
+        } else if (byte == ':'){
+            readingToCharacter = false;
+            // switch
+        } else if (byte == ','){
+            input.get();    // Remove space after comma
+            readingToCharacter = true;
+            // store values to map
+            frequencyTable.emplace(stoi(character), stoi(count));
+            character = "";
+            count = "";
+        } else {
+            if(readingToCharacter){
+                character.push_back(byte);
+            } else {
+                count.push_back(byte);
+            }
+        }
+    }
+
+    return frequencyTable;
+}
+
+
 void decompress(ibitstream& input, ostream& output) {
-    // TODO: implement this function
+    map<int, int> frequencyTable = readHeader(input);
+    HuffmanNode* encodingTree = buildEncodingTree(frequencyTable);
+    map<int, string> encodingMap = buildEncodingMap(encodingTree);
+
+    decodeData(input, encodingTree, output);
 }
 
 void freeTree(HuffmanNode* node) {
