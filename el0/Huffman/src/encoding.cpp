@@ -165,7 +165,7 @@ void compress(istream& input, obitstream& output) {
 
     encodeData(input, encodingMap, output);
 
-
+    freeTree(encodingTree);
 }
 
 
@@ -209,8 +209,15 @@ void decompress(ibitstream& input, ostream& output) {
     map<int, string> encodingMap = buildEncodingMap(encodingTree);
 
     decodeData(input, encodingTree, output);
+
+    freeTree(encodingTree);
 }
 
 void freeTree(HuffmanNode* node) {
-    // TODO: implement this function
+    if(!node->isLeaf()){
+        freeTree(node->zero);
+        freeTree(node->one);
+    }
+
+    delete node;
 }
