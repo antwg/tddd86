@@ -23,11 +23,13 @@ using namespace std;
 template <size_t N, typename ElemType>
 class Node {
 public:
-    Node(const Point<N>& pt, const Node* parent);
+    Node(const Point<N>& pt, const ElemType& val, const Node* parent);
 
     ~Node();
 
     Point<N> point;
+    ElemType value;
+
     Node* leftChild = nullptr;
     Node* rightChild = nullptr;
     Node* parentNode;
@@ -36,8 +38,9 @@ private:
 };
 
 template <size_t N, typename ElemType>
-Node<N, ElemType>::Node(const Point<N>& pt, const Node* parent) {
+Node<N, ElemType>::Node(const Point<N>& pt, const ElemType& val, const Node* parent) {
     point = pt;
+    value = val;
     parentNode = parent;
 }
 
@@ -132,7 +135,7 @@ private:
     size_t treeSize;
     Node<N, ElemType>* root;
 
-    Point<N>* findNode(const Point<N>& pt) const;
+    Node<N, ElemType>* findNode(const Point<N>& pt) const;
 };
 
 /** KDTree class implementation details */
@@ -164,27 +167,53 @@ bool KDTree<N, ElemType>::empty() const {
 
 template <size_t N, typename ElemType>
 bool KDTree<N, ElemType>::contains(const Point<N>& pt) const {
-    // TODO: Fill this in.
+    return findNode(pt) != nullptr;
 }
 
 template <size_t N, typename ElemType>
 void KDTree<N, ElemType>::insert(const Point<N>& pt, const ElemType& value) {
-    // TODO: Fill this in.
+    Node<N, ElemType>* node = findNode(pt);
+
+    if (node != nullptr) {
+        node->value = value;
+    } else {
+        // TODO: add code
+    }
 }
 
 template <size_t N, typename ElemType>
 ElemType& KDTree<N, ElemType>::operator[](const Point<N>& pt) {
-    // TODO: Fill this in.
+    Node<N, ElemType>* node = findNode(pt);
+
+    if (node == nullptr) {
+        insert(pt, {});
+        node = findNode(pt);    // TODO: look at this again
+        return node->value;
+    }
+
+    return node->value;
 }
 
 template <size_t N, typename ElemType>
 ElemType& KDTree<N, ElemType>::at(const Point<N>& pt) {
-    // TODO: Fill this in.
+    Node<N, ElemType>* node = findNode(pt);
+
+    if (node == nullptr) {
+        throw out_of_range ("Point is not in the tree!");
+    }
+
+    return node->value;
 }
 
 template <size_t N, typename ElemType>
 const ElemType& KDTree<N, ElemType>::at(const Point<N>& pt) const {
-    // TODO: Fill this in.
+    Node<N, ElemType>* node = findNode(pt);
+
+    if (node == nullptr) {
+        throw out_of_range ("Point is not in the tree!");
+    }
+
+    return node->value;
 }
 
 template <size_t N, typename ElemType>
@@ -193,8 +222,11 @@ ElemType KDTree<N, ElemType>::kNNValue(const Point<N>& key, size_t k) const {
 }
 
 template <size_t N, typename ElemType>
-Point<N>* KDTree<N, ElemType>::findNode(const Point<N>& pt) const {
+Node<N, ElemType>* KDTree<N, ElemType>::findNode(const Point<N>& pt) const {
     // TODO: Fill this in.
+    if (root->point == pt){
+        return root;
+    }
 }
 
 // TODO: finish the implementation of the rest of the KDTree class
