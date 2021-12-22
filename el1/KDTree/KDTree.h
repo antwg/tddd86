@@ -1,6 +1,6 @@
 /**
  * File: KDTree.h
- * Author: (your name here)
+ * Author: antwe841, bensu844
  * ------------------------
  * An interface representing a kd-tree in some number of dimensions. The tree
  * can be constructed from a set of data and then queried for membership and
@@ -19,6 +19,34 @@
 // including it here so that you may use things like size_t without having to
 // type std::size_t every time.
 using namespace std;
+
+template <size_t N, typename ElemType>
+class Node {
+public:
+    Node(const Point<N>& pt, const Node* parent);
+
+    ~Node();
+
+    Point<N> point;
+    Node* leftChild = nullptr;
+    Node* rightChild = nullptr;
+    Node* parentNode;
+private:
+
+};
+
+template <size_t N, typename ElemType>
+Node<N, ElemType>::Node(const Point<N>& pt, const Node* parent) {
+    point = pt;
+    parentNode = parent;
+}
+
+template <size_t N, typename ElemType>
+Node<N, ElemType>::~Node() {
+
+}
+
+
 
 template <size_t N, typename ElemType>
 class KDTree {
@@ -101,6 +129,10 @@ public:
 
 private:
     // TODO: Add implementation details here.
+    size_t treeSize;
+    Node<N, ElemType>* root;
+
+    Point<N>* findNode(const Point<N>& pt) const;
 };
 
 /** KDTree class implementation details */
@@ -117,8 +149,52 @@ KDTree<N, ElemType>::~KDTree() {
 
 template <size_t N, typename ElemType>
 size_t KDTree<N, ElemType>::dimension() const {
+    return N;
+}
+
+template <size_t N, typename ElemType>
+size_t KDTree<N, ElemType>::size() const {
+    return treeSize;
+}
+
+template <size_t N, typename ElemType>
+bool KDTree<N, ElemType>::empty() const {
+    return treeSize == 0;
+}
+
+template <size_t N, typename ElemType>
+bool KDTree<N, ElemType>::contains(const Point<N>& pt) const {
     // TODO: Fill this in.
-    return 0;
+}
+
+template <size_t N, typename ElemType>
+void KDTree<N, ElemType>::insert(const Point<N>& pt, const ElemType& value) {
+    // TODO: Fill this in.
+}
+
+template <size_t N, typename ElemType>
+ElemType& KDTree<N, ElemType>::operator[](const Point<N>& pt) {
+    // TODO: Fill this in.
+}
+
+template <size_t N, typename ElemType>
+ElemType& KDTree<N, ElemType>::at(const Point<N>& pt) {
+    // TODO: Fill this in.
+}
+
+template <size_t N, typename ElemType>
+const ElemType& KDTree<N, ElemType>::at(const Point<N>& pt) const {
+    // TODO: Fill this in.
+}
+
+template <size_t N, typename ElemType>
+ElemType KDTree<N, ElemType>::kNNValue(const Point<N>& key, size_t k) const {
+    // TODO: Fill this in.
+}
+
+template <size_t N, typename ElemType>
+Point<N>* KDTree<N, ElemType>::findNode(const Point<N>& pt) const {
+    // TODO: Fill this in.
 }
 
 // TODO: finish the implementation of the rest of the KDTree class
