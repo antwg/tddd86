@@ -32,7 +32,7 @@ public:
 
     Node* leftChild = nullptr;
     Node* rightChild = nullptr;
-    Node* parentNode;
+    const Node* parentNode;
 private:
 
 };
@@ -142,7 +142,8 @@ private:
 
 template <size_t N, typename ElemType>
 KDTree<N, ElemType>::KDTree() {
-    // TODO: Fill this in.
+    treeSize = 0;
+    root = nullptr;
 }
 
 template <size_t N, typename ElemType>
@@ -172,13 +173,32 @@ bool KDTree<N, ElemType>::contains(const Point<N>& pt) const {
 
 template <size_t N, typename ElemType>
 void KDTree<N, ElemType>::insert(const Point<N>& pt, const ElemType& value) {
-    Node<N, ElemType>* node = findNode(pt);
-
-    if (node != nullptr) {
-        node->value = value;
-    } else {
-        // TODO: add code
+    treeSize++;
+    if (root == nullptr) {
+        root = new Node<N,ElemType>(pt, value, nullptr);
+        return;
     }
+    Node<N, ElemType>* node = findNode(pt);
+    int n = 0;
+    Node<N, ElemType>* currNode = root;
+    while (currNode->point != pt){
+        if (pt[n] > currNode->point[n]){
+            if (currNode->rightChild == nullptr){
+                currNode->rightChild = new Node<N, ElemType>(pt, value, currNode);
+                return;
+            }
+            currNode = currNode->rightChild;
+        }
+        else {
+            if (currNode->leftChild == nullptr){
+                currNode->leftChild = new Node<N, ElemType>(pt, value, currNode);
+                return;
+            }
+            currNode = currNode->leftChild;
+        }
+        n = (n + 1) % N;
+    }
+    currNode->value = value;
 }
 
 template <size_t N, typename ElemType>
