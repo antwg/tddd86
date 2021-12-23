@@ -29,6 +29,7 @@ public:
 
     Point<N> point;
     ElemType value;
+    int depth;
 
     Node* leftChild = nullptr;
     Node* rightChild = nullptr;
@@ -42,6 +43,11 @@ Node<N, ElemType>::Node(const Point<N>& pt, const ElemType& val, const Node* par
     point = pt;
     value = val;
     parentNode = parent;
+    if (parent == nullptr) {
+        depth = 0;
+    } else {
+        depth == parent->depth + 1;
+    }
 }
 
 template <size_t N, typename ElemType>
@@ -179,9 +185,10 @@ void KDTree<N, ElemType>::insert(const Point<N>& pt, const ElemType& value) {
         return;
     }
     Node<N, ElemType>* node = findNode(pt);
-    int n = 0;
+    int n;
     Node<N, ElemType>* currNode = root;
     while (currNode->point != pt){
+        n = currNode->depth % 3;
         if (pt[n] > currNode->point[n]){
             if (currNode->rightChild == nullptr){
                 currNode->rightChild = new Node<N, ElemType>(pt, value, currNode);
@@ -196,7 +203,6 @@ void KDTree<N, ElemType>::insert(const Point<N>& pt, const ElemType& value) {
             }
             currNode = currNode->leftChild;
         }
-        n = (n + 1) % N;
     }
     currNode->value = value;
 }
@@ -237,8 +243,37 @@ const ElemType& KDTree<N, ElemType>::at(const Point<N>& pt) const {
 }
 
 template <size_t N, typename ElemType>
+void search(const Point<N> key, BoundedPQueue<Node<N, ElemType>*>& bpq, Node<N, ElemType>* curr){
+    if (curr == nullptr){
+        return;
+    }
+
+    bpq.enqueue(curr, Distance(curr->point, key));
+
+    int n = curr->depth % N;
+    if (key[n] < curr->point[n]){
+        search(key, bpq, curr->leftChild);
+        if (bpq.size() == bpq.maxSize() || abs(curr->point[n] - key[n]) < bpq.worst()){
+            search(key, bpq, curr->rightChild);
+        }
+    } else {
+        search(key, bpq, curr->rightChild);
+        if (bpq.size() != bpq.maxSize() || abs(curr->point[n] - key[n]) < bpq.worst()){
+            search(key, bpq, curr->leftChild);
+        }
+    }
+}
+
+template <size_t N, typename ElemType>
 ElemType KDTree<N, ElemType>::kNNValue(const Point<N>& key, size_t k) const {
     // TODO: Fill this in.
+    BoundedPQueue<Node<N, ElemType>*> bpq = BoundedPQueue<Node<N, ElemType>*>(k);
+
+    Node<N, ElemType>* curr = root;
+
+    search(key, bpq, curr);
+
+    int i=0;
 }
 
 template <size_t N, typename ElemType>
@@ -246,9 +281,10 @@ Node<N, ElemType>* KDTree<N, ElemType>::findNode(const Point<N>& pt) const {
     if (this->empty()){
         return nullptr;
     }
-    int n = 0;
+    int n;
     Node<N, ElemType>* currNode = root;
     while (currNode->point != pt){
+        n = currNode->depth % 3;
         if (pt[n] > currNode->point[n]){
             if (currNode->rightChild == nullptr){
                 return nullptr;
@@ -261,7 +297,6 @@ Node<N, ElemType>* KDTree<N, ElemType>::findNode(const Point<N>& pt) const {
             }
             currNode = currNode->leftChild;
         }
-        n = (n + 1) % N;
     }
     return currNode;
 }
