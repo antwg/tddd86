@@ -251,16 +251,24 @@ void search(const Point<N> key, BoundedPQueue<Node<N, ElemType>*>& bpq, Node<N, 
     bpq.enqueue(curr, Distance(curr->point, key));
 
     int n = curr->depth % N;
+
+    Node<N, ElemType>* nextNode;
+    Node<N, ElemType>* otherNode;
+
     if (key[n] < curr->point[n]){
-        search(key, bpq, curr->leftChild);
-        if (bpq.size() == bpq.maxSize() || abs(curr->point[n] - key[n]) < bpq.worst()){
-            search(key, bpq, curr->rightChild);
-        }
+        nextNode = curr->leftChild;
+        otherNode = curr->rightChild;
     } else {
-        search(key, bpq, curr->rightChild);
-        if (bpq.size() != bpq.maxSize() || abs(curr->point[n] - key[n]) < bpq.worst()){
-            search(key, bpq, curr->leftChild);
-        }
+        nextNode = curr->rightChild;
+        otherNode = curr->leftChild;
+    }
+
+    search(key, bpq, nextNode);
+
+    bool bpqFull = bpq.size() >= bpq.maxSize();
+    double dist = abs(curr->point[n] - key[n]);
+    if(!bpqFull || dist < bpq.worst()){
+        search(key, bpq, otherNode);
     }
 }
 
@@ -273,7 +281,26 @@ ElemType KDTree<N, ElemType>::kNNValue(const Point<N>& key, size_t k) const {
 
     search(key, bpq, curr);
 
-    int i=0;
+    map<ElemType, int> values;
+    ElemType mostCommonVal;
+    int occurences = 0;
+
+    while (!bpq.empty()){
+        ElemType nextVal = bpq.dequeueMin()->value;
+
+        if(values.count(nextVal) >= 1){
+            values[nextVal]++;
+        } else {
+            values.emplace(nextVal, 1);
+        }
+
+        if (values[nextVal] > occurences){
+            occurences = values[nextVal];
+            mostCommonVal = nextVal;
+        }
+    }
+
+    return mostCommonVal;
 }
 
 template <size_t N, typename ElemType>
