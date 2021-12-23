@@ -223,10 +223,27 @@ ElemType KDTree<N, ElemType>::kNNValue(const Point<N>& key, size_t k) const {
 
 template <size_t N, typename ElemType>
 Node<N, ElemType>* KDTree<N, ElemType>::findNode(const Point<N>& pt) const {
-    // TODO: Fill this in.
-    if (root->point == pt){
-        return root;
+    if (this->empty()){
+        return nullptr;
     }
+    int n = 0;
+    Node<N, ElemType>* currNode = root;
+    while (currNode->point != pt){
+        if (pt[n] > currNode->point[n]){
+            if (currNode->rightChild == nullptr){
+                return nullptr;
+            }
+            currNode = currNode->rightChild;
+        }
+        else {
+            if (currNode->leftChild == nullptr){
+                return nullptr;
+            }
+            currNode = currNode->leftChild;
+        }
+        n = (n + 1) % N;
+    }
+    return currNode;
 }
 
 // TODO: finish the implementation of the rest of the KDTree class
