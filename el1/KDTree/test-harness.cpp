@@ -33,8 +33,8 @@ using namespace std;
 #define NearestNeighborTestEnabled      1 // Step two checks
 #define MoreNearestNeighborTestEnabled  1
 
-#define BasicCopyTestEnabled            0 // Step three checks
-#define ModerateCopyTestEnabled         0
+#define BasicCopyTestEnabled            1 // Step three checks
+#define ModerateCopyTestEnabled         1
 
 /* A utility function to construct a Point from a range of iterators. */
 template <size_t N, typename IteratorType>
@@ -75,8 +75,8 @@ Point<4> makePoint(double x, double y, double z, double w) {
 /* Utility function that pauses until the user hits ENTER. */
 void pressEnterToContinue() {
   /* Use getline to stall until receiving input. */
-  string line;
-  getline(cin, line);
+  //string line;
+  //getline(cin, line);
 }
 
 /* This function is what the test suite uses to ensure that the KDTree works
