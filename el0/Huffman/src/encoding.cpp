@@ -9,10 +9,13 @@
 #include <iterator>
 #include <queue>
 #include <vector>
-// TODO: include any other headers you need
 
 using namespace std;
 
+/*
+ * Builds a frequency table for the given input.
+ * The frequency table is a map of off charecters and how many times they are used.
+ */
 map<int, int> buildFrequencyTable(istream& input) {
     map<int, int> freqTable;
     freqTable.emplace(PSEUDO_EOF, 1);
@@ -40,6 +43,11 @@ public:
     }
 };
 
+/*
+ *  Builds an encoding tree.
+ *  The tree if constructed in such a way that the most common characters are
+ *  near the root of the tree and uncommon character are far from the root.
+ */
 HuffmanNode* buildEncodingTree(const map<int, int> &freqTable) {
     std::priority_queue<HuffmanNode*, vector<HuffmanNode*>, Compare> queue;
 
@@ -67,6 +75,10 @@ HuffmanNode* buildEncodingTree(const map<int, int> &freqTable) {
     return rootptr;
 }
 
+/*
+ * Traverses the tree.
+ * Along the way, the path is saved.
+ */
 void traverseTree(const HuffmanNode* root, const string& path, map<int, string>& map){
     if(root->isLeaf()) {
         map.emplace(root->character, path);
@@ -79,6 +91,10 @@ void traverseTree(const HuffmanNode* root, const string& path, map<int, string>&
     }
 }
 
+/*
+ * Traverses the tree and uses the path to create the encoding for
+ * each character.
+ */
 map<int, string> buildEncodingMap(HuffmanNode* encodingTree) {
     map<int, string> encodingMap;
     string emptyString = "";
@@ -88,12 +104,18 @@ map<int, string> buildEncodingMap(HuffmanNode* encodingTree) {
     return encodingMap;
 }
 
+/*
+ * Writes a charecter to output
+ */
 void writeCharacter(int character, const map<int, string> &encodingMap, obitstream& output){
     for(char c : encodingMap.at(character)){
         output.writeBit(c - '0');    // convert ascii-coded char to int 0 or 1
     }
 }
 
+/*
+ * Converts the data to encoded data.
+ */
 void encodeData(istream& input, const map<int, string> &encodingMap, obitstream& output) {
     int character = input.get();
     while(character != -1){
@@ -104,6 +126,9 @@ void encodeData(istream& input, const map<int, string> &encodingMap, obitstream&
     writeCharacter(PSEUDO_EOF, encodingMap, output);
 }
 
+/*
+ * Reads bit by bit and decodes the data by traversing the tree.
+ */
 void decodeData(ibitstream& input, HuffmanNode* encodingTree, ostream& output) {
     int bit = input.readBit();
     HuffmanNode* currentNode = encodingTree;
@@ -124,6 +149,9 @@ void decodeData(ibitstream& input, HuffmanNode* encodingTree, ostream& output) {
     }
 }
 
+/*
+ * Writes an integer to output
+ */
 void writeInteger(int n, obitstream& output){
     string s = to_string(n);
     for(char digit : s){
@@ -131,6 +159,10 @@ void writeInteger(int n, obitstream& output){
     }
 }
 
+/*
+ * Writes a header.
+ * The header contains a frequencyTable.
+ */
 void writeHeader(map<int, int> frequencyTable, obitstream& output){
     bool firstStep = true;
 
@@ -152,7 +184,9 @@ void writeHeader(map<int, int> frequencyTable, obitstream& output){
     }
     output.put('}');
 }
-
+/*
+ * Compresses a file.
+ */
 void compress(istream& input, obitstream& output) {
     map<int, int> frequencyTable = buildFrequencyTable(input);
     HuffmanNode* encodingTree = buildEncodingTree(frequencyTable);
@@ -168,7 +202,9 @@ void compress(istream& input, obitstream& output) {
     freeTree(encodingTree);
 }
 
-
+/*
+ * Decodes the header into a map.
+ */
 map<int, int> readHeader(ibitstream& input){
     map<int, int> frequencyTable= {};
     char byte = input.get();
@@ -202,7 +238,9 @@ map<int, int> readHeader(ibitstream& input){
     return frequencyTable;
 }
 
-
+/*
+ * Decompresses a file
+ */
 void decompress(ibitstream& input, ostream& output) {
     map<int, int> frequencyTable = readHeader(input);
     HuffmanNode* encodingTree = buildEncodingTree(frequencyTable);
@@ -213,6 +251,9 @@ void decompress(ibitstream& input, ostream& output) {
     freeTree(encodingTree);
 }
 
+/*
+ * Frees all memory held by a tree
+ */
 void freeTree(HuffmanNode* node) {
     if(!node->isLeaf()){
         freeTree(node->zero);
