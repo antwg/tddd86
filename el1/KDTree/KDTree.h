@@ -15,28 +15,36 @@
 #include <stdexcept>
 #include <cmath>
 
-// "using namespace" in a header file is conventionally frowned upon, but I'm
-// including it here so that you may use things like size_t without having to
-// type std::size_t every time.
 using namespace std;
+
+// ------------------------------------- Node ------------------------------------------------
 
 template <size_t N, typename ElemType>
 class Node {
 public:
+    /*
+     * Constructor
+     * Takes a point, a value and a parent node. Sets children to null_ptr
+     */
     Node(const Point<N>& pt, const ElemType& val, const Node* parent);
 
+    /*
+     * Destructor
+     * Destroys its children, then itself
+     */
     ~Node();
 
+    /*
+     * Copy constructor
+     * Creates a copy of a node
+     */
     Node(const Node* rhs);
 
     Point<N> point;
     ElemType value;
     int depth;
-
     Node* leftChild = nullptr;
     Node* rightChild = nullptr;
-private:
-
 };
 
 template <size_t N, typename ElemType>
@@ -46,13 +54,14 @@ Node<N, ElemType>::Node(const Point<N>& pt, const ElemType& val, const Node* par
     if (parent == nullptr) {
         depth = 0;
     } else {
-        depth == parent->depth + 1;
+        depth = parent->depth + 1;
     }
 }
 
 template <size_t N, typename ElemType>
 Node<N, ElemType>::~Node() {
-
+    delete leftChild;
+    delete rightChild;
 }
 
 template <size_t N, typename ElemType>
@@ -68,6 +77,8 @@ Node<N, ElemType>::Node(const Node* rhs) {
         rightChild = new Node<N, ElemType>(rhs->rightChild);
     }
 }
+
+// ------------------------------------- KDTree ------------------------------------------------
 
 template <size_t N, typename ElemType>
 class KDTree {
@@ -149,14 +160,14 @@ public:
     ElemType kNNValue(const Point<N>& key, size_t k) const;
 
 private:
-    // TODO: Add implementation details here.
     size_t treeSize;
     Node<N, ElemType>* root;
 
+    /*
+     * Finds a node and returns a pointer to said node
+     */
     Node<N, ElemType>* findNode(const Point<N>& pt) const;
 };
-
-/** KDTree class implementation details */
 
 template <size_t N, typename ElemType>
 KDTree<N, ElemType>::KDTree() {
@@ -165,20 +176,9 @@ KDTree<N, ElemType>::KDTree() {
 }
 
 template <size_t N, typename ElemType>
-void destroyRecursive(Node<N, ElemType>* node)
-{
-    if (node)
-    {
-        destroyRecursive(node->leftChild);
-        destroyRecursive(node->rightChild);
-        delete node;
-    }
-}
-
-template <size_t N, typename ElemType>
 KDTree<N, ElemType>::~KDTree() {
     if (root != nullptr){
-        destroyRecursive(root);
+        delete root;
     }
 }
 
@@ -222,31 +222,40 @@ bool KDTree<N, ElemType>::contains(const Point<N>& pt) const {
 
 template <size_t N, typename ElemType>
 void KDTree<N, ElemType>::insert(const Point<N>& pt, const ElemType& value) {
-    treeSize++;
+    // If tree empty, create new root node
     if (root == nullptr) {
         root = new Node<N,ElemType>(pt, value, nullptr);
+        treeSize++;
         return;
     }
 
-    int n = 0;
+    int currIndex = 0;
     Node<N, ElemType>* currNode = root;
     while (currNode->point != pt){
-        n = currNode->depth % N;
-        if (pt[n] > currNode->point[n]){
+        currIndex = currNode->depth % N;
+        // Choose child to compare
+        if (pt[currIndex] > currNode->point[currIndex]){
+            // If child doesnt exist, create new
             if (currNode->rightChild == nullptr){
                 currNode->rightChild = new Node<N, ElemType>(pt, value, currNode);
+                treeSize++;
                 return;
             }
+            // Else recurse
             currNode = currNode->rightChild;
         }
         else {
+            // If child doesnt exist, create new
             if (currNode->leftChild == nullptr){
                 currNode->leftChild = new Node<N, ElemType>(pt, value, currNode);
+                treeSize++;
                 return;
             }
+            // Else recurse
             currNode = currNode->leftChild;
         }
     }
+    // If found, override value
     currNode->value = value;
 }
 
@@ -256,7 +265,7 @@ ElemType& KDTree<N, ElemType>::operator[](const Point<N>& pt) {
 
     if (node == nullptr) {
         insert(pt, {});
-        node = findNode(pt);    // TODO: look at this again
+        node = findNode(pt);
         return node->value;
     }
 
@@ -293,12 +302,12 @@ void search(const Point<N> key, BoundedPQueue<Node<N, ElemType>*>& bpq, Node<N, 
 
     bpq.enqueue(curr, Distance(curr->point, key));
 
-    int n = curr->depth % N;
+    int currIndex = curr->depth % N;
 
     Node<N, ElemType>* nextNode;
     Node<N, ElemType>* otherNode;
 
-    if (key[n] < curr->point[n]){
+    if (key[currIndex] < curr->point[currIndex]){
         nextNode = curr->leftChild;
         otherNode = curr->rightChild;
     } else {
@@ -309,7 +318,7 @@ void search(const Point<N> key, BoundedPQueue<Node<N, ElemType>*>& bpq, Node<N, 
     search(key, bpq, nextNode);
 
     bool bpqFull = bpq.size() >= bpq.maxSize();
-    double dist = abs(curr->point[n] - key[n]);
+    double dist = abs(curr->point[currIndex] - key[currIndex]);
     if(!bpqFull || dist < bpq.worst()){
         search(key, bpq, otherNode);
     }
@@ -317,17 +326,18 @@ void search(const Point<N> key, BoundedPQueue<Node<N, ElemType>*>& bpq, Node<N, 
 
 template <size_t N, typename ElemType>
 ElemType KDTree<N, ElemType>::kNNValue(const Point<N>& key, size_t k) const {
-    // TODO: Fill this in.
     BoundedPQueue<Node<N, ElemType>*> bpq = BoundedPQueue<Node<N, ElemType>*>(k);
 
     Node<N, ElemType>* curr = root;
 
+    // Get 5 closest neighbors
     search(key, bpq, curr);
 
     map<ElemType, int> values;
     ElemType mostCommonVal;
     int occurences = 0;
 
+    // Find most common value of neighbors
     while (!bpq.empty()){
         ElemType nextVal = bpq.dequeueMin()->value;
 
@@ -351,26 +361,31 @@ Node<N, ElemType>* KDTree<N, ElemType>::findNode(const Point<N>& pt) const {
     if (this->empty()){
         return nullptr;
     }
-    int n = 0;
+    int currIndex = 0;
     Node<N, ElemType>* currNode = root;
+    // While not found
     while (currNode->point != pt){
-        n = currNode->depth % N;
-        if (pt[n] > currNode->point[n]){
+        currIndex = currNode->depth % N;
+        // If pt > currNode
+        if (pt[currIndex] > currNode->point[currIndex]){
+            // If no child, return
             if (currNode->rightChild == nullptr){
                 return nullptr;
             }
+            // else recurse
             currNode = currNode->rightChild;
         }
         else {
+            // If no child, return
             if (currNode->leftChild == nullptr){
                 return nullptr;
             }
+            // else, recurse
             currNode = currNode->leftChild;
         }
     }
+    // If found, return node
     return currNode;
 }
-
-// TODO: finish the implementation of the rest of the KDTree class
 
 #endif // KDTREE_INCLUDED
