@@ -252,7 +252,7 @@ void decompress(ibitstream& input, ostream& output) {
 }
 
 /*
- * Frees all memory held by a tree
+ * Frees all memory held by a tree.
  */
 void freeTree(HuffmanNode* node) {
     if(!node->isLeaf()){
