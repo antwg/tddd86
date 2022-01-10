@@ -266,7 +266,6 @@ ElemType& KDTree<N, ElemType>::operator[](const Point<N>& pt) {
     if (node == nullptr) {
         insert(pt, {});
         node = findNode(pt);
-        return node->value;
     }
 
     return node->value;
@@ -330,7 +329,7 @@ ElemType KDTree<N, ElemType>::kNNValue(const Point<N>& key, size_t k) const {
 
     Node<N, ElemType>* curr = root;
 
-    // Get 5 closest neighbors
+    // Get k closest neighbors
     search(key, bpq, curr);
 
     map<ElemType, int> values;
